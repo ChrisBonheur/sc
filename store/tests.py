@@ -73,6 +73,15 @@ class DetailPageTestCase(TestCase):
         response = self.client.get(reverse('store:detail', args=(article.id,)))
         
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context.get("article"), article)
+        #verify that all articles_for_seller is just for user's article
+        [self.assertEqual(article_for_seller.user, article.user) for article_for_seller in \
+            response.context.get("articles_for_seller")]
+        
+        #get all article for user
+        user = User.objects.get(username=USERNAME) 
+        articles_for_seller_count = Article.objects.filter(user=user).count()
+        self.assertEqual(response.context.get("articles_for_seller_count"), articles_for_seller_count)
     
     def test_detail_page_return_404(self):
         #return 404 if not article found
