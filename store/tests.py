@@ -186,7 +186,7 @@ class SearchTestCase(TestCase):
 
 class FavouriteTestCase(TestCase):
     def setUp(self):
-        self.user = get_user()
+        self.article = create_article()
         self.c_Logged = Client()
         self.c_Logged.login(username=USERNAME, password=PASSWORD)
         self.response = lambda get_request_dict: self.c_Logged.get(reverse('store:favourite'),\
@@ -195,4 +195,14 @@ class FavouriteTestCase(TestCase):
     def test_page_return_200(self):
         response = self.response({})
         self.assertEqual(response.status_code, 200)
-                     
+    
+    def test_add_article_in_favourite(self):
+        article = self.article
+        user = User.objects.get(username=USERNAME)
+        #get favourite count before creating favourite
+        favourites_user_count_before = Favourite.objects.filter(user=user).count()
+        self.response({"article_id": article.id})
+        #get favourite count after creating favourite
+        favourites_user_count_after = Favourite.objects.filter(user=user).count()
+        
+        self.assertEqual(favourites_user_count_before + 1, favourites_user_count_after)
