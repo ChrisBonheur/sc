@@ -6,7 +6,7 @@ from django.core.files import File
 from pathlib import Path
 from django.conf import settings
 
-from .models import Article, Category, Picture
+from .models import Article, Category, Picture, Favourite
 
 BASE_DIR = settings.BASE_DIR
 
@@ -21,7 +21,7 @@ def get_user():
     else:
         user.delete()
     finally:
-        user = User.objects.create(
+        user = User.objects.create_user(
             username=USERNAME,
             email='bonheur@gmail.com',
             password=PASSWORD
@@ -67,7 +67,7 @@ class HomePageTestCase(TestCase):
         #verify if articles objects in context is simillar with article object
         self.assertQuerysetEqual(response.context['articles'], [repr(article)])
         
-class DetailPageTestCase(TestCase):
+class DetailPageTestCase(TestCase):        
     def test_detail_page_return_200(self):
         article = create_article()
         response = self.client.get(reverse('store:detail', args=(article.id,)))
@@ -93,6 +93,20 @@ class DetailPageTestCase(TestCase):
         
         #if user not login don't contain (context) favourites articles of  current user
         self.assertEqual(response.context.get("favourites_articles"), None)
+        
+    def test_favourite_list_in_detail_page(self):
+        # get_user()#create user
+        article = create_article()
+        user = User.objects.get(username=USERNAME)
+        #contain (context) favourites articles for login user
+        self.client.login(username=USERNAME, password=PASSWORD)
+        # user = User.objects.get(username="fail")
+        Favourite.objects.create(user=user, article=article)
+        
+        response = self.client.get(reverse("store:detail", args=(article.id,)))
+        favourite_articles = Favourite.objects.filter(user__username=USERNAME)
+        
+        self.assertEqual(response.context.get('favourite_articles'), favourite_articles)
     
     def test_detail_page_return_404(self):
         #return 404 if not article found
