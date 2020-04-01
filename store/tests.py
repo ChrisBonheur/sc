@@ -57,15 +57,19 @@ def create_article():
     return article
 
 class HomePageTestCase(TestCase):
+    def setUp(self):
+        self.article = create_article()
+        self.response = self.client.get(reverse('home'))  
+        
     def test_home_page(self):
-        article = create_article()
-        response = self.client.get(reverse('home'))    
         #verify if html page is returned
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
+    
+    def test_context(self):
         #verify if page contains article created
-        self.assertContains(response, article.name)
+        self.assertContains(self.response, self.article.name)
         #verify if articles objects in context is simillar with article object
-        self.assertQuerysetEqual(response.context['articles'], [repr(article)])
+        self.assertQuerysetEqual(self.response.context['articles'], [repr(self.article)])
         
 class DetailPageTestCase(TestCase):        
     def test_detail_page_return_200(self):
