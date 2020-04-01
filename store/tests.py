@@ -141,7 +141,10 @@ class SellPageTestCase(DetailPageTestCase):
             "status":'Bon état',
             "category": category(),
             "user_id": self.user.id,
-            "count_click": 4
+            "count_click": 4,
+            "image_min": File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
+            
         })
-
+        #verify that, after post request there is a redirection
         self.assertEqual(response.status_code, 302)
+        
