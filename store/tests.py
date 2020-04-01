@@ -168,18 +168,20 @@ class SellPageTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
  
 class SearchTestCase(TestCase):
+    def setUp(self):
+        self.article = create_article()
+        self.data_request = {"query": self.article.name, "category": self.article.category.name}
+        self.response = self.client.get(reverse('store:search'), self.data_request)
+        
     def test_searching_page_result(self):
-        article = create_article()
-        data_request = {"query": article.name, "category": article.category.name}
-        response = self.client.get(reverse('store:search'), data_request)
+        self.assertEqual(self.response.status_code, 200)
         
-        self.assertEqual(response.status_code, 200)
-        
-        articles = Article.objects.filter(name=article.name)
+    def test_articles_result_and_query_in_context(self):
+        articles = Article.objects.filter(name=self.article.name)
         #test if articles and element_to_search is in context
-        self.assertContains(response, data_request['query'])
+        self.assertContains(self.response, self.data_request['query'])
         [self.assertEqual(article_context, article_page) for article_context, article_page in \
-            zip(response.context['articles'], articles)]
+            zip(self.response.context['articles'], articles)]
 
 
                 
