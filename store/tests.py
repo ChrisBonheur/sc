@@ -104,9 +104,9 @@ class DetailPageTestCase(TestCase):
         Favourite.objects.create(user=user, article=article)
         
         response = self.client.get(reverse("store:detail", args=(article.id,)))
-        favourite_articles = Favourite.objects.filter(user__username=USERNAME)
-        
-        self.assertEqual(response.context.get('favourite_articles'), favourite_articles)
+        favourite_articles = Article.objects.filter(favourite__user=user)
+        [self.assertEqual(context_article, page_article) for context_article, page_article in \
+            zip(response.context['favourite_articles'], favourite_articles)]
     
     def test_detail_page_return_404(self):
         #return 404 if not article found
