@@ -71,36 +71,41 @@ class HomePageTestCase(TestCase):
         #verify if articles objects in context is simillar with article object
         self.assertQuerysetEqual(self.response.context['articles'], [repr(self.article)])
         
-class DetailPageTestCase(TestCase):        
+class DetailPageTestCase(TestCase):
+    def setUp(self):
+        self.article = create_article()
+        self.response = self.client.get(reverse('store:detail', args=(self.article.id,)))
+        
     def test_detail_page_return_200(self):
-        article = create_article()
-        response = self.client.get(reverse('store:detail', args=(article.id,)))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context.get("article"), article)
+        article = self.article
+        self.assertEqual(self.response.status_code, 200)
+    
+    def test_page_contain_article_selected(self):
+        #verify if article is in detail_page
+        self.assertEqual(self.response.context.get("article"), self.article)
+    
+    def test_page_contain_all_articles_for_user_s_article_selected(self):
         #verify that all articles_for_seller is just for user's article
-        [self.assertEqual(article_for_seller.user, article.user) for article_for_seller in \
-            response.context.get("articles_for_seller")]
+        [self.assertEqual(article_for_seller.user, self.article.user) for article_for_seller in \
+            self.response.context.get("articles_for_seller")]
         
-        #get all article for user
-        user = User.objects.get(username=USERNAME) 
-        articles_for_seller_count = Article.objects.filter(user=user).count()
-        self.assertEqual(response.context.get("articles_for_seller_count"), articles_for_seller_count)
-        
-        #test if articles are same category in detail views
-        [self.assertEqual(same_article.category, article.category) for same_article in \
-            response.context.get("articles")]
-        
+    def test_articles_list_are_same_category(self):
+        #test if articles are same category with article selected in detail views
+        [self.assertEqual(same_article.category, self.article.category) for same_article in \
+            self.response.context.get("articles")]
+    
+    def test_pictures_in_context(self):
         #test that pictures of an article is in context
-        pictures = Picture.objects.filter(article=article)
-        self.assertQuerysetEqual(response.context['pictures'], pictures)
+        pictures = Picture.objects.filter(article=self.article)
+        self.assertQuerysetEqual(self.response.context['pictures'], pictures)
         
+    def test_favourite_articles_missing_for_not_login_user(self):
         #if user not login don't contain (context) favourites articles of  current user
-        self.assertEqual(response.context.get("favourites_articles"), None)
+        self.assertEqual(self.response.context.get("favourites_articles"), None)
         
     def test_favourite_list_in_detail_page(self):
         # get_user()#create user
-        article = create_article()
+        article = self.article
         user = User.objects.get(username=USERNAME)
         #contain (context) favourites articles for login user
         self.client.login(username=USERNAME, password=PASSWORD)
