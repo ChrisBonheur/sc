@@ -4,10 +4,11 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.core.files import File
 from pathlib import Path
+from django.conf import settings
 
 from .models import Article, Category
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = settings.BASE_DIR
 
 USERNAME = "bonheur"
 PASSWORD = "12345687"
