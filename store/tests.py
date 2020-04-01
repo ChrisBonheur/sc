@@ -116,7 +116,7 @@ class DetailPageTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-class SellPageTestCase(DetailPageTestCase):
+class SellPageTestCase(TestCase):
     def setUp(self):
         self.category = category()
         self.user = get_user()
@@ -157,4 +157,20 @@ class SellPageTestCase(DetailPageTestCase):
         })
         #verify that, after post request there is a redirection
         self.assertEqual(response.status_code, 302)
+ 
+class SearchTestCase(TestCase):
+    def test_searching_page_result(self):
+        article = create_article()
+        data_request = {"query": article.name, "category": article.category.name}
+        response = self.client.get(reverse('store:search'), data_request)
         
+        self.assertEqual(response.status_code, 200)
+        
+        articles = Article.objects.filter(name=article.name)
+        #test if articles and element_to_search is in context
+        self.assertContains(response, data_request['query'])
+        [self.assertEqual(article_context, article_page) for article_context, article_page in \
+            zip(response.context['articles'], articles)]
+
+
+                
