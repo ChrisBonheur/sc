@@ -68,18 +68,18 @@ class HomePageTestCase(TestCase):
         self.assertQuerysetEqual(response.context['articles'], [repr(article)])
         
 class DetailPageTestCase(TestCase):
-        
     def test_detail_page_return_200(self):
         article = create_article()
         response = self.client.get(reverse('store:detail', args=(article.id,)))
         
         self.assertEqual(response.status_code, 200)
     
-    # def test_detail_page_return_400(self):
-    #     article_id = self.article.id + 1 
-    #     response = self.client.get(reverse('store:detail', args=(article_id,)))
+    def test_detail_page_return_404(self):
+        #return 404 if not article found
+        article_id = create_article().id + 1 
+        response = self.client.get(reverse('store:detail', args=(article_id,)))
         
-    #     self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
 
 class SellPageTestCase(DetailPageTestCase):
