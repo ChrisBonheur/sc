@@ -103,9 +103,7 @@ def detail(request, article_id):
     
     try:
         request.user
-        favourite_articles = Article.objects.filter(favourite__user=request.user)
-        list_article_id_in_favourite = [article.id for article in favourite_articles]
-        context['favourite_articles'] = list_article_id_in_favourite
+        context['favourite_articles'] = Article.objects.filter(favourite__user=request.user) 
     except:
         pass
     
