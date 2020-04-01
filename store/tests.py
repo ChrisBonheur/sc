@@ -118,19 +118,29 @@ class DetailPageTestCase(TestCase):
 
 class SellPageTestCase(DetailPageTestCase):
     def setUp(self):
+        self.category = category()
         self.user = get_user()
+        self.c_Logged = Client()
+        self.c_Logged.login(username=USERNAME, password=PASSWORD)
         
     def test_sell_page_access(self):
         #test to return a direction 302 if user not login 
         response = self.client.get(reverse('store:sell'))
         self.assertEqual(response.status_code, 302)
-    
+        
+    def test_sell_page_with_no_post_request(self):
+        #test with user logged and if no post request
+        response = self.c_Logged.get(reverse("store:sell"))
+
+        #return 200
+        self.assertEqual(response.status_code, 200)
+        
+        #test if categories list is in context
+        self.assertQuerysetEqual(response.context['categories'], [repr(self.category)])
+        
     def test_sell_page_save_article(self):
-        #login user
-        c = Client()
-        c.login(username=USERNAME, password=PASSWORD)
         #test if sell page save a new article
-        response = c.post(reverse('store:sell'), {
+        response = self.c_Logged.post(reverse('store:sell'), {
             "article_name": "Ordinateur portable",
             "details": "Test description",
             "price_init": 2500,
@@ -139,7 +149,7 @@ class SellPageTestCase(DetailPageTestCase):
             "town": 'Pointe-Noire',
             "district": 'Siafoumou',
             "status":'Bon état',
-            "category": category(),
+            "category": self.category,
             "user_id": self.user.id,
             "count_click": 4,
             "image_min": File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
