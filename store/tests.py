@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test import Client
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.core.files import File
@@ -8,18 +9,21 @@ from .models import Article, Category
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+USERNAME = "bonheur"
+PASSWORD = "12345687"
+
 def get_user():
     try:
-        user = User.objects.get(username="bonheur")
+        user = User.objects.get(username=USERNAME)
     except:
         pass
     else:
         user.delete()
     finally:
         user = User.objects.create(
-            username='bonheur',
+            username=USERNAME,
             email='bonheur@gmail.com',
-            password='12345687'
+            password=PASSWORD
         )
     return user
 
@@ -75,13 +79,17 @@ class SellPageTestCase(DetailPageTestCase):
     def setUp(self):
         self.user = get_user()
         
-    def test_sell_page_return_200(self):
+    def test_sell_page_access(self):
+        #test to return a direction 302 if user not login 
         response = self.client.get(reverse('store:sell'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
     
     def test_sell_page_save_article(self):
-        articles_count = Article.objects.count()
-        response = self.client.post(reverse('store:sell'), {
+        #login user
+        c = Client()
+        c.login(username=USERNAME, password=PASSWORD)
+        #test if sell page save a new article
+        response = c.post(reverse('store:sell'), {
             "article_name": "Ordinateur portable",
             "details": "Test description",
             "price_init": 2500,
@@ -95,6 +103,4 @@ class SellPageTestCase(DetailPageTestCase):
             "count_click": 4
         })
 
-        new_count_article = Article.objects.count()
-        
-        self.assertEqual(new_count_article, articles_count + 1)
+        self.assertEqual(response.status_code, 302)
