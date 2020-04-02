@@ -254,15 +254,27 @@ class OrderTestCase(TestCase):
         [self.assertEqual(principal_user, context_order.article.user, msg=except_msg) \
             for context_order in context_orders]        
     
-    def test_creating_order(self):
+    def test_creating_order_view(self):
         #test if order can be created
-        pass
+        order_count_before = Order.objects.count()
+        article_id = Article.objects.get(name="Téléphone").id
+        new_order_data = {
+                "article_id": article_id,
+                "price_ht": 2500,
+                "description": "Jamais utilisé"
+                }
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.post(reverse('dashboard:orders'), new_order_data)
+        order_count_after = Order.objects.count()
+        self.assertEqual(order_count_before + 1, order_count_after)
     
-    def test_delete_order(self):
+    def test_delete_order_view(self):
         #test if order can be deleted
-        pass
-    
-            
-        
-        
-        
+        order_count_before = Order.objects.count()
+        order = Order.objects.last()
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.post(reverse('dashboard:orders'), {"order_id": order.id})
+        order_count_after = Order.objects.count()
+        self.assertEqual(order_count_before, order_count_after - 1)
+
+

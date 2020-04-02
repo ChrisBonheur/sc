@@ -322,7 +322,18 @@ def invoices(request):
 def orders(request):
     page_zone = None
     context = {"page_zone": page_zone}
-
+    if request.POST:
+        if request.POST.get('article_id'):
+            article_id = request.POST.get('article_id')
+            price_ht = request.POST.get('price_ht')
+            description = request.POST.get('description')
+            try:
+                Order.objects.create(
+                        user=request.user,
+                        article=get_object_or_404(Article, pk=article_id),
+                        )
+            except Exception as e:
+                print('Not save ', e)
     try:
         page_zone = request.GET.get('page_zone')
     except Exception:
