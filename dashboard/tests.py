@@ -170,6 +170,8 @@ class InvoiceTestCase(TestCase):
         self.assertQuerysetEqual(response.context['invoices'], [repr(invoice),])
             
     def test_invoice_creating(self):
+        #we need to delete a previous invoice to do duplicate order_id for invoice
+        self.invoice.delete()
         order = self.order
         self.client.login(username=USERNAME, password=PASSWORD)
         invoices_count_before = Invoice.objects.count()
@@ -178,6 +180,7 @@ class InvoiceTestCase(TestCase):
         invoices_count_after =Invoice.objects.count()
         
         self.assertEqual(invoices_count_before + 1, invoices_count_after)
+        #test if message has been sent after creating
     
     def test_invoice_deleting(self):
         user = self.user
@@ -188,6 +191,8 @@ class InvoiceTestCase(TestCase):
         invoices_count_after =Invoice.objects.count()
         
         self.assertEqual(invoices_count_before - 1, invoices_count_after)
+        #test if message has been sent after deleting
+    
     
 
 class OrderTestCase(TestCase):

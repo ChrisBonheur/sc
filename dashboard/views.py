@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render, reverse, get_object_or_404, HttpResponse
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.core.cache import cache
@@ -199,6 +200,7 @@ def delete_invoice(request, invoice_id):
     return redirect('dashboard:received_invoice')
     
 
+        #test if message has been sent after creating
 #ORDER OPERATION################################################
 
 @login_required
@@ -260,6 +262,8 @@ def sent_order(request):
     }
     return render(request, 'dashboard/order.html', context)
 
+        # import pdb
+        # pdb.set_trace()
 @login_required
 def delete_order(request, order_id):
     id = int(order_id)
@@ -290,7 +294,28 @@ def delete_order(request, order_id):
     
 @login_required
 def invoices(request):
-    return HttpResponse('<h1>Welcme</h1>')
+    context = {
+        "invoices": Invoice.objects.filter(order__user=request.user),
+    }
+    #create invoice if argument == order_id
+    if request.GET.get('order_id'):
+        order_id = request.GET.get('order_id')
+        order = get_object_or_404(Order, pk=order_id)
+        #verify if order is for current user
+        if order.user != request.user:
+            raise Http404
+        Invoice.objects.create(order=order)
+    
+    #delete invoice if argument == invoice__id
+    if request.GET.get('invoice_id'):
+        invoice_id = request.GET.get('invoice_id')
+        invoice = get_object_or_404(Invoice, pk=invoice_id)
+        #verify if invoice is for current user
+        if invoice.order.user != request.user:
+            raise Http404
+        invoice.delete() #remove invoice
+        
+    return render(request, 'dashboard/invoice.html', context)
 
 
 
