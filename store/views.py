@@ -15,7 +15,7 @@ from django.core.files import File
 from .models import Article, Picture, Category, Favourite
 from dashboard.models import Order
 from communication.models import Message
-from .utils import add_percentage
+from .utils import add_percentage, send_welcome_message_to_new_user
 
 # Create your views here.
  
@@ -40,9 +40,15 @@ def home(request):
     context = {
         'white_font': True, 
         'articles': articles,
-        'num_pages': [i+1 for i in range(1, paginator.num_pages + 1, 1)],
     }
-
+    
+    #verify if user is new comer to send welcome message
+    try:
+        request.user
+        send_welcome_message_to_new_user(request.user, Message, User)
+    except:
+        pass
+    
     return render(request, 'store/index.html', context)
 
 def detail(request, article_id):
