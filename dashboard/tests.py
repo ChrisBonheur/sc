@@ -37,6 +37,17 @@ class MyArticlesTestCase(TestCase):
         self.assertQuerysetEqual(response.context['articles_unavailable_of_seller'],\
              [repr(article) for article in unavailable_articles], msg="Unavailable \
                  articles of user miss in context")
+    
+    def test_all_articles_are_just_for_current_user(self):
+        pass
+    
+    def test_bought_articles_list_in_context(self):
+        #test if bought articles list in context
+        pass
+    
+    def test_selled_aticles_list_in_context(self):
+        #test if selled articles list in context
+        pass
         
 class UpdateArticleTestCase(TestCase):
     @classmethod
@@ -54,6 +65,9 @@ class UpdateArticleTestCase(TestCase):
     def test_acces_page_update(self):
         response = self.response
         self.assertEqual(response.status_code, 200)
+        
+    def test_return_404_while_no_article_found(self):
+        pass
         
     def test_context_contains(self):
         article = self.article
@@ -87,5 +101,79 @@ class UpdateArticleTestCase(TestCase):
         #test redirection
         self.assertRedirects(response, reverse('dashboard:my_articles'))
     
+        
+class DeleteArticleTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        get_user()
+        create_article()
+    
+    def setUp(self):
+        self.article = Article.objects.get(name="Ordinateur portable")
+    
+    def test_return_404_if_no_article_found(self):
+        article_id_out_range = self.article.id + 1
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id_out_range})
+        self.assertEqual(response.status_code, 404)
+    
+    def test_article_removed(self):
+        article_id = self.article.id
+        articles_count_before = Article.objects.count()
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id})
+        self.assertRedirects(response, reverse("dashboard:my_articles"))
+        #article with id article_id not exist in db
+        articles_count_after = Article.objects.count()
+        self.assertEqual(articles_count_before - 1, articles_count_after)
+    
+    def test_reirection_after_removed(self):
+        article_id = self.article.id
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id})
+        self.assertRedirects(response, reverse("dashboard:my_articles"))
+        
+        
+class InvoiceTestCase(TestCase):
+    def test_acces_invoice_page(self):
+        #test if we can get list page
+        pass
+    
+    def test_received_invoices_in_context(self):
+        #test if received invoices  list is in context
+        pass
+    
+    def test_invoice_creating(self):
+        #test if invoice can be creating
+        pass
+    
+    def test_invoice_deleting(self):
+        #test if in voice can be deleted
+        pass
+    
+
+class OrderTestCase(TestCase):
+    def test_acces_order_page(self):
+        #test acess page
+        pass
+    
+    def test_sent_order_list_in_context(self):
+        #test if sent order list is in context
+        pass
+    
+    def test_received_list_in_context(self):
+        #test if received list of order is in context
+        pass
+    
+    def test_creating_order(self):
+        #test if order can be created
+        pass
+    
+    def test_delete_order(self):
+        #test if order can be deleted
+        pass
+    
+            
+        
         
         
