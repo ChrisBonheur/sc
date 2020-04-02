@@ -234,22 +234,24 @@ class FavouriteTestCase(TestCase):
 class UtilsTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        User.objects.create_user(username=USERNAME, password=PASSWORD)
+        User.objects.create_user(username=USERNAME, password=PASSWORD, email="bonheur@gmail.com")
         
     def setUp(self):
         self.user = User.objects.get(username=USERNAME)
         
     def test_send_welcome_message_to_new_user(self):
-        messages_before = Message.objects.filter(type_msg='notif', recipient_id=self.user.id)
-        send_welcome_message_to_new_user(user=self.user)
-        messages_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id)
+        messages_before = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
+        send_welcome_message_to_new_user(self.user, Message=Message, User=User)
+        messages_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
         
-        self.assertEqual(messages_before.count() + 1, messages_after.count(), \
+        self.assertEqual(messages_before + 1, messages_after, \
             msg=" WARNING: Welcome message doesn't sent to new user")
         
         #verify that welcome message not send two times or more
-        send_welcome_message_to_new_user(user=self.user)
-        self.assertEqual(messages_before.count() + 1, messages_after.count(), \
+        send_welcome_message_to_new_user(user=self.user, Message=Message, User=User)
+        messages_after_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
+        
+        self.assertEqual(messages_after, messages_after_after, \
             msg="WARNING: Welcome message is sent more than one times to same user")
         
         

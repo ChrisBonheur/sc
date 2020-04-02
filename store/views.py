@@ -42,27 +42,6 @@ def home(request):
         'articles': articles,
         'num_pages': [i+1 for i in range(1, paginator.num_pages + 1, 1)],
     }
-    
-    try:
-        User.objects.get(pk=request.user.id)
-    except:
-        pass
-    else:
-        content = f'Bienvenue {request.user}, sur notre plate-forme de vente en ligne SC! \
-                Si vous voyez ce message c\'est que votre compte a bien été crée, nous vous\
-                    prions de bien vouloir completer vos informations de profil en cliquant \
-                        sur ce message !'
-        
-        #Verification if user has welcome message or no(if no: creating for welcome msg)            
-        message = Message.objects.filter(recipient_id=request.user.id)
-        #If user has no notif, that's mean user is newcomer 
-        if not message:
-            Message.objects.create(
-                content=content,
-                recipient_id=request.user.id,
-                type_msg='notif',
-                link='user:profil'
-            )
 
     return render(request, 'store/index.html', context)
 

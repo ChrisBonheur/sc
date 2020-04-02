@@ -32,5 +32,26 @@ def edit_image_before_save(path_file, width_min):
         #save output image
         img.save(path_file)
         
-def send_welcome_message_to_new_user(user):
-    pass
+def send_welcome_message_to_new_user(user, Message, User):
+    try:
+        User.objects.get(pk=user.id)
+    except:
+        #no login user
+        return False
+    else:
+        content = f'Bienvenue {user}, sur notre plate-forme de vente en ligne SC! \
+                Si vous voyez ce message c\'est que votre compte a bien été crée, nous vous\
+                    prions de bien vouloir completer vos informations de profil en cliquant \
+                        sur ce message !'
+        
+        #Verification if user has welcome message or no(if no: creating for welcome msg)            
+        message = Message.objects.filter(recipient_id=user.id, content=content)
+        #If user has no notif, that's mean user is newcomer 
+        if not message:
+            Message.objects.create(
+                content=content,
+                recipient_id=user.id,
+                type_msg='notif',
+                link='user:profil'
+            )
+        return True
