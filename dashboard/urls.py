@@ -15,6 +15,9 @@ urlpatterns = [
     re_path(r'^delete_invoice/(?P<invoice_id>[0-9]+)/$', views.delete_invoice, name="delete_invoice"),
     re_path(r'^selled_list/$', views.selled_article_list, name='selled_list'),
     re_path(r'^bought_list/$', views.bought_article_list, name='bought_list'),
+    
+    #ajout provisoire de url
+    re_path(r'^invoices/', views.invoices, name="invoices"),
 ]
 
 app_name = 'dashboard'

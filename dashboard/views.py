@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, reverse, get_object_or_404
+from django.shortcuts import redirect, render, reverse, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.core.cache import cache
@@ -288,6 +288,9 @@ def delete_order(request, order_id):
         return redirect('dashboard:received_order')
     return redirect('dashboard:sent_order')
     
+@login_required
+def invoices(request):
+    return HttpResponse('<h1>Welcme</h1>')
 
 
 

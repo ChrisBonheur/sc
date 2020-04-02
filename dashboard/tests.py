@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 
 from store.models import Article, Category
+from .models import Invoice, Order
 from store.tests import get_user, create_article, category, USERNAME, PASSWORD
 
 class MyArticlesTestCase(TestCase):
@@ -135,21 +136,58 @@ class DeleteArticleTestCase(TestCase):
         
         
 class InvoiceTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        get_user()
+        create_article()
+        article = Article.objects.last()
+        user = User.objects.last()
+        order = Order.objects.create(
+            user=user,
+            article=article
+        )
+        Invoice.objects.create(order = order,)
+    
+    def setUp(self):
+        self.user = User.objects.get(username=USERNAME)
+        self.article = Article.objects.get(name="Ordinateur portable")
+        self.order = Order.objects.get(user=self.user, article=self.article)
+        self.invoice = Invoice.objects.get(order=self.order)
+    
     def test_acces_invoice_page(self):
         #test if we can get list page
-        pass
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse('dashboard:invoices'))
+        self.assertEqual(response.status_code, 200)
     
     def test_received_invoices_in_context(self):
         #test if received invoices  list is in context
-        pass
-    
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse('dashboard:invoices'), \
+            {"page": "list"})
+        invoice = Invoice.objects.filter(order__user=self.user).last()
+        #received invoices in context
+        self.assertQuerysetEqual(response.context['invoices'], [repr(invoice),])
+            
     def test_invoice_creating(self):
-        #test if invoice can be creating
-        pass
+        order = self.order
+        self.client.login(username=USERNAME, password=PASSWORD)
+        invoices_count_before = Invoice.objects.count()
+        response = self.client.get(reverse("dashboard:invoices"), \
+            {"order_id": order.id})
+        invoices_count_after =Invoice.objects.count()
+        
+        self.assertEqual(invoices_count_before + 1, invoices_count_after)
     
     def test_invoice_deleting(self):
-        #test if in voice can be deleted
-        pass
+        user = self.user
+        self.client.login(username=USERNAME, password=PASSWORD)
+        invoices_count_before = Invoice.objects.count()
+        response = self.client.get(reverse("dashboard:invoices"), \
+            {"invoice_id": self.invoice.id})
+        invoices_count_after =Invoice.objects.count()
+        
+        self.assertEqual(invoices_count_before - 1, invoices_count_after)
     
 
 class OrderTestCase(TestCase):
