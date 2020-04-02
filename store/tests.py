@@ -6,7 +6,7 @@ from django.core.files import File
 from pathlib import Path
 from django.conf import settings
 
-from .models import Article, Category
+from .models import Article, Category, Picture
 
 BASE_DIR = settings.BASE_DIR
 
@@ -82,6 +82,14 @@ class DetailPageTestCase(TestCase):
         user = User.objects.get(username=USERNAME) 
         articles_for_seller_count = Article.objects.filter(user=user).count()
         self.assertEqual(response.context.get("articles_for_seller_count"), articles_for_seller_count)
+        
+        #test if articles are same category in detail views
+        [self.assertEqual(same_article.category, article.category) for same_article in \
+            response.context.get("articles")]
+        
+        #test that pictures of an article is in context
+        pictures = Picture.objects.filter(article=article)
+        self.assertQuerysetEqual(response.context['pictures'], pictures)
     
     def test_detail_page_return_404(self):
         #return 404 if not article found
