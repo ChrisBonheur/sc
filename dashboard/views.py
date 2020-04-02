@@ -8,6 +8,7 @@ from django.contrib import messages
 from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
+from .forms import OrderForms
 
 
 @login_required
@@ -323,17 +324,16 @@ def orders(request):
     page_zone = None
     context = {"page_zone": page_zone}
     if request.POST:
+        #if request post contain article_id, create new order
         if request.POST.get('article_id'):
+            forms = OrderForms(request.POST)
             article_id = request.POST.get('article_id')
-            price_ht = request.POST.get('price_ht')
-            description = request.POST.get('description')
-            try:
-                Order.objects.create(
-                        user=request.user,
-                        article=get_object_or_404(Article, pk=article_id),
-                        )
-            except Exception as e:
-                print('Not save ', e)
+            article = get_object_or_404(Article, pk=article_id)
+            if forms.is_valid():
+                order = forms.save(commit=False)
+                order.user = request.user
+                order.article = article
+                order.save()
     try:
         page_zone = request.GET.get('page_zone')
     except Exception:

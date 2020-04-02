@@ -261,7 +261,10 @@ class OrderTestCase(TestCase):
         new_order_data = {
                 "article_id": article_id,
                 "price_ht": 2500,
-                "description": "Jamais utilisé"
+                "description": "Jamais utilisé",
+                "quantity": 2,
+                "status": "bon état",
+                "delivery": 'True',
                 }
         self.client.login(username=USERNAME, password=PASSWORD)
         response = self.client.post(reverse('dashboard:orders'), new_order_data)
