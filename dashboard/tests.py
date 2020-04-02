@@ -278,6 +278,6 @@ class OrderTestCase(TestCase):
         self.client.login(username=USERNAME, password=PASSWORD)
         response = self.client.post(reverse('dashboard:orders'), {"order_id": order.id})
         order_count_after = Order.objects.count()
-        self.assertEqual(order_count_before, order_count_after - 1)
+        self.assertEqual(order_count_before - 1, order_count_after)
 
 

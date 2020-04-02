@@ -334,6 +334,15 @@ def orders(request):
                 order.user = request.user
                 order.article = article
                 order.save()
+        elif request.POST.get('order_id'):
+            order_id =  request.POST.get('order_id')
+            order = get_object_or_404(Order, pk=order_id)
+            try:
+                assert order.user == request.user
+            except AssertionError as e:
+                print('Error order_user != current_user ', e)
+            else:
+                order.delete()
     try:
         page_zone = request.GET.get('page_zone')
     except Exception:
