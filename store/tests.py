@@ -184,4 +184,15 @@ class SearchTestCase(TestCase):
             zip(self.response.context['articles'], articles)]
 
 
-                
+class FavouriteTestCase(TestCase):
+    def setUp(self):
+        self.user = get_user()
+        self.c_Logged = Client()
+        self.c_Logged.login(username=USERNAME, password=PASSWORD)
+        self.response = lambda get_request_dict: self.c_Logged.get(reverse('store:favourite'),\
+             get_request_dict)
+        
+    def test_page_return_200(self):
+        response = self.response({})
+        self.assertEqual(response.status_code, 200)
+                     
