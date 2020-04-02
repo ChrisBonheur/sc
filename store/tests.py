@@ -90,6 +90,9 @@ class DetailPageTestCase(TestCase):
         #test that pictures of an article is in context
         pictures = Picture.objects.filter(article=article)
         self.assertQuerysetEqual(response.context['pictures'], pictures)
+        
+        #if user not login don't contain (context) favourites articles of  current user
+        self.assertEqual(response.context.get("favourites_articles"), None)
     
     def test_detail_page_return_404(self):
         #return 404 if not article found
