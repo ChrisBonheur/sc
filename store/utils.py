@@ -31,3 +31,6 @@ def edit_image_before_save(path_file, width_min):
         
         #save output image
         img.save(path_file)
+        
+def send_welcome_message_to_new_user(user):
+    pass

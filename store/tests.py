@@ -6,7 +6,9 @@ from django.core.files import File
 from pathlib import Path
 from django.conf import settings
 
-from .models import Article, Category, Picture, Favourite
+from .models import Article, Category, Picture, Favourite 
+from communication.models import Message
+from .utils import *
 
 BASE_DIR = settings.BASE_DIR
 
@@ -229,4 +231,27 @@ class FavouriteTestCase(TestCase):
         [self.assertIn(favourite_article, response.context['articles']) for \
             favourite_article in favourites_article]
 
-    
+class UtilsTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        User.objects.create_user(username=USERNAME, password=PASSWORD)
+        
+    def setUp(self):
+        self.user = User.objects.get(username=USERNAME)
+        
+    def test_send_welcome_message_to_new_user(self):
+        messages_before = Message.objects.filter(type_msg='notif', recipient_id=self.user.id)
+        send_welcome_message_to_new_user(user=self.user)
+        messages_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id)
+        
+        self.assertEqual(messages_before.count() + 1, messages_after.count(), \
+            msg=" WARNING: Welcome message doesn't sent to new user")
+        
+        #verify that welcome message not send two times or more
+        send_welcome_message_to_new_user(user=self.user)
+        self.assertEqual(messages_before.count() + 1, messages_after.count(), \
+            msg="WARNING: Welcome message is sent more than one times to same user")
+        
+        
+        
+        
