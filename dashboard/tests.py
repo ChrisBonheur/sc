@@ -168,6 +168,8 @@ class InvoiceTestCase(TestCase):
         invoice = Invoice.objects.filter(order__user=self.user).last()
         #received invoices in context
         self.assertQuerysetEqual(response.context['invoices'], [repr(invoice),])
+        #test invoices in template
+        #test invoces in context just for current user
             
     def test_invoice_creating(self):
         #we need to delete a previous invoice to do duplicate order_id for invoice
@@ -198,6 +200,7 @@ class InvoiceTestCase(TestCase):
 class OrderTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
+        other_user = User.objects.create_user(username="alchy", password="1234")
         get_user()
         create_article()
         article = Article.objects.last()
@@ -206,7 +209,14 @@ class OrderTestCase(TestCase):
             user=user,
             article=article
         )
+        Order.objects.create(
+            user=other_user,
+            article=article
+        )
         Invoice.objects.create(order = order,)
+        
+    def setUp(self):
+        self.user = User.objects.get(username=USERNAME)
         
     def test_acces_order_page(self):
         self.client.login(username=USERNAME, password=PASSWORD)
@@ -214,7 +224,14 @@ class OrderTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_sent_order_list_in_view(self):
-        pass
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse('dashboard:orders'))
+        order = Order.objects.filter(user=self.user)[0]
+        self.assertContains(response, order.article)
+        #list is just for current user
+        orders = response.context['orders']
+        err_msg = "There are some orders that aren't for current user"
+        [self.assertEqual(self.user, order.user, msg=err_msg) for order in orders]
     
     def test_received_list_in_context(self):
         #test if received list of order is in context

@@ -320,4 +320,7 @@ def invoices(request):
 
 @login_required
 def orders(request):
-    return render(request, 'dashboard/order.html')
+    context = {
+        "orders": Order.objects.filter(user=request.user)
+    }
+    return render(request, 'dashboard/order.html', context)
