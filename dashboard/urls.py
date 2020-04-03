@@ -18,6 +18,7 @@ urlpatterns = [
     
     #ajout provisoire de url
     re_path(r'^invoices/', views.invoices, name="invoices"),
+    re_path(r'^orders/', views.orders, name="orders"),
 ]
 
 app_name = 'dashboard'

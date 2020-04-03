@@ -196,12 +196,24 @@ class InvoiceTestCase(TestCase):
     
 
 class OrderTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        get_user()
+        create_article()
+        article = Article.objects.last()
+        user = User.objects.last()
+        order = Order.objects.create(
+            user=user,
+            article=article
+        )
+        Invoice.objects.create(order = order,)
+        
     def test_acces_order_page(self):
-        #test acess page
-        pass
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse('dashboard:orders'))
+        self.assertEqual(response.status_code, 200)
     
-    def test_sent_order_list_in_context(self):
-        #test if sent order list is in context
+    def test_sent_order_list_in_view(self):
         pass
     
     def test_received_list_in_context(self):

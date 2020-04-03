@@ -318,4 +318,6 @@ def invoices(request):
     return render(request, 'dashboard/invoice.html', context)
 
 
-
+@login_required
+def orders(request):
+    return render(request, 'dashboard/order.html')
