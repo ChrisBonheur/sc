@@ -236,7 +236,7 @@ class OrderTestCase(TestCase):
     
     def test_sent_order_list_in_view(self):
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse('dashboard:orders'), {"page_zone": "envoyes"})
+        response = self.client.get(f"{reverse('dashboard:orders')}envoyees")
         order = Order.objects.filter(user=self.user)[0]
         self.assertContains(response, order.article)
         #list is just for current user
@@ -248,7 +248,7 @@ class OrderTestCase(TestCase):
         """test if received list of order is in context and are just for current user"""
         principal_user = User.objects.get(username=USERNAME)
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse('dashboard:orders'), {"page_zone": "reçus"})
+        response = self.client.get(f"{reverse('dashboard:orders')}reçues")
         context_orders = response.context['orders']
         except_msg = "There are some orders for not current user in context"
         [self.assertEqual(principal_user, context_order.article.user, msg=except_msg) \
@@ -267,7 +267,7 @@ class OrderTestCase(TestCase):
                 "delivery": 'True',
                 }
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.post(reverse('dashboard:orders'), new_order_data)
+        response = self.client.post(f"{reverse('dashboard:orders')}creer", new_order_data)
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before + 1, order_count_after)
     
@@ -276,7 +276,7 @@ class OrderTestCase(TestCase):
         order_count_before = Order.objects.count()
         order = Order.objects.last()
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.post(reverse('dashboard:orders'), {"order_id": order.id})
+        response = self.client.post(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before - 1, order_count_after)
 

@@ -321,8 +321,9 @@ def invoices(request):
 
 @login_required
 def orders(request):
-    page_zone = None
-    context = {"page_zone": page_zone}
+    path_base = "/gestion/commandes/"
+    context = {"path_base": path_base}
+    
     if request.POST:
         #if request post contain article_id, create new order
         if request.POST.get('article_id'):
@@ -343,17 +344,17 @@ def orders(request):
                 print('Error order_user != current_user ', e)
             else:
                 order.delete()
-    try:
-        page_zone = request.GET.get('page_zone')
-    except Exception:
-        pass
-    if page_zone == "envoyes" or page_zone == None:
+                
+    #conditional part of page to show
+    if request.path == f"{path_base}envoyees" or request.path == path_base:
+        context['path'] = request.path
         #get sent orders unmanaged
         context["orders"] = Order.objects.filter(Q(user=request.user) & \
             Q(manage=False)) 
-    elif page_zone == "reçus":
+    elif request.path == f"{path_base}reçues":
+        context['path'] = request.path
         #get received orders unmanaged
         context["orders"] = Order.objects.filter(Q(article__user=request.user)\
              & Q(manage=False))
-    
+        
     return render(request, 'dashboard/order.html', context)

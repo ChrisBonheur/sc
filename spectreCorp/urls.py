@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^message/', include('communication.urls')),
     re_path(r'^user/', include('user.urls')),
-    re_path(r'dashboard/', include('dashboard.urls')),
+    re_path(r'gestion/', include('dashboard.urls')),
     path('accounts/', include('allauth.urls')),
     url('', include('pwa.urls')),
     re_path('^no_connection/$', TemplateView.as_view(template_name='no_connection.html')),

@@ -18,7 +18,7 @@ urlpatterns = [
     
     #ajout provisoire de url
     re_path(r'^invoices/', views.invoices, name="invoices"),
-    re_path(r'^orders/(?P<page_zone>[a-z]+)?', views.orders, name="orders"),
+    re_path(r'^commandes/[a-zç]*$', views.orders, name="orders"),
 ]
 
 app_name = 'dashboard'
