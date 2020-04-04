@@ -58,7 +58,18 @@
                                         {% if article_in_order == True %}
                                             <p>Cet article est déjà en cours de commande</p>
                                         {% else %}
-                                            <a href="{% url 'dashboard:create_order' article_id=article.id %}"><button class="buy-btn">Passer la commande</button></a>
+                                            <form action="{% url 'dashboard:orders' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="article_id" value="{{ article.id }}">
+                                                <input type="hidden" name="price_ht" value="{{ article.price_init }}" >
+                                                <input type="hidden" name="price_ttc" value="{{ article.price_ttc }}" >
+                                                <input type="hidden" name="description" value="{{ article.description }}" >
+                                                <input type="hidden" name="quantity" value="1" >
+                                                <input type="hidden" name="status" value="{{ article.status }}" >
+                                                <input type="hidden" name="quantity" value="1" >
+                                                <input type="hidden" name="selivery" value="{{ article.delivery }}" >
+                                                <button type="submit" class="buy-btn">Passer la commande</button>
+                                            </form>
                                         {% endif %}
                                     </div>
                                     <div>

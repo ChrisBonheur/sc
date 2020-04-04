@@ -261,6 +261,7 @@ class OrderTestCase(TestCase):
         new_order_data = {
                 "article_id": article_id,
                 "price_ht": 2500,
+                "price_ttc": 3500,
                 "description": "Jamais utilisé",
                 "quantity": 2,
                 "status": "bon état",
