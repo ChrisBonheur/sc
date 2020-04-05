@@ -344,6 +344,10 @@ def orders(request):
             except AssertionError as e:
                 print('Error order_user != current_user ', e)
             else:
+                if request.GET.get('decliner-la-commande'):
+                    #if article has been declined by seller, make it unvailable
+                    order.article.available = False 
+                    order.save()
                 order.delete()
                 
     #conditional part of page to show
