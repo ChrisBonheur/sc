@@ -335,8 +335,9 @@ def orders(request):
                 order.user = request.user
                 order.article = article
                 order.save()
-        elif request.POST.get('order_id'):
-            order_id =  request.POST.get('order_id')
+    elif request.GET:
+        if request.GET.get('order_id'):
+            order_id =  request.GET.get('order_id')
             order = get_object_or_404(Order, pk=order_id)
             try:
                 assert order.user == request.user

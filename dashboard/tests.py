@@ -277,7 +277,7 @@ class OrderTestCase(TestCase):
         order_count_before = Order.objects.count()
         order = Order.objects.last()
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.post(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
+        response = self.client.get(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before - 1, order_count_after)
 
