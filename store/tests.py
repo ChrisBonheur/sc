@@ -41,9 +41,9 @@ def category():
         category = Category.objects.create(name='Informatique') 
     return category
 
-def create_article():
+def create_article(name="Ordinateur", user=get_user()):
     article = Article.objects.create(
-        name="Ordinateur portable",
+        name=name,
         description="Test description",
         price_init=2500,
         price_ttc=2700,
@@ -52,7 +52,7 @@ def create_article():
         district='Siafoumou',
         status='Bon état',
         category=category(),
-        user=get_user(),
+        user=user,
         image_min=File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
     )
     

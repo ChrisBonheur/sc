@@ -200,19 +200,30 @@ class InvoiceTestCase(TestCase):
 class OrderTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        other_user = User.objects.create_user(username="alchy", password="1234")
+        #create users-----------------------------------------------
         get_user()
-        create_article()
-        article = Article.objects.last()
-        user = User.objects.last()
-        order = Order.objects.create(
-            user=user,
-            article=article
-        )
+        User.objects.create_user(username="alchy", password="1234")
+        #get users--------------------------------------------------
+        principal_user = User.objects.get(username=USERNAME)
+        other_user = User.objects.get(username="alchy")
+        #create articles--------------------------------------------
+        create_article("Téléphone", other_user)
+        create_article("Ordinateur", principal_user)
+        #get articles-----------------------------------------------
+        other_user_article = Article.objects.get(name="Téléphone")
+        principal_user_article = Article.objects.get(name="Ordinateur")
+        #====================================================================
+        #create order that will send to principal user to test received order
         Order.objects.create(
             user=other_user,
-            article=article
+            article=principal_user_article
         )
+        #create(send order) order for current principal user that will send to other user
+        order = Order.objects.create(
+            user=principal_user,
+            article=other_user_article
+        )
+        #incoice for principal user
         Invoice.objects.create(order = order,)
         
     def setUp(self):
@@ -234,8 +245,14 @@ class OrderTestCase(TestCase):
         [self.assertEqual(self.user, order.user, msg=err_msg) for order in orders]
     
     def test_received_list_in_context(self):
-        #test if received list of order is in context
-        pass
+        """test if received list of order is in context and are just for current user"""
+        principal_user = User.objects.get(username=USERNAME)
+        self.client.login(username=USERNAME, password=PASSWORD)
+        response = self.client.get(reverse('dashboard:orders'))
+        context_orders = response.context['received_orders']
+        except_msg = "There are some orders for not current user in context"
+        [self.assertEqual(principal_user, context_order.article.user, msg=except_msg) \
+            for context_order in context_orders]        
     
     def test_creating_order(self):
         #test if order can be created
