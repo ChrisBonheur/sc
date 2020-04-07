@@ -41,7 +41,11 @@ def category():
         category = Category.objects.create(name='Informatique') 
     return category
 
-def create_article(name="Ordinateur", user=get_user()):
+def create_article(name="Ordinateur portable", user_param=" "):
+    user = user_param
+    if isinstance(user, User) != True:
+        user = get_user()
+        
     article = Article.objects.create(
         name=name,
         description="Test description",
