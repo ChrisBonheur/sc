@@ -320,8 +320,20 @@ def invoices(request):
 
 @login_required
 def orders(request):
-    context = {
-        "orders": Order.objects.filter(user=request.user),
-        "received_orders":  Order.objects.filter(article__user=request.user)
-    }
+    page_zone = None
+    context = {"page_zone": page_zone}
+
+    try:
+        page_zone = request.GET.get('page_zone')
+    except Exception:
+        pass
+    if page_zone == "envoyes" or page_zone == None:
+        #get sent orders unmanaged
+        context["orders"] = Order.objects.filter(Q(user=request.user) & \
+            Q(manage=False)) 
+    elif page_zone == "reçus":
+        #get received orders unmanaged
+        context["orders"] = Order.objects.filter(Q(article__user=request.user)\
+             & Q(manage=False))
+    
     return render(request, 'dashboard/order.html', context)

@@ -236,7 +236,7 @@ class OrderTestCase(TestCase):
     
     def test_sent_order_list_in_view(self):
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse('dashboard:orders'))
+        response = self.client.get(reverse('dashboard:orders'), {"page_zone": "envoyes"})
         order = Order.objects.filter(user=self.user)[0]
         self.assertContains(response, order.article)
         #list is just for current user
@@ -248,8 +248,8 @@ class OrderTestCase(TestCase):
         """test if received list of order is in context and are just for current user"""
         principal_user = User.objects.get(username=USERNAME)
         self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse('dashboard:orders'))
-        context_orders = response.context['received_orders']
+        response = self.client.get(reverse('dashboard:orders'), {"page_zone": "reçus"})
+        context_orders = response.context['orders']
         except_msg = "There are some orders for not current user in context"
         [self.assertEqual(principal_user, context_order.article.user, msg=except_msg) \
             for context_order in context_orders]        
