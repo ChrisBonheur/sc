@@ -1,0 +1,53 @@
+{% extends 'communication/base.html' %}
+{% block content %}
+{% load communication_extras %}
+    <div class="container box_msg b_h">
+        <div class="row">
+            <div class="col-12">
+                <h1>Messages reçus</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8 bloc-talks">
+                <div class="row">
+                    <div class="col-12">
+                        {% for talk in talks %}
+                            <div class="row">
+                                {% if user == talk.user1 %}
+                                    <div class="col-sm-2 photo"><div style="
+                                    background: url({{ talk.user2.profil.avatar.url }}) no-repeat center;
+                                    background-size: cover;"></div></div>
+                                {% else %}
+                                    <div class="col-sm-2 photo"><div style="
+                                        background: url({{ talk.user1.profil.avatar.url }}) no-repeat center;
+                                        background-size: cover;"></div></div>
+                                {% endif %}
+                                {% if user|message_count:talk > 0 %}
+                                    <div class="col-sm-10">
+                                        <a href="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}">
+                                            <div class="talk"> 
+                                                vous avez <span class="nbr-msg"> {{ user|message_count:talk }}</span> 
+                                                messages non lue de {{ user|other_user:talk }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-10">
+                                        <a href="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}"><div class="talk seen">Aucun nouveau message de {{ user|other_user:talk }}</div></a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <div class="row">
+                                <div class="col-md-12"> 
+                                    <h4>Vous n'avez aucune conversation </h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

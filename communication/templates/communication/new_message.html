@@ -1,0 +1,73 @@
+{% extends 'communication/base.html' %}
+{% block content %}
+{% load static store_extras %}
+    <div class="container-fluid new-msg b_h">
+        <div class="row receiver-id">
+            <div class="col-md-offset-2 col-md-8">
+                {% if user == talk.user1 %}
+                <p> Avec  <img src="{{ talk.user2.profil.avatar.url }}" class="avatar"
+                    width="15" height="15" alt=""> {{ talk.user2 }}</p>
+                {% else %}
+                <p> Avec  <img src="{{ talk.user1.profil.avatar.url }}" class="avatar"
+                    width="15" height="15" alt=""> {{ talk.user1 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <form action="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 bloc-msg">
+                    <div class="blank-zone" id="content-msg">
+                        {% for message in message_list %}
+                            {% if message.sender_id == user.id %}
+                            <span class="id-msg">moi</span>
+                            <div class="row receiver msg">
+                                <div class="col-10 col-offset-2 content-msg">
+                                    <p class="message">
+                                        {{ message.content }}
+                                        <span class="time" >il y a {{ message.date|calcul_date }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            {% else %}
+                                {% if user == talk.user1 %}
+                                    <img src="{{ talk.user2.profil.avatar.url }}" class="avatar" width="15" height="15" alt=""> 
+                                {% else %}
+                                    <img src="{{ talk.user1.profil.avatar.url }}" class="avatar" width="15" height="15" alt=""> 
+                                {% endif %}
+                                <div class="row sender msg">
+                                    <div class="col-offset-2 col-10 content-msg">
+                                        <p class="message" style="background: gray;">
+                                            {{ message.content }} 
+                                            <span class="time" >il ya {{ message.date|calcul_date }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div>Pas de message</div>
+                        {% endfor %}
+                        <!--Place user in last message in bloc with over-y true-->
+                        <div id="last-message"></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="msg-zone">
+                                <div class="col1">
+                                    <input type="text" name="message" placeholder="Votre message">
+                                </div>
+                                <div class="col2">
+                                    <button disabled="disabled" class="btn1 load-style"></button>
+                                    <button class="btn2 load-style"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

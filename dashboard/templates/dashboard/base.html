@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+{%  endblock %}
+{% block content %}
+    <div class="container-fluid dashboard my_articles b_h">
+        <div class="row">
+            <h1>TABLEAU DE BORD</h1>
+        </div>
+        <div class="row dash-nav" >
+            <nav>
+                <ul>
+                    <li class="cursor1">
+                        ARTICLE
+                        <div class="panneau panneau1" style="display: none;">
+                            <div class="up"></div>
+                            <div class="bloc">
+                                <p><a href="{% url 'dashboard:my_articles' %}">Mes articles</a></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cursor2">
+                        ACHAT
+                        <div class="panneau panneau2" style="display: none;">
+                            <div class="up"></div>
+                            <div class="bloc">
+                                <p><a href="{% url 'dashboard:received_invoice' %}">Factures à payer ({{ user_invoice_number }})</a></p>
+                                <p><a href="{% url 'dashboard:sent_order' %}">Commandes envoyées </a></p>
+                                <p><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cursor3">
+                        VENTE
+                        <div class="panneau panneau3" style="display: none;">
+                            <div class="up"></div>
+                            <div class="bloc">
+                                <p><a href="{% url 'dashboard:received_order' %}">Gestion de commandes reçues ({{ user_order_number }})</a></p>
+                                <p><a href="{% url 'dashboard:selled_list' %}">Ventes réalisées</a></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row articles-zone">
+            <div class="col-md-3 left-menu">
+                <ul class="parent-ul">
+                    <li>
+                        ARTICLE
+                        <ul>
+                            <li><a href="{% url 'dashboard:my_articles' %}">Mes articles postés</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        ACHAT
+                        <ul>
+                            <li><a href="{% url 'dashboard:received_invoice' %}">Factures à payer ({{ user_invoice_number }})</a></li>
+                            <li><a href="{% url 'dashboard:sent_order' %}">Commandes envoyées</a></li>
+                            <li><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        VENTE
+                        <ul>
+                            <li><a href="{% url 'dashboard:received_order' %}">Gestion de commande reçues ({{ user_order_number }})</a></li>
+                            <li><a href="{% url 'dashboard:selled_list' %}">Ventes réalisées</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-9 details-from-menu">
+                {% block details-from-menu %}
+                {% endblock %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block scripts_links %}
+    <script type="text/javascript" src="{% static 'dashboard/js/dashboard.js' %}"></script>
+{% endblock %}

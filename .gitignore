@@ -1,0 +1,7 @@
+../env/
+uploads/
+article_img/
+avatars/
+__pycache__/
+db.sqlite3
+spectreCorp/settings.py

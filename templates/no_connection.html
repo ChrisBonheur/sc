@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/no_connection.css' %}">
+    <title>sc</title>
+</head>
+<body>
+    <h1>Vendez ou achetez vos articles en ligne et en toute sécurité</h1>
+
+    <img src="{% static 'images/icons/logo.png' %}"  width="140" height="140" alt="logo sc">
+
+    <div>
+        <p>SC semble ne pas être connecté à internet</p>
+        <p><a href="{% url 'store:home' %}"><button>ACTUALISER</button></a></p>
+        <p>Verifiez votre connection Internet</p>
+    </div>
+</body>
+</html>

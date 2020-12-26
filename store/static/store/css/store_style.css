@@ -1,0 +1,534 @@
+/**************index jumbotron*/
+.jumbotron{
+    background: url('../images/icons/couverture.png') no-repeat center, 
+    url('../images/icons/texture.png') repeat-x center left;
+    background-size: contain;
+    height: 400px;
+}
+
+/*==========================================*/
+/**************lIST ARTICLES****************/
+.info-user img{
+    border-radius: 50%;
+    width: 14%;
+}
+.details{
+    font-size: 1em;
+}
+.details h5{
+    font-size: 1em;
+}
+
+.card a, .card{
+    color: #a5a5a5;
+    font-size: 1em;
+}
+.card a:hover{
+    text-decoration: none;
+}
+.card .prix{
+    color: #303030;
+    font-weight: bolder;
+}
+.list-article{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.list-article .card-img-top{
+    width: 100%;
+}
+.list-article .details button{
+    background: #124b98;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+}
+.list-article .details{
+    line-height: 19px; 
+    font-size: 1em;
+}
+.list-article .details p .xaf{
+    display: inline-block;
+    font-size: 0.7em;
+    font-weight: bolder;
+    color: black;
+}
+
+.list-article .empty-text{
+    margin: auto;
+    margin-top: 150px;
+    width: max-content;
+    font-size: 1.7em;
+    font-weight: bolder;
+}
+.list-article .bloc_div{
+    width: 100%;
+}
+.list-article .bloc-links{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.list-article img{
+    width: 20px;
+}
+.list-article .bloc-links .save-favourite, .list-article .bloc-links .delete-favourite{
+    cursor: pointer;
+}
+.list-article .bloc-links .delete-favourite{
+    color: red;
+}
+
+/*=======================================*/
+/***************DETAIL PAGE**************/
+.detail_page{
+    padding-top: 100px;
+}
+.detail_page .user-articles .col-md-4{
+    padding: 10px;
+}
+.detail_page .article{
+    margin-top: 50px;
+}
+
+.detail_page .article img, .detail_page {
+    max-width: 100%;
+}
+.detail_page .article .img_art{
+    border: 1px solid white;
+    border-radius: 5px;
+    display: flex; 
+    justify-content: center;
+}
+.detail_page .article .img_art img{
+    width: 50%;
+    height: auto;
+}
+.detail_page .article .bloc_img .row{
+    width: 100%; 
+    margin: auto;
+    margin-top: 0px;
+}
+.detail_page .article .col-lg-4{ 
+    padding-right: 0px;
+}
+.detail_page .col-md-9{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.detail_page .bloc_img .pics_min{
+    width: 100%; 
+    display: flex; 
+    height: 95px;
+    justify-content: center;
+    border: 3px solid red;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.detail_page .bloc_img .pics_min .img_min{
+    width: 10%; 
+    height: 100%; 
+    border-radius: 5%;
+    border: 1px solid white;
+}
+.detail_page .bloc_img .pics_min .img_min p{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.detail_page .buy_bloc{
+    background: white;
+    padding: 15px;
+}
+.detail_page .buy_bloc .price{
+    font-weight: bolder;
+    font-size: 1.2em;
+}              
+.detail_page .buy_bloc img{
+    width: 30px;
+}
+.detail_page .buy_bloc h1{
+    font-size: 1.1em;
+    font-weight: bolder;
+}
+.detail_page #action div{
+    width: 100%;
+    margin-top: 15px;
+}
+.detail_page #action button{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: bolder;
+}
+.detail_page #action p{
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: red;
+}
+.detail_page .send-btn, .detail_page .add-btn{
+    border: 1px solid #565b61;
+    color: #124b98;
+}
+.detail_page .buy-btn{
+    background: #124b98;
+    color: white;
+    border: 0px;
+}
+.detail_page .buy-btn:hover{
+    background: #456cbe;
+}
+
+.detail_page .info_seller{
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 15px;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.detail_page .info_seller img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.detail_page .info_seller ul{
+    display: flex; 
+    align-items: center; 
+    height: 100%;
+}
+.detail_page .user-articles .card-img-top{
+    width: 100%;
+}
+.detail_page .details .xaf{
+    font-size: 0.8em;
+    font-weight: bolder;
+    color: black;
+}
+.detail_page .details p{
+    line-height: 16px;
+}
+.detail_page .details p{
+    line-height: 14px;
+    font-size: small;
+    margin-bottom: 0px;
+}
+.detail_page .details p img{
+    width: 15px;
+}
+.detail_page .details button{
+    margin-left: 40%;
+    border: 0px;
+    border-radius: 5px;
+    background: #124b98;
+    color: white;
+}
+/**show image*************/
+#show_img{
+    background: white; 
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    z-index: 50;
+}
+#show_img .img_max{
+    width: 100%;
+    text-align: center; 
+    margin-bottom: 20px;
+}
+#show_img .img_max img{
+    max-width: 100%; 
+    height: auto;
+}
+#show_img .x-circle img{
+    cursor: pointer;
+}
+.title_limit h1{
+    font-size: 1em;
+    color: white;
+    margin-top: 20px;
+}
+
+
+/***************SELL PAGE**********************************/
+.sell_page{
+    padding-top: 100px;
+}
+
+.rowBloc1, .rowBloc2, .rowBloc3{
+    border: 2px solid gray;
+    box-shadow: 3px 3px 3px gray;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: white;
+}
+.rowBloc1 .alert{
+    color: red;
+}
+
+.rowBloc1 .col-12 .bloc-flex{
+    /* height: 80%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.rowBloc1 .upload_pics div{
+    border: 1px solid black;
+    background: gray;
+    text-align: center;
+    /* height: 80px; */
+}
+.rowBloc2 input{
+    background: white;
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+.sell_page hr{
+    border: 2px solid gray;
+}
+.rowBloc2 textarea{
+    width: 100%;
+}
+.rowBloc3 select, .rowBloc3 input, .rowBloc5 input, .rowBloc5 select{
+    width: 100%;
+    border: 0px;
+    border-bottom: 1px solid gray;
+}
+.rowBloc4{
+    margin-top: 25px;
+}
+.rowBloc4 button{
+    background: #124b98;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+    margin-left: 15px;   
+    margin-bottom: 35px;       
+}
+.rowBloc5 .row{
+    margin-bottom: 10px;
+}
+/**************FAVOURITES PAGE******************/
+.favourite_page{
+    padding-top: 100px;
+}
+.favourite_page h1{
+    background: #124b98;
+    color: white;
+    padding-left: 1%;
+    margin-left: 0px;
+}
+
+
+
+/*******************SEARCH PAGE RESULT************/
+.search-result-page{
+    padding-top: 130px;
+}
+.search-result-page h1{
+    color: white;
+    background-color: #124b98;
+    width: 100%;
+    padding: 2%;
+    margin-bottom: 30px;
+}
+
+
+
+/*=========================================================================*/
+/*========================******************===============================*/
+
+/********MEDIA QUERY*******************************/
+@media all and (max-width: 991px){
+    .jumbotron{
+        background: url('../images/icons/couverture_lg.png') no-repeat center,
+        url('../images/icons/texture.png') repeat-x center left;
+        background-size: contain;
+        height: 300px;
+    }
+    
+    /**********DETAIL PAGE****************/
+    .detail_page .article .col-lg-4{
+        padding-left: 0px;
+        margin-top: 15px;
+    }
+}
+
+@media all and (max-width: 768px){
+    /*****************Jumbotron*************/
+    .jumbotron{
+        background: #7483a0 url('../images/icons/couverture_md.png') no-repeat center;
+        background-size: contain;
+        height: 200px;
+    }
+    .jumbotron div{
+        display: none;
+    }
+    /*mobile show*/
+    .mobile-show{
+        display: inline-block;
+    }
+    /***************LIST ARICLE****************/
+    #user-name{
+        font-size: 0.6em;
+    }
+    .info-user img{
+        width: 20px;
+        height: 20px;
+    }
+    .details p{
+        margin-top: -10px;
+        font-size: 0.9em;
+    }
+    .details .prix{
+        font-size: 0.9em;
+        font-weight: bolder;
+    }
+    .list-article .details h5{
+        font-size: 0.9em;
+    }
+    .list-article .details .xaf{
+        font-size: 0.5em;
+        font-weight: bolder;
+        color: black;
+    }
+    .list-article .details p{
+        font-size: 0.7em;
+        line-height: 12px;
+    }
+    .list-article img{
+        width: 17px;
+    }
+    .list-article .bloc-links{
+        margin-top: -15px;
+        justify-content: space-between;
+    }
+    .list-article .bloc-links button{
+        font-size: 0.7em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 14px;
+        margin-top: 2px;
+    }
+    .list-article .time_add, .list-article .views{
+        font-size: 0.7em;
+    }
+    /****************DETAIL PAGE*******************/
+    .detail_page{
+        padding-top: 55px;
+    }
+    .detail_page .article .img_art img{
+        max-width: 100%;
+        height: auto;
+    }
+    .detail_page .bloc_img .pics_min{
+        height: 50px;
+    }
+    .detail_page .bloc_img .pics_min .img_min{
+        width: 20%;
+    }
+    .detail_page .buy_bloc{
+        font-size: smaller;
+        padding: 5px; 
+        padding-top: 0px;
+    }
+    .detail_page .buy_bloc p{
+        margin-top: -10px;
+        line-height: 15px;
+    }
+    .detail_page .buy_bloc .price{
+        font-size: 0.9em;
+    }
+    .detail_page .buy_bloc img{
+        width: 15px;
+    }
+    .detail_page #action button{
+        height: 30px;
+    }
+    .detail_page #action div{
+        margin-top: 7px;
+    }
+    .detail_page #action p{
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    .detail_page .info_seller{
+        font-size: small;
+        margin-top: 7px;
+        padding: 5px;
+    }
+    .detail_page .info_seller img{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+    .detail_page .details {
+        height: auto;
+        
+    }
+    .detail_page .details p img{
+        width: 10px;
+    }
+    .detail_page .details p{
+        line-height: 10px;
+        font-size: 0.6em;
+        margin-bottom: 0px;
+    }
+    .detail_page .details .prix{
+        font-size: 0.9em;
+    }
+    .detail_page .details h5{
+        font-size: 0.7em;
+    }
+    .detail_page .details .xaf{
+        font-size: 0.8em;
+        font-weight: bolder;
+        color: black;
+    }
+    /*show image*/
+    #show_img{
+        padding-top: 12%;
+    }
+    #show_img .x-circle{
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        z-index: 10;
+    }
+    #show_img .x-circle img{
+        width: 25px;
+    }
+
+    /***********SELLER PAGE*****************/
+    .sell_page{
+        font-size: 1em;
+    }
+    .sell_page h1{
+        font-size: 1em;
+    }
+    .rowBloc1, .rowBloc2, .rowBloc3{
+        padding: 0px;
+    }
+    .rowBloc1{
+        height: 150px;
+    }
+    .rowBloc1 .col-12 div{
+        height: 70px;
+    }
+
+
+    /**************FAVOURITES PAGE******************/
+    .favourite_page h1{
+        font-size: 1em;
+    }
+}
+
+ 

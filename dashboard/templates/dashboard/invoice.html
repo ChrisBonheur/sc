@@ -1,0 +1,91 @@
+{% extends 'dashboard/base.html' %}
+
+{% block details-from-menu %}
+{% load static %}
+<div class="invoice_zone">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="page_name">MES FACTURES A PAYER</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for invoice in invoices %}
+            <div class="col-md-6">
+                <div class="row row2">
+                    <div class="col-12">
+                        <table>
+                            <tr>
+                                <tr class="head-tr">
+                                    <td colspan="2"><h4>FACTURE N° {{ invoice.id }}</h4></td>                 
+                                </tr>
+                                <tr class="head-tr">
+                                    <td colspan="2"><p>Date {{ invoice.date_create }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td class="head-td text-center">
+                                        <h5>Client</h5>
+                                        <p> {{ invoice.order.user }} </p>
+                                    </td>
+                                    <td class="head-td text-center">
+                                        <h5>Vendeur</h5>
+                                        <p>{{ invoice.order.article.user }} <br> Addresse : {{ invoice.order.article.address }}</p>
+                                    </td>
+                                </tr>
+                            </tr>
+
+                            <tr>
+                                <th>Désignation</th>
+                                <td class="text-justify"><a href="{{ invoice.order.article.image_min.url }}">{{ invoice.order.article.name }}</a></td>
+                            </tr>
+
+                            <tr>
+                                <th>Description</th>
+                                <td class="text-justify">{{ invoice.order.description }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Quantité</th>
+                                <td class="text-justify">{{ invoice.order.quantity }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Livraison</th>
+                                {% if invoice.order.delivery == True %}
+                                    <td class="text-justify">OUI</td>
+                                {% else %}
+                                    <td class="text-justify">NON</td>
+                                {% endif %}
+                            </tr>
+
+                            <tr>
+                                <th>Etat</th>
+                                <td class="text-justify">{{ invoice.order.status }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Prix</th>
+                                <td class="text-justify"><strong>{{ invoice.order.price_ttc }} XAF</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row3">
+                    
+                    <div class="col-12">
+                        <button>Valider payement article</button>
+                    </div>
+                    <div class="col-12 btn-2">
+                       <a href="{% url 'dashboard:delete_invoice' invoice_id=invoice.id %}"><button>Annuler payement article</button></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-zone">
+                {{ alert }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,291 @@
+/********DASHBOARD*/
+.dashboard{
+    padding-top: 90px;
+}
+.dashboard h1{
+    margin-top: 12px;
+    background: #124b98;
+    color: white;
+    font-size: 2em;
+    width: 100%;
+    position: fixed;
+    z-index: 35;
+}
+.dashboard .articles-zone{
+    margin-top: 100px;
+}
+.dashboard .articles-zone .page_name, .dashboard .articles-zone .row2 h3{
+    color: white;
+    background-color: #124b98;
+    width: 100%;
+    margin-bottom: 50px;
+}
+.dashboard .row1, .dashboard .row2{
+    margin-bottom: 50px;
+}
+.dashboard .articles-zone hr{
+    border: 5px solid gray;
+}
+.dashboard .dash-nav{
+    margin-top: 45px;
+    position: fixed;
+    width: 100%;
+    z-index: 35;
+    display: none;
+    margin-left: -25px;
+}
+.dashboard .dash-nav .panneau .up{
+    width: 100%;
+    height: 10px;
+    background: url('../images/icons/up.png') no-repeat 35%;
+    background-size: contain;
+    margin-top: 15px;
+}
+.dashboard .dash-nav .panneau{
+    position: absolute;
+    z-index: 36;
+    width: 20%;
+}
+.dashboard .dash-nav .panneau3{
+    right: 3%;
+}
+.dashboard .dash-nav .panneau .bloc{
+    background: #124b98;
+    padding: 3%;
+    padding-bottom: 3%;
+}
+.dashboard .dash-nav .panneau .bloc p a{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: black;
+    padding-left: 2%;
+}
+.dashboard .dash-nav .panneau .bloc p{
+    width: 100%;
+    height: max-content;
+    font-size: 0.7em;
+    margin-bottom: 5px;
+    border-bottom: 1px solid white;
+}
+.dashboard .dash-nav .panneau .bloc p a:hover{
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.dashboard .dash-nav nav{
+    width: 100%;
+    margin-top: 11px;
+}
+.dashboard .dash-nav ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    background: lightblue;
+    padding-left: 0px;
+    width: 100%;
+}
+.dashboard .dash-nav li{
+    cursor: pointer;
+    background: url('../images/icons/down.png') no-repeat center right;
+    background-size: 15px;
+    width: 15%;
+    border-right: 1px solid white;
+    padding-left: 1%;
+    font-weight: bolder;
+    font-size: 1em;
+}
+.dashboard .dash-nav li:hover{
+    background: gray url('../images/icons/down.png') no-repeat center right;
+    background-size: 15px;
+}
+.dashboard .details-from-menu{
+    margin-left: 25%;
+}
+.dashboard .details-from-menu .row1{
+    display: flex;
+    z-index: 8;
+    justify-content: space-around;
+}
+.dashboard .left-menu{
+    background: black;
+    color: white;
+    height: min-content;
+    position: fixed;
+    z-index: 35;
+}
+.dashboard .left-menu .parent-ul{
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+/*************MY ARTICLES PAGE************/
+.my_articles .card nav ul{
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    flex-wrap: wrap;
+    padding-left: 0px;
+}
+.my_articles .card nav li{
+    color: gray;
+}
+.my_articles .card nav li a{
+    color: #124b98;
+}
+.my_articles .card nav li a:hover{
+    color: turquoise;
+    text-decoration: none;
+}
+.my_articles .card-body{
+    padding: 2px;
+}
+.my_articles .bloc-card{
+    border: 2px solid gray;
+    padding: 0px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
+.my_articles .card-img-top{
+    height: 250px;
+}
+.dashboard .details-from-menu .card h5{
+    color: black;
+}
+
+/***********INVOICE**********/
+.dashboard table{
+    margin-bottom: -30px;
+    width: 100%;
+}
+.dashboard table tr, .dashboard table td{
+    border: 2px solid gray;
+    padding: 2%;
+}
+.dashboard .head-td{
+    border: none;
+}
+.dashboard .head-tr{
+    border: none;
+}
+.dashboard .row3 button{
+    width: 100%;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 10px;
+}
+.dashboard .row3 .btn-2 button{
+    background: red;
+    color: black;
+}
+.dashboard .row3 p{
+    color: red;
+    font-weight: bolder;
+}
+
+/************ARCHIVES**********/
+.archive th{
+    background-color: #124b98;
+    color: white;
+}
+.archive table{
+    width: 100%;
+}
+.archive .col-md-9 .col-md-3{
+    margin-bottom: 70px;
+}
+
+/********MEDIA QUERY*******************************/
+@media all and (max-width: 991px){
+    /*********DASHBOARD***********/
+    .dashboard h1{
+        margin-left: -10px;
+    }
+    .dashboard .left-menu{
+        display: none;
+    }
+    .dashboard .dash-nav{
+        display: inline;
+        margin-top: 35px;
+    }
+    .dashboard .details-from-menu{
+        margin: auto;
+        margin-top: 25px;
+    }
+    /****MY ARRTICLES********/
+    .my_articles .card-text li{
+        margin-left: 3%;
+    }    
+}
+
+@media all and (max-width: 768px){
+    /*********DASHBOARD*****/
+    .dashboard{
+        padding-top: 90px;
+    }
+    .dashboard .articles-zone{
+        margin-top: 35px;
+    }
+    .dashboard .dash-nav li{
+        width: 30%;
+        font-size: 0.8em;
+        background-size: 10px;
+    }
+    .dashboard h1{
+        font-size: 1em;
+    }
+    .dashboard .dash-nav{
+        margin-top: 20px;
+    }
+    .dashboard .dash-nav .panneau{
+        font-size: 1.6em;
+        top: 15px;
+        width: 45%;
+    }
+    .dashboard h3{
+        font-size: 0.8em;
+    }
+    /********My ARTICLES******/
+    .dashboard .details-from-menu .card{
+        font-size: 0.7em;
+        font-weight: bolder;
+    }
+    .dashboard .details-from-menu .card h5{
+        font-size: 1em;
+        font-weight: bolder;
+    }
+    .my_articles .card-img-top{
+        height: 200px;
+    }
+    .dashboard .articles-zone .row1 h3, .dashboard .articles-zone .row2 h3{
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .dashboard .row1, .dashboard .row2{
+        margin-bottom: 25px;
+    }
+
+    /*************INVOICE************/
+    .dashboard table, .dashboard button, .dashboard .row3 p{
+        font-size: 0.8em;
+    }
+    table h5, table h4{
+        font-size: 1em;
+        font-weight: bolder;
+    }
+    .dashboard table{
+        margin-bottom: -10px;
+    }
+    .dashboard .head-td p{
+        font-size: 0.7em;
+    }
+    .dashboard .page_name{
+        margin-bottom: 15px;
+        margin-top: 20px;
+    }
+}

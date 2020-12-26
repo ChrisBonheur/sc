@@ -1,0 +1,27 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <div class="container manual_connect b_h">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h1>Se connecter</h1>
+                {% if error %}
+                    <span class="alert">Mot de passe ou nom d'utilisateur incorect</span>
+                {% endif %}
+                <form action="{% url 'user:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="bloc-login-input">
+                        {{ form.as_p }}
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="load-style">Se connecter</button>
+                    </div>
+                    <div>
+                        <a href="">Mot de passe oublié ?</a> <br>
+                        <a href="{% url 'user:register' %}">Inscription </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

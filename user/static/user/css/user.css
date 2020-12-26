@@ -1,0 +1,234 @@
+/*////////////////PROFIL//////////////////////////////////////*/
+.profil{
+    padding-top: 150px;
+    padding-bottom: 50px;
+}
+
+.profil .row1 img{
+    width: 40%;
+    border-radius: 50%;
+}
+.profil .param-list h1{
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+.profil .param-list ul{
+    padding-left: 0px;
+}
+.profil .param-list li{
+    list-style-type: none;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2%;
+}
+.profil .param-list li a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2%;
+    color: #a5a5a5;
+}
+.profil .param-list li a:hover{
+    text-decoration: none;
+    background-color: lightgrey;
+}
+.profil .row1{
+    align-items: center;
+}
+.profil .row5 div{
+    width: 100%;
+}
+.profil .row5 div a{
+    display: inline-block;
+    width: 100%;
+    color: black;
+}
+.profil .row5 div a:hover{
+    text-decoration: none;
+}
+.profil .row3 input, .profil .row3 select{
+    border: none;
+    border-bottom: 1px solid #124b98;
+    background: white;
+}
+.profil .row1, .profil .row2, .profil .row3, .profil .row4, .profil .row5, .profil .row6{
+    background: white;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+.profil .row6{
+    background-color: #ebedee;
+} 
+.profil .row6 button{
+    background-color: #124b98;
+    color: white;
+    height: 45px;
+    position: absolute;
+    right: 2%;
+}
+.profil button{
+    border: 1px solid #124b98;
+    color: #124b98;
+    background: white;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+/*****************MANUAL COKNNECT****************/
+.alert{
+    color: red;
+}
+.manual_connect{
+    padding-top: 120px;
+}
+.manual_connect h1{
+    text-align: center;
+    margin-bottom: 50px;
+}
+.manual_connect .col-md-offset-4{
+    margin-left: 33.33%;
+} 
+.manual_connect input{
+    width: 100%;
+    border: 0px;
+    background: white;
+    border-bottom: 1px solid gray;
+}
+.manual_connect form div, .manual_connect form p{
+    margin-bottom: 40px;
+}
+.manual_connect button{
+    background: #124b98;
+    color: white;
+    border: 0px;
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+/**************AUTO LOGIN****************/
+.auto_login{
+    padding-top: 150px;
+}
+.auto_login h1{
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+.auto_login .col-md-offset-4{
+    margin-left: 33.33%;
+}
+.auto_login .social-login{
+    background: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px black;
+    text-align: center;
+    padding: 25px;
+}
+.auto_login .social{
+    width: 100%;
+    margin-bottom: 10px;
+    height: 50px;
+    border-radius: 5px;
+}
+.auto_login .social .link-gmail{
+    background: url('../images/gmail.png') no-repeat center;
+    background-size: contain;
+}
+.auto_login .social .link-facebook{
+    background: url('../images/fb.png') no-repeat center;
+    background-size: contain;
+}
+.auto_login .social a{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+}
+.auto_login .manual{
+    display: flex;
+    justify-content: space-around;
+}
+.auto_login .manual a{
+    color: #124b98;
+}
+/*======================================================*/
+/*************Responsive web design*********************/
+@media all and (max-width: 768px){
+    /**********PROFIL PAGE***************/
+    .profil{
+        padding-top: 110px;
+    }
+    .profil .param-list{
+        text-align: center;
+        padding: 0px;
+    }
+    .profil .param-list h1{
+        font-size: 1em;
+    }
+    .profil .param-list li{
+        height: 25px;
+    }
+    .profil .param-list li a{
+        justify-content: center;
+        padding: 0px;
+        margin-left: -1%;
+        font-size: 0.8em;
+    }
+    .profil .row1, .profil .row2, .profil .row3, .profil .row4, .profil .row5, .profil .row6{
+        font-size: 0.7em;
+        padding: 3px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        margin-bottom: 15px;
+    }
+    .profil .row1 div{
+        padding: 0px;
+    }
+    .profil .row1 img{
+        width: 60%;
+    }
+    .profil .row6 button{
+        height: 30px;
+    }
+
+    /*****MANUAL INSCRIPTION*************/
+    .manual_connect .col-md-offset-4{
+        margin-left: 0px;
+    }
+    .manual_connect{
+        font-size: 0.9em;
+    }
+    .manual_connect h1{
+        font-size: 1em;
+        margin-bottom: 25px;
+    }
+
+    /****************AUTO LOGIN***********/
+    .auto_login{
+        padding-top: 120px;
+    }
+    .auto_login .col-md-offset-4{
+        margin-left: 0px;
+    }
+    .auto_login .social-login{
+        padding: 10px;
+    }
+
+    .auto_login .social a, .auto_login .text{
+        font-size: 0.8em;
+    }
+    .auto_login .text{
+        font-size: ;
+    }
+    .auto_login .social {
+        height: 35px;
+    }
+}

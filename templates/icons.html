@@ -1,0 +1,38 @@
+{% load static %}
+<div>
+    <a href="{% url 'communication:box_msg' %}"><img src="{% static 'images/icons/chat.png' %}" alt=""></a>
+    <span class="number"> {% if total_message_count %} {{ total_message_count }} {% endif %}</span>
+</div>
+<div>
+    <a href="{% url 'communication:notifications' %}"><img src="{% static 'images/icons/notif.png' %}" alt=""></a>
+    <span class="number">{% if notif_count >= 1%} {{ notif_count }} {% endif %}</span>
+</div>
+<div>
+    <a href="{% url 'store:favourite' %}"><img src="{% static 'images/icons/heart.png' %}" alt=""></a>
+</div>
+<!--bip song for notif and message-->
+
+
+<div>
+    <div>
+        <div class="img-user">
+            <img
+                {% if user.profil.avatar.url != "" %} 
+                    src="{{ user.profil.avatar.url }}"
+                {% else %}
+                    src="{% static 'images/icons/stand.png' %}"
+                {% endif %}
+                    alt="" class="img_user"
+            >
+        </div>
+    </div>
+    <div class="profil-menu" style="display: none; z-index: 40;">
+        <div>
+            <ul>
+                <a href=""><li>Mes paramètres</li></a>
+                <a href="{% url 'user:profil' %}"><li>Mon profil</li></a>
+                <a href="{% url 'user:logout' %}"><li>Déconnexion</li></a>
+            </ul>
+        </div>
+    </div>
+</div>

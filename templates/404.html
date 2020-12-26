@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    {% include 'head.html' %}
+    <title>Erreur page</title>
+</head>
+<body id="body_error">
+    <div class="error_page">
+        <div>
+            <p id="logo">SC</p>
+            <h1 id="code">404</h1>
+            <p id="text">Hmmmm! Il semble que cette page n'existe pas</p>
+        </div>
+
+        <div id="world_pic">
+            <img src="{% static 'images/icons/world.png' %}" alt="" width="200">
+        </div>
+
+        <div>
+            <a href="{% url 'store:home' %}"><button>Retour</button></a>
+        </div>
+    </div>
+</body>
+</html>

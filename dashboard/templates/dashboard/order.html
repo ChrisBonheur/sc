@@ -1,0 +1,93 @@
+{% extends 'dashboard/base.html' %}
+
+{% block details-from-menu %}
+  <div class="row">
+      <div class="col-12">
+        <h3 class="page_name">{{ page_title }}</h3>
+      </div>
+  </div>
+
+  <div class="row">
+
+    {% for order in orders %}
+      <div class="col-md-6">
+        <div class="row row2">
+          <div class="col-md-12">
+            <table style="width: 100%;">
+                <tr class="head-tr">
+                  <td>
+                    <h4>BC N° 00005</h4>
+                    vendeur: {{ order.article.user }}
+                  </td>
+                  <td>
+                    Client : {{ order.user.username }} <br>
+                    Date : {{ order.date_create }}
+                  </td>                 
+                </tr>
+
+                <tr>
+                  <th>Désignation</th>
+                  <td> <a href="{{ order.article.image_min.url }}">{{ order.article.name }}</a> </td>
+                </tr>
+                
+                <tr>
+                  <th>Quantité</th>
+                  <td>{{ order.quantity }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ order.description }}</td>
+                </tr>
+                <tr>
+                  <th>Etat</th>
+                  <td>{{ order.status }}</td>
+                </tr>
+                <tr>
+                  <th>Livraison</th>
+                  <td>
+                    {% if order.delivery %}
+                      OUI
+                    {% else %}
+                      NON 
+                    {% endif %}
+                  </td>
+                </tr>
+                {% if request.user == order.article.user %}
+                  <tr>
+                    <th>Prix HT</th>
+                    <td><strong>{{ order.price_ht }} XAF</strong></td>
+                  </tr>
+                {% endif %}
+                <tr>
+                  <th>Prix TTC</th>
+                  <td><strong>{{ order.price_ttc }} XAF</strong></td>
+                </tr>
+            </table>
+          </div>
+        </div>
+        
+        <div class="row3">
+          {% if receive %}
+              <div class="col-12 text-center">
+                <p style="color: black">Validez la commande si l'article est disponible</p>
+                  <a href="{% url 'dashboard:create_invoice' %}?order_id={{ order.id }}"><button>Valider la commande</button></a>
+              </div>
+              <div class="col-12 btn-2 text-center">
+                  <p style="color: black">Déclinez la commande si l'article est indisponible</p>
+                  <a href="{% url 'dashboard:delete_order' order_id=order.id %}"><button>Décliner la commande</button></a>
+              </div>
+          {% else %}
+            <div class="col-12 btn-2 text-center">
+              <a href="{% url 'dashboard:delete_order' order_id=order.id %}?cancel_order={{ order }}"><button>Annuler la commande</button></a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    {% empty %}
+      <div class="empty-zone">
+          {{ alert }}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'store/base.html' %}
+{% block content %}
+    {% load static store_extras %}
+        <div class="b_h">
+            <div class="container-fluid detail_page">
+                <div class="row article">
+                    <div class="col-lg-8 bloc_img" style="background-color: white; padding: 0px;">
+                        <div class="row">
+                            <div class="col-md-12 img_art">
+                                <img class="img-responsive" src="{{ article.image_min.url }}" alt="Image de l'article">
+                            </div>
+                            <!-- <div class="col-md-6 img_art" style="background: url('/static/store/img_test/huit.jpg') no-repeat center;
+                            background-size: cover;">
+                            </div> -->
+                        </div>
+                        <div class="pics_min">
+                            {% for picture in pictures %}
+                            <div class="img_min"><p id="{{ picture }}" class="btn-img"  style="background: url({{ picture.photo.url }})
+                                no-repeat center; background-size: cover;">  
+                                <!-- This is to get link of pic and to show it in #show_img -->
+                                </p>
+                            </div>
+                            {% empty %}
+                                <p class="text-center d-flex align-items-center">Pas d'image supplémentaire !</p>
+                            {% endfor %} 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <aside class="buy_bloc">
+                            <p class="price">{{ article.price_ttc }} XAF</p>
+                            <p class="city"><img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article.town|upper }}</p>
+                            <p>Quartier: {{ article.district }}</p>
+
+                            <div id="detail">
+                                <h1>{{ article.name }}</h1>
+                                <p>
+                                    {{ article.description }}
+                                </p>
+                                <p>
+                                    <strong>Etat : {{ article.status }}</strong><br>
+                                    {% if article.delivery %}
+                                        <strong>Livraison accordée</strong>
+                                    {% endif %}
+                                </p>
+                                <p class="text-right">
+                                    Posté il y a {{ article.date_add|calcul_date }}
+                                </p>
+                                <p>Nombre de vue : {{ article.seen }}</p>
+                            </div>
+
+                            {% if article.user != user %}
+                                <div id="action">
+                                    <div>
+                                        <a href="{% url 'communication:new_msg' %}?article_id={{ article.id }}"><button class="send-btn">Enoyez un message</button></a>
+                                    </div>
+                                    <div>
+                                        {% if article_in_order == True %}
+                                            <p>Cet article est déjà en cours de commande</p>
+                                        {% else %}
+                                            <a href="{% url 'dashboard:create_order' article_id=article.id %}"><button class="buy-btn">Passer la commande</button></a>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        {% if article.id not in favourite_articles %}
+                                            <button class="add-btn" id="{{ article.id }}">Ajouter aux favoris</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </aside>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 info_seller">
+                        <div> 
+                            <img 
+                            {% if  article.avatar_seller != "" %} 
+                                src="{{ article.user.profil.avatar.url }}" 
+                            {% else %}
+                                src="{% static 'images/icons/stand.png' %}"
+                            {% endif %} alt="avatar"> {{ article.user.username }}
+                        </div>
+                        <div>
+                            Articles({{ articles_for_seller_count }})
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row user-articles" >
+                            {% for article_seller in articles_for_seller %}
+                                <div class="col-md-4 col-sm-4 col-6" style="padding: 3px;">
+                                    <div class="card">
+                                        <a href="{% url 'store:detail' article_id=article_seller.id %}">
+                                            <div class="card-img-top" style="background: lightgray url({{ article_seller.image_min.url }}) no-repeat center;
+                                            background-size: contain"> </div> 
+                                        </a>
+                                        <div class="info-user">
+                                            <img 
+                                                {% if  article.avatar_seller != "" %} 
+                                                    src="{{ article_seller.user.profil.avatar.url }}" 
+                                                {% else %}
+                                                    src="{% static 'images/icons/stand.png' %}"
+                                                {% endif %} alt="avatar"> 
+                                            <a href="" id="user-name">{{ article.user.username }}</a>
+                                        </div>
+                                        <div class="details">
+                                            <h5>{{ article_seller.name }}</h5>
+                                            <p>
+                                                <span class="prix">{{ article_seller.price_ttc }} </span><span class="xaf">XAF</span> <br>
+                                                <img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article_seller.town }} <br>
+                                                Qtier: {{ article_seller.district }} <br>
+                                                <a href="{% url 'store:detail' article_id=article_seller.id %}"><button>Détails</button></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row title_limit"><h1>Articles similaires</h1></div> -->
+            {% include 'store/list-article.html' %}
+        </div>        
+        <div id="show_img" style="display: none;">  
+            {% for picture in pictures %}
+                <div class="img_max">
+                    <img src="{{ picture.photo.url }}" alt="">
+                </div>
+            {% endfor %}
+
+            <div class="x-circle"><img src="{% static 'store/images/icons/x-circle.png' %}" alt=""></div>
+        </div>
+{% endblock %}

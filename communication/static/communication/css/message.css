@@ -1,0 +1,238 @@
+/**************NEW MESSAGE PAGE***************/
+.new-msg{
+    padding-top: 120px;
+    padding-bottom: 0px;
+}
+.new-msg .col-md-offset-2{
+    margin-left: 16.66%;
+}
+.new-msg .bloc-msg{
+    background: white;
+    padding: 25px;
+    /* margin-bottom: 35px; */
+}
+
+.new-msg .col-4 p{
+    font-weight: bolder;
+}
+.new-msg h1{
+    font-size: 1em;
+    font-weight: bolder;
+}
+.new-msg hr{
+    border: 1px solid #124b98;
+}
+.new-msg .blank-zone{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.new-msg .blank-zone .id-msg{
+    display: inline-block;
+    padding-left: 10%;
+    font-size: 0.8em;
+    width: 80px;
+    font-weight: bold;
+}
+.new-msg .blank-zone img{
+    margin-left: 80%;
+}
+.new-msg .pseudo-input input{
+    border: 0px;
+    border-bottom: 1px solid gray;
+}
+.new-msg .msg-zone{
+    background: #ebedee;
+    height: 55px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2%;
+}
+
+.new-msg .msg-zone .col1{
+    width: 90%;
+    padding-right: 2%;
+}
+.new-msg .avatar{
+    border-radius: 50%;
+}
+.new-msg .msg-zone input{
+    width: 100%;
+    border: 0px;
+    background: #ebedee;
+}
+.msg-zone button{
+    height: 55px;
+    width: 55px;
+    border: 0px;
+}
+.msg-zone .btn1{
+    background: url('../images/icons/next-flech.png') no-repeat center;
+    background-size: 50%;
+}
+.msg-zone .btn2{
+    background: url('../images/icons/next-flech-blue.png') no-repeat center;
+    background-size: 50%;
+    display: none;
+}
+.new-msg .message{
+    border: 1px solid black;
+    background: #124b98; 
+    color: white;
+    border-radius: 20px;
+    padding: 8px 5px 1px 8px;
+    margin-bottom: 15px;
+    width: auto;
+}
+.new-msg .sender .col-offset-2{
+    margin-left: 16.66%;
+}
+.new-msg .sender .content-msg{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.new-msg .receiver .content-msg{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.new-msg .time{
+    font-size: 0.65em;
+    font-style: italic;
+    color: black;
+    display: inline-block;
+    text-align: right;
+    width: 100%;
+    padding-right: 5%;
+}
+
+
+/********BOX MESSAGE***********/
+.box_msg{
+    padding-top: 120px;
+}
+.box_msg .bloc-talks{
+    background: white;
+    padding: 3%;
+}
+.box_msg .col-md-offset-2{
+    margin-left: 16.66%;
+}
+.box_msg .talk{
+    padding: 2%;
+    background: #124b98;
+    border-radius: 5px;
+    color: white;
+}
+.box_msg .photo div{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: yellowgreen;
+}
+.box_msg .nbr-msg{
+    color: yellowgreen;
+    font-weight: bold;
+    font-style: italic;
+}
+.box_msg .seen{
+    background: lightblue;
+}
+.box_msg h1{
+    font-weight: bold;
+}
+/*************NOTIFICATIONS*************/
+.notifs .content-notif1{
+    background: blue; 
+    padding-top: 10px; 
+}
+.notifs .content-notif1 a{
+    color: white;
+    text-decoration: none;
+}
+.notifs .content-notif1:hover{
+    background-color: rgb(110, 110, 197);
+}
+.notifs .content-notif2{
+    background: lightgray; 
+    padding-top: 10px; 
+    color: rgb(26, 23, 23);
+}
+.notifs .content-notif1, .notifs .content-notif2{
+    border-bottom: 10px solid gray; 
+}
+
+.notifs .content-notif2:hover{
+    background-color: rgb(26, 24, 24);
+}
+.notifs .content-notif2 a:hover{
+    color: lightgray;
+}
+.notifs .content-notif2 a{
+    color: black;
+    text-decoration: none;
+}
+.notifs .content-notif2 p, .notifs .content-notif1 p{
+    margin-bottom: 0px;
+}
+
+@media all and (max-width: 768px){
+    /*************NEW MESSAGE******************/
+    .new-msg{
+        padding-top: 100px;
+    }
+    .new-msg .col-md-offset-2{
+        margin-left: 0px;
+    }
+    .new-msg .bloc-msg{
+        padding: 5px;
+        font-size: smaller;
+    }
+    .new-msg .blank-zone{
+        height: 105px;
+    }
+    .new-msg .receiver-id{
+        margin-bottom: -15px;
+    }
+    .new-msg .msg p{
+        font-size: 0.9em;
+    }
+    .msg-zone button, .new-msg .msg-zone{
+        height: 40px;
+    }
+
+    /***NOTIFICATIONS*******/
+    .notifs h1{
+        font-weight: bolder;
+        font-size: 1em;
+        padding-top: 15px;
+    }
+    .notifs .content-notif2 p, .notifs .content-notif1 p{
+        font-size: 0.9em;
+    }
+
+    /**BOX MESSAGE***/
+    .box_msg .col-md-offset-2{
+        margin-left: 0px;
+    }
+    .box_msg .photo div{
+        width: 30px;
+        height: 30px;
+    }
+    .box_msg .bloc-talks{
+        padding: 0px;
+    }
+    .box_msg .talk{
+        padding: 5px;
+        line-height: 15px;
+        font-size: 0.9em;
+    }
+    .box_msg h1{
+        font-size: 0.9em;
+    }
+}

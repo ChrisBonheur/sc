@@ -1,0 +1,12 @@
+{% extends 'store/base.html' %}
+{% block content %}
+    <div class="search-result-page">
+        <div class="row">
+            <div class="col-12"><h1>Resulat de recherche "{{ elt_to_search }}"</h1></div>
+        </div>
+
+        <div class="row conta container">
+            {% include 'store/list-article.html' %}
+        </div>
+    </div>
+{% endblock %}

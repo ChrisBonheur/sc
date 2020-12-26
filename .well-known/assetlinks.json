@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.appmaker.wugula",
+      "sha256_cert_fingerprints": ["1E:7C:C5:0F:97:88:AC:1F:85:52:A7:46:07:7A:CC:5B:C9:79:DA:8F:9F:25:45:38:0C:A9:ED:CF:EA:33:C9:C4"]
+    }
+  }
+]

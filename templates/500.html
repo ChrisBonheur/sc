@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+    {% include 'head.html' %}
+    <title>Erreur serveur</title>
+</head>
+<body id="server_page_err">
+    <div>
+        <p class="logo">SC</p>
+        <h1>500</h1>
+        <p class="text">Un problème avec le serveur</p>
+    </div>
+
+    <div>
+        <p>Celà ne vient pas de vous !!!</p>
+    </div>
+
+    <div>
+        <a href="{% url 'store:home' %}"><button>Acceuil</button></a>
+    </div>
+</body>
+</html>

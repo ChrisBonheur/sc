@@ -1,0 +1,85 @@
+{% extends 'dashboard/base.html' %}
+{% load cache %}
+{% block details-from-menu %}
+    <div class="row row1">
+        <div class="col-12">
+            <h3 class="page_name">MES ARTICLES DISPONIBLES</h3>
+        </div>
+        {% for article in articles_available_of_seller %}
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="bloc-card">
+                    <div class="card">
+                        <div class="card-img-top" style="background: url({{ article.image_min.url }}) no-repeat center;
+                        background-size: contain;"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ article.name }}
+                            </h5>
+                            <div class="card-text">
+                                <nav>
+                                    <ul>
+                                        <li><a href="" class="btn-delete" id="{{ article.id }}">Supprimer</a></li>
+                                        <li><a href="{% url 'dashboard:update' article_id=article.id %}">Modifier</a></li>
+                                        <li>
+                                            <label for="available">Disponible</label>
+                                            <input type="checkbox" name="available" class="available-btn" id="{{ article.id }}"
+                                                {% if article.available %} checked {% endif %}
+                                                >
+                                        </li>
+                                        <li>Vues: {{ article.seen }}</li>
+                                        <li>Prix initial: {{ article.price_init }} XAF</li>
+                                        <li>Quantité: {{ article.number }}</li>
+                                        <li>Ajouté le: {{ article.date_add }}</li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-zone">Vous n'avez aucun article disponible mis en ventes</div>
+        {% endfor %}
+    </div>
+    {% if articles_unavailable_of_seller|length >= 1 %}
+    <hr>
+        <div class="row row2">
+            <div class="col-12">
+                <h3>MES ARTICLES NON DISPONIBLES</h3>
+            </div>
+            {% for article in articles_unavailable_of_seller %}
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="bloc-card">
+                        <div class="card">
+                            <div class="card-img-top" style="background: url({{ article.image_min.url }}) no-repeat center;
+                            background-size: contain;"></div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ article.name }}
+                                </h5>
+                                <div class="card-text">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="">Supprimer</a></li>
+                                            <li><a href="{% url 'dashboard:update' article_id=article.id %}">Modifier</a></li>
+                                            <li>
+                                                <label for="available">Disponible</label>
+                                                <input type="checkbox" name="available" class="available-btn" id="{{ article.id }}"
+                                                    {% if article.available %} checked {% endif %}>
+                                            </li>
+                                            <li><a href="">Photos de l'article</a></li>
+                                            <li>Vues: {{ article.seen }}</li>
+                                            <li>Prix initial: {{ article.price_init }} XAF</li>
+                                            <li>Quantité: {{ article.number }}</li>
+                                            <li>Ajouté le: {{ article.date_add }}</li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

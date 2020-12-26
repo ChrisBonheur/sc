@@ -1,0 +1,29 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <div class="container manual_connect b_h">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h1>Inscription</h1>
+                
+                {% if check_email %}
+                <span class="alert" style="color: red;">Cet email existe déjà</span>
+                {% elif check_username %}
+                <span class="alert" style="color: red;">Nom d'utilisateur déjà existant</span>
+                {% endif %}
+
+                <form action="{% url 'user:register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="bloc-login-input">
+                        {{ form.as_p }}
+                    </div>
+                    <div>
+                        <button type="submit" class="load-style">S'inscrire</button>
+                    </div>
+                    <div>
+                        <a href="{% url 'user:login' %}">Connexion</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

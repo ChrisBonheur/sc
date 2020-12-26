@@ -1,0 +1,26 @@
+{% extends 'store/base.html' %}
+{% block content %}
+{% load cache %}
+<div class="body-page b_h" style="padding-top: 100px;">
+    {% cache 500 banner %}
+        <div class="jumbotron">
+            <div style="display: none;">
+                <p>SpectreCorp Vous offre <br> une plate forme de vente en ligne</p>
+                <p><button>Poster votre article à vendre</button></p>
+            </div>
+        </div>
+
+        <div class="mobile-show">
+            <div>
+
+                <a href="{% url 'store:sell' %}"><button>Poster un article à vendre</button></a>
+            </div>
+            <div>
+                <p><a href="">Comment ça marche </a></p>
+            </div>
+        </div>
+    {% endcache %}
+    
+    {% include 'store/list-article.html' %}
+</div>
+{% endblock %}

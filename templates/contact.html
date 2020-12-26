@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+    <div class="container contact_page b_h">
+        <div class="row">
+            <div class="col-md-6 bloc1">
+                <h1>Contactez Nous</h1>
+                <p>Notre équipe est là! prêt à vous répondre </p>
+                <p>
+                    <img src="{% static 'images/icons/mail.png' %}" alt="mail-icon"><br>
+                    <strong>Envoyez-nous un mail</strong><br>
+                    spectecorp@gmail.com
+                </p>
+                <a href="tel:06-586-95-05" class="text-white">
+                    <p>
+                        <img src="{% static 'images/icons/tel.png' %}" alt="tel-icon" width="50"><br>
+                        <strong>Appelez-nous</strong><br>
+                        +242 06 586 95 05
+                    
+                    </p>
+                </a>
+            </div>
+
+            <div class="col-md-6 bloc2">
+                <div class="row">
+                    <form action="{% url 'communication:box_msg' %}" method="POST">
+                        <div class="col-12">
+                            <input type="text" placeholder="Entrez votre nom" name="name">
+                        </div>
+                        <div class="col-12">
+                            <input type="email" placeholder="Entrez votre email" name="email">
+                        </div>
+                        <div class="col-12">
+                            <textarea name="content" id="" cols="30" rows="5" placeholder="Entrez votre message"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <input type="submit" value="Soumettre">
+                        </div>
+                        <div class="col-12 last-div">
+                            <div></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
