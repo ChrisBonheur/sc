@@ -2,6 +2,7 @@
 
 {% block content %}
     {% load static cache %}
+    {% cache 1000 about_page %}
     <div class="about_page b_h">
         <div class="container role">
             <div class="row presentation">
@@ -137,4 +138,5 @@
             </div>
         </div>
     </div>
+    {% endcache %}
 {% endblock %}

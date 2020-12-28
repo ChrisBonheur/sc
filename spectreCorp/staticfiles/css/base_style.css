@@ -518,15 +518,143 @@
         background: #124b98 url('../images/icons/logo.png') no-repeat center 60%;
         background-size: 30%;
     }
-    .loading{
-        /* margin: auto; */
-    }
 
     /****HOW IT WORK****/
     .work-page{
         padding-top: 100px;
+        color: gray
+    }
+    .work-page .row h1{
+        color: white;
+        background: #124b98;
+        margin-bottom: 50px;
+    }
+    .work-page .left-menu ul{
+        list-style-type: none;
+        padding-left: 0px;
+    }
+    .work-page .left-menu li{
+        cursor: pointer;
+        background: gray;
+        height: 45px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        padding-left: 5%;
+        color: white;
+    }
+    .work-page .left-menu li:hover, .items-clicked{
+        background: lightblue;
+        color: gray;
     }
 
+    /***inscrption zone*/
+    #inscription{
+        padding-bottom: 50px;
+    }
+    #inscription .bloc-img{
+        width: 100%;
+        height: 300px;
+        background: url('../img_test/step.png') no-repeat left center;
+    }
+
+    #inscription p{
+        font-weight: bolder;
+    }
+
+
+
+    /***ABOUT PAGE****/
+    .about_page{
+        padding-top: 170px;
+    }
+    .about_page .identity{
+        display: inline-block;
+        position: relative;
+        top: 70%;
+        left: 30%;
+        color:lightgray;
+        font-weight: bolder;
+        text-shadow: 2px 2px black;
+        font-size: 1.2em;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .about_page p{
+        color: gray;
+    }
+    .about_page .col-offset-lg-1 {
+        margin-left: 8.33%;
+    }
+    .about_page .col-offset-lg-9{
+        margin-left: 75%;
+    }
+    .about_page .presentation h1{
+        margin-bottom: 50px;
+    }
+    .about_page .container-fluid{
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    .about_page .back-img-bloc .back-img{
+        height: 300px;
+        background: gray;
+        border: 1px solid white;
+    }
+    .about_page .back-img-bloc .bloc-1{
+        background: url('../images/pictures/b1.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    .about_page .back-img-bloc .bloc-2{
+        background: url('../images/pictures/pic4.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    .about_page .back-img-bloc .bloc-3{
+        background: url('../images/pictures/pic2.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    .about_page .back-img-bloc .bloc-4{
+        background: url('../images/pictures/pic3.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    .about_page .img-lg{
+        background: url('../images/pictures/pic1.png') no-repeat center center;
+        background-size: contain;
+    }
+    .about_page .paragraph-presentation{
+        margin-top: 70px;
+    }
+    .about_page .paragraph-presentation p{
+        text-align: justify;
+    }
+    .about_page .paragraph-presentation h2{
+        margin-bottom: 40px;
+        margin-top: 50px;
+    }
+    .about_page .team{
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+    .about_page .team .responsables-img{
+        height: 400px;
+        background: gray;
+        border: 1px solid white;
+    }
+    .about_page .team .img2{
+        background: url('../images/pictures/alec.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    .about_page .row6 ul{
+        list-style-type: none;
+        padding-left: 0px;
+    }
+    .about_page .row6 li a{
+        color: gray;
+    }
+    .about_page .row6 li a:hover{
+        color: white;
+        background: gray;
+        text-decoration: none;
+    }
     /********MEDIA QUERY*******************************/
     @media all and (max-width: 991px){
         /***********HEADER****************/
@@ -575,6 +703,14 @@
             top: 35px;
             right: 25%;
             font-size: 0.7em;
+        }
+
+        /****ABOUT PAGE****/
+        .about_page .col-offset-lg-1 {
+            margin-left: 0px;
+        }
+        .about_page .col-offset-lg-9{
+            margin-left: 0px;
         }
     }
     
@@ -653,6 +789,52 @@
         }
         .contact_page .bloc2 textarea{
             width: 100%
+        }
+
+        /***HOW IT WORK**/
+        .work-page{
+            padding: 100px, 0px;
+        }
+        .work-page .row h1{
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        .work-page .left-menu, .work-page .title, #inscription .title-bloc{
+            padding: 0px;
+        }
+        .work-page hr{
+            display: none;
+        }
+
+        /*inscription zone*/
+        #inscription h2{
+            font-size: 1.4em;
+        }
+        #inscription .bloc-img{
+            height: 170px;
+        }
+
+        /*****ABOUT pAGE****/
+        .about_page{
+            background: white;
+        }
+        .about_page h1{
+            font-size: 1.5em;
+        }
+        .about_page p{
+            font-size: 1.1em;
+        }
+        .about_page .back-img-bloc .bloc-4{
+            display: none;
+        }
+        .about_page .back-img-bloc .bloc-3{
+            display: none;
+        }
+        .about_page .img-lg{
+            display: none;
+        }
+        .about_page .img1, .about_page .img3{
+            display: none;
         }
     }
     
