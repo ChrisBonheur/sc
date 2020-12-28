@@ -1,7 +1,140 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 
 {% block content %}
-    <div class="about_page b_h" style="padding-top: 200px;">
-        <h1>A propos de nous</h1>
+    {% load static cache %}
+    <div class="about_page b_h">
+        <div class="container role">
+            <div class="row presentation">
+                <div class="col-offset-lg-1 col-lg-10 col-md-12">
+                    <h1>Vends ton article en ligne et fais toi une bonne affaire</h1>
+
+                    <p>
+                        La seconde main c'est l'avenir et <strong>SC</strong> te le prouve. <br>
+                        Sur <strong>SC</strong>, tu vends les articles qui ont encore des choses à vivre et 
+                        tu déniches des merveilles que tu ne trouves pas en boutique.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row back-img-bloc">
+                        <div class="col-md-6 back-img bloc-1"></div>
+                        <div class="col-md-6 back-img bloc-2"></div>
+                        <div class="col-md-6 back-img bloc-3"></div>
+                        <div class="col-md-6 back-img bloc-4"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 img-lg">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-offset-lg-1 col-lg-10">        
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Une simple idée qui rassemble aujourd'hui plus de deux mille personnes</h1>
+                        </div>
+                    </div>
+
+                    <div class="row paragraph-presentation">
+                        <div class="col-md-6">
+                            <h2>De 2 personnes</h2>
+                            <p>
+                                Tout a commencé en 2020 quand <strong>Alec</strong>, en plein ascension de
+                                revendeur sur sa page Facebook <strong>SpectreCorp</strong>, a 
+                                réalisé qu’il avait beaucoup de client satisfaits sur son service de vente
+                                à distance. Un de ses amis, <strong>Henoc</strong>, lui a alors proposé l'idée 
+                                de developper un site pour qu'il puisse facilement vendre les articles qu'il ne pourrait 
+                                plus toujours postés sur sa page Facebook amis. <br>
+                                Ainsi <strong>Alec</strong> fais appel à un développeur de talon pour pouvoir développer
+                                la dite application <strong>SC</strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>A une équipe de 8 personnes</h2>
+                            <p>
+                               Aujourd'hui plus de 8 personnes travaillent main dans la main chez <strong>SC</strong>
+                                pour aider le Congo (en premier) à vendre, acheter et échanger les articles
+                                de tout genre de  seconde main. <br>
+                                Notre équipe rassemble des cultures différentes à l'image de nos membres.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Pour une mission globale</h2>
+                            <p>
+                                L'univers de la seconde-main a dépassé les frontières des friperies.
+                                Sur <strong>SC</strong>, tu vends ce que tu veux et tu déniches des 
+                                pièces canons. Nos 3 mille membres, pour le moment, nous accompagnent
+                                dans notre mission : faire de la seconde-main le emier choix au congo.
+                            </p>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <h2>Titre de paragraphe</h2>
+                            <p>
+                                Tout a commencé en 2008 quand Milda, en plein déménagement, a 
+                                réalisé qu’elle avait beaucoup trop de vêtements. Un de ses amis, 
+                                Justas, lui a alors proposé son aide et a développé un site pour 
+                                qu’elle puisse facilement vendre les vêtements qu'elle ne portait 
+                                plus à ses amis.
+                            </p>
+                        </div> -->
+                    </div>
+
+                    <div class="row team">
+                        <div class="col-12">
+                            <h2>L'équipe dirigeante de SC</h2>
+                        </div>
+
+                        <div class="col-md-4 responsables-img img1"></div>
+                        <div class="col-md-4 responsables-img img2"><span class="identity text-center">Alec Isaie <br> co-fondateur</span></div>
+                        <div class="col-md-4 responsables-img img3"></div>
+                    </div>
+
+                    <div class="row">
+                        <p class="text-justify">
+                            Dans tout ce que nous entreprenons, nous restons fidèles à l’idée 
+                            première développée par nos co-fondateurs, <strong>Alec</strong> et <strong>Henoc</strong>,
+                            le développeur <strong>Bonheur</strong>, <strong>Franck Oko</strong> le conseiller
+                            stratégique et administratif, la sécrétaire et directrice marketing et <strong>Russel Ifouli</strong>
+                            le coordinateur d'équipe qui mènent la croissance et le développement de <strong>SC</strong> au
+                            quotidien. <br>
+                            Notre mission est aussi soutenue par quelques investisseurs venant de part et d'autres.
+                        </p>
+                    </div>
+
+                    <footer>
+                        <div class="row row6">
+                            <div class="col-md-4">
+                                <h3>En savoir plus</h3>
+
+                                <ul>
+                                    <li><a href="{% url 'work_step' %}">Comment ça marche</a></li>
+                                    <li><a href="{% url 'contact' %}">Contacter sc</a></li>
+                                    <li><a href="{% url 'dashboard:my_articles' %}">Tableau de bord</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-offset-md-8 col-md-4 text-right">
+                                <p class="text-right"><a href=""><img src="{% static 'images/icons/aple.png' %}" alt="aple-icon" class="app-icon"></a></p>
+                                <p class="text-right"><a href=""><img src="{% static 'images/icons/playstore.png' %}" alt="playstore-icon" class="app-icon"></a></p>
+                            </div>
+                        </div>
+                    </footer>
+
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

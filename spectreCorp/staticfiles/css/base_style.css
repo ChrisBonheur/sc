@@ -521,6 +521,12 @@
     .loading{
         /* margin: auto; */
     }
+
+    /****HOW IT WORK****/
+    .work-page{
+        padding-top: 100px;
+    }
+
     /********MEDIA QUERY*******************************/
     @media all and (max-width: 991px){
         /***********HEADER****************/
