@@ -1,3 +1,27 @@
+@font-face {
+    font-family: 'clarendon';
+    src: url('../fonts/clarendon/CLARENDON.eot');
+    src: url('../fonts/clarendon/CLARENDON.eot?iefix') format('embedded-opentype'),
+         url('../fonts/clarendon/CLARENDON.ttf') format('truetype'),
+         url('../fonts/clarendon/CLARENDON.woff') format('woff')
+}
+
+@font-face {
+    font-family: 'FrizQuadrataRegular';
+    src: url('../fonts/friz/FrizQuadrataRegular.eot');
+    src: url('../fonts/friz/FrizQuadrataRegular.eot?iefix') format('embedded-opentype'),
+         url('../fonts/friz/FrizQuadrataRegular.ttf') format('truetype'),
+         url('../fonts/friz/FrizQuadrataRegular.woff') format('woff')
+}
+
+
+body, a{
+    font-family: 'FrizQuadrataRegular', Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5{
+    font-family: 'clarendon', Arial, Helvetica, sans-serif;
+}
 
 /******HEADER*******/
      /******Alert notis*****/
@@ -547,22 +571,43 @@
         background: lightblue;
         color: gray;
     }
+    .work-page .bloc-img{
+        width: 100%;
+        height: 300px;
+        background: gray;
+    }
 
     /***inscrption zone*/
     #inscription{
         padding-bottom: 50px;
     }
-    #inscription .bloc-img{
-        width: 100%;
-        height: 300px;
-        background: url('../img_test/step.png') no-repeat left center;
+    #inscription .img1{
+        background: url('../images/how_it_work/insc1.png') no-repeat center center;
+        background-size: contain;
     }
-
+    #inscription .img2{
+        background: url('../images/how_it_work/insc2.png') no-repeat center center;
+        background-size: contain;
+    }
+    #inscription .img3{
+        background: url('../images/how_it_work/insc3.png') no-repeat center center;
+        background-size: contain ;
+    }
     #inscription p{
         font-weight: bolder;
     }
-
-
+    #inscription .rowimg4{
+        display: none;
+    }
+    /*****sell zone****/
+    #buying .img1{
+        background: url('../images/how_it_work/sell1.png') no-repeat center center;
+        background-size: contain;
+    }
+    #buying .img2{
+        background: url('../images/how_it_work/sell2.png') no-repeat center center;
+        background-size: contain;
+    }
 
     /***ABOUT PAGE****/
     .about_page{
@@ -712,6 +757,29 @@
         .about_page .col-offset-lg-9{
             margin-left: 0px;
         }
+
+        /***How IT WORK**/
+        #inscription .img1{
+            background: url('../images/how_it_work/insc1_min.png') no-repeat center center;
+            background-size: contain;
+        }
+        #inscription .rowimg4{
+            display: block;
+            margin-top: 35px;
+        }
+        #inscription .img4{
+            background: url('../images/how_it_work/insc2_min.png') no-repeat center center;
+            background-size: contain;
+        }
+        #inscription hr{
+            display: block;
+            background: red;
+        }
+        /***sell zone**/
+        #buying .img1{
+            background: url('../images/how_it_work/sell1_min.png') no-repeat center center;
+            background-size: contain;
+        }
     }
     
     @media all and (max-width: 768px){
@@ -778,7 +846,7 @@
             padding-top: 120px;
         }
         .contact_page h1{
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
         .contact_page .bloc_1 p{
             font-size: 1em;
@@ -797,7 +865,7 @@
         }
         .work-page .row h1{
             margin-bottom: 10px;
-            font-size: 1.4em;
+            font-size: 1.3em;
         }
         .work-page .left-menu, .work-page .title, #inscription .title-bloc{
             padding: 0px;
@@ -808,7 +876,7 @@
 
         /*inscription zone*/
         #inscription h2{
-            font-size: 1.4em;
+            font-size: 1.2em;
         }
         #inscription .bloc-img{
             height: 170px;
@@ -819,7 +887,7 @@
             background: white;
         }
         .about_page h1{
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
         .about_page p{
             font-size: 1.1em;
