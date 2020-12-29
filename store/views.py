@@ -28,7 +28,7 @@ def home(request):
     
     articles = cache.get('articles_home')
         
-    paginator = Paginator(articles, 50)
+    paginator = Paginator(articles, 44)
     try:
         page = request.GET.get('page')
         articles = paginator.page(page)
@@ -41,6 +41,7 @@ def home(request):
         'white_font': True, 
         'articles': articles,
     }
+    
     try:
         User.objects.get(pk=request.user.id)
     except:
