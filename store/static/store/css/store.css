@@ -77,6 +77,17 @@
 .list-article .bloc-links .delete-favourite{
     color: red;
 }
+#pagination{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#pagination .page-number a{
+    background: blue;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+}
 
 /*=======================================*/
 /***************DETAIL PAGE**************/

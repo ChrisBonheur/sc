@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: 'clarendon';
     src: url('../fonts/clarendon/CLARENDON.eot');
     src: url('../fonts/clarendon/CLARENDON.eot?iefix') format('embedded-opentype'),
@@ -21,7 +21,7 @@ body, a{
 
 h1, h2, h3, h4, h5{
     font-family: 'clarendon', Arial, Helvetica, sans-serif;
-}
+} */
 
 /******HEADER*******/
      /******Alert notis*****/
@@ -548,6 +548,9 @@ h1, h2, h3, h4, h5{
         padding-top: 100px;
         color: gray
     }
+    .work-page .row{
+        margin-top: 50px;
+    }
     .work-page .row h1{
         color: white;
         background: #124b98;
@@ -567,7 +570,7 @@ h1, h2, h3, h4, h5{
         padding-left: 5%;
         color: white;
     }
-    .work-page .left-menu li:hover, .items-clicked{
+    .work-page .left-menu li:hover, .work-page nav .items-clicked{
         background: lightblue;
         color: gray;
     }
@@ -576,7 +579,7 @@ h1, h2, h3, h4, h5{
         height: 300px;
         background: gray;
     }
-
+    
     /***inscrption zone*/
     #inscription{
         padding-bottom: 50px;
@@ -600,13 +603,26 @@ h1, h2, h3, h4, h5{
         display: none;
     }
     /*****sell zone****/
-    #buying .img1{
+    #selling .img1{
         background: url('../images/how_it_work/sell1.png') no-repeat center center;
         background-size: contain;
     }
-    #buying .img2{
+    #selling .img2{
         background: url('../images/how_it_work/sell2.png') no-repeat center center;
         background-size: contain;
+    }
+    /**buy***/
+    #buying .img1{
+        background: url('../images/how_it_work/buy1.png') no-repeat center center;
+        background-size: contain;
+    }
+    #buying .img-detail{ 
+        float: left;
+        margin-right: 15px;
+        margin-bottom: 5px;
+    }
+    #buying .img-detail1{
+        display: none;
     }
 
     /***ABOUT PAGE****/
@@ -751,6 +767,32 @@ h1, h2, h3, h4, h5{
         }
 
         /****ABOUT PAGE****/
+        .about_page{
+            padding-top: 100px;
+            background: white;
+            text-align: justify;
+        }
+        .about_page h1, .about_page h2, .about_page h3{
+            text-align: center;
+        }
+        .about_page .presentation h1{
+            margin-bottom: 20px;
+        }
+        .about_page .container-fluid{
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+        .about_page .paragraph-presentation{
+            margin-top: 10px;
+        }
+        .about_page .paragraph-presentation h2{
+            margin-bottom: 10px;
+            margin-top: 0px;
+        }
+        .about_page .team{
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
         .about_page .col-offset-lg-1 {
             margin-left: 0px;
         }
@@ -776,9 +818,17 @@ h1, h2, h3, h4, h5{
             background: red;
         }
         /***sell zone**/
-        #buying .img1{
+        #selling .img1{
             background: url('../images/how_it_work/sell1_min.png') no-repeat center center;
             background-size: contain;
+        }
+        /***buying zone****/
+        #buying .img-detail1{
+            display: inline-block;
+            width: 50%;
+        }
+        #buying .img-detail2{
+            display: none;
         }
     }
     
@@ -883,9 +933,6 @@ h1, h2, h3, h4, h5{
         }
 
         /*****ABOUT pAGE****/
-        .about_page{
-            background: white;
-        }
         .about_page h1{
             font-size: 1.3em;
         }

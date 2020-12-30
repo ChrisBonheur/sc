@@ -28,7 +28,7 @@ def home(request):
     
     articles = cache.get('articles_home')
         
-    paginator = Paginator(articles, 44)
+    paginator = Paginator(articles, 10)
     try:
         page = request.GET.get('page')
         articles = paginator.page(page)
@@ -40,6 +40,7 @@ def home(request):
     context = {
         'white_font': True, 
         'articles': articles,
+        'num_pages': [i+1 for i in range(1, paginator.num_pages + 1, 1)],
     }
     
     try:

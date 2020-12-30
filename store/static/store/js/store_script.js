@@ -1,5 +1,4 @@
 $(function(){
-
     /****Responsive***** */
     let window_wdth = $(window).width();
     

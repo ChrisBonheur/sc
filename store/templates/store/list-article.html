@@ -59,9 +59,16 @@
             {% empty %}
                 <div class=" empty-zone">Aucun Article disponble n'a été ajouté</div>
             {% endfor %}
+        </div>
+    </div>
+    <div class="container" id="pagination">
+        <div class="row">
+            {% if articles.has_previous %}
+                <div class="col-6 text-center"> <a href="?page={{ articles.previous_page_number }}">prev</a> </div>
+            {% endif %}
 
             {% if articles.has_next %}
-                <a class="infinite-more-link" href="?page={{ articles.next_page_number }}">Plus</a>
+                <div class="col-6 text-center"><a href="?page={{ articles.next_page_number }}">next</a></div>
             {% endif %}
         </div>
     </div>
