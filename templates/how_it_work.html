@@ -12,17 +12,17 @@
             <div class="left-menu col-lg-3">
                 <nav>
                     <ul class="d-flex flex-column">
-                        <li class="btn-inscription">Inscription</li>
-                        <li class="btn-buy">Achat</li>
-                        <li class="btn-sell">Vente</li>
-                        <li class="btn-help">Préocupation</li>
+                        <li class="items-clicked">Inscription</li>
+                        <li>Achat</li>
+                        <li>Vente</li>
+                        <a href="{% url 'contact' %}"> <li>Préocupation</li></a>
                     </ul>
                 </nav>
             </div>
     
-            <div class="page-content col-lg-9">
+            <div id="content" class="page-content col-lg-9">
                 <hr> 
-                <div id="inscription">
+                <div id="inscription" class="explain">
                     <div class="row">
                         <div class="col-12 title-bloc">
                             <h2>Pour votre inscription suivez les étapes ci-après : </h2>
@@ -96,12 +96,101 @@
                 </div>
 
                 <!-- ZONE ACHAT -->
-                <div id="buying">
+                <div id="buying" class="explain" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Comment Acheter votre article sur SC ?</h2>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <p>
+                            Commencez par vous <a href="{% url 'user:auto_login' %}">s'incrire</a> 
+                            sur notre Plate-forme si c'est pas déjà fais !
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 bloc-img img1">
+
+                        </div>
+
+                        <div class="col-sm-4">
+                            <p>
+                                Cliquer sur l'image de l'article que vous souhaitez acheter ou sur 
+                                le bouton <strong>Détails</strong>
+                            </p> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <p>
+                                <img src="{% static 'images/how_it_work/buy2_min.png' %}" alt="demo-img"
+                                class="img-detail img-detail1">
+                                <img src="{% static 'images/how_it_work/buy2.png' %}" 
+                                alt="demo-img" class="img-detail img-detail2" width="500"> Vous devrez voir une page détaillant au mieux l'article de votre 
+                                choix, à savoir : le prix, la ville, le quartier, un paragraphe 
+                                décrivant les caractéristiques de l'article ou juste un petit 
+                                commentaire du vendeur sur l'article.
+                            </p>
+
+                            <p>
+                                Sur les trois boutons encadrés, vous avez le choix soit:
+                                <ol>
+                                    <li>
+                                        D'envoyer un message au vendeur pour en savoir plus sur l'article
+                                        en cliquant sur le bouton 'Envoyer un message'
+                                    </li>
+                                    <li>
+                                        D'ajouter un article dans vos favoris pour ne pas le perdre de vue en 
+                                        cliquant sur le bouton "Ajouter aux favoris".
+                                        Une autre possibilité d'ajouter un article aux favoris quand vous êtes
+                                        sur une page qui liste les articles, c'est de cliquer sur le petit coeur
+                                        <img src="{% static 'images/icons/heart.png' %}" width="20" alt="petit coeur"><br>
+                                        <strong>NB:</strong><br>
+                                        Les articles ajoutés dans vos favoris sont ceux postés par les vendeurs de ces
+                                        derniers. Par conséquent, si un article est rendu indisponible ou supprimé 
+                                        par le vendeur pour une raison ou pour une autre, l'article est aussi retiré
+                                        automatiquement de votre favoris. 
+                                    </li>
+                                    <li>
+                                        De passer une commande de l'article avec le bouton "Passer la commande". <br>
+                                        Une fois la commande passée vous recevrez une notification de validation d'envoie. <br>
+                                        Par la suite, vous attendrez le temps que le vendeur lise la notification sur la commende envoyée
+                                        et valide la commande si l'article est toujours disonible ou décline la commande si l'article
+                                        n'est plus disponible (action qui entrainera aussi la suppresion de l'articlle de la liste des 
+                                        articles postés). <br>
+                                        Dans tous les cas, une notification vous sera envoyée pour vous informez si l'article est disponible
+                                        ou non. <br>
+                                        Dans le cas où l'article est disponible vous pourriez passer à l'achat de l'article :
+                                    
+                                    </li>                                   
+                                </ol>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Pour le payement :</h3>
+                        </div>
+                        <div class="col-sm-8 bloc-img img1">
+
+                        </div>
+
+                        <div class="col-sm-4">
+                            <p>
+                                Cliquez Sur le bouton "Valider payement article" et suivez les différentes étapes
+                                ou cliquez sur le bouton 'Annuler payement article' pour annuler le payement de 
+                                l'article.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- ZONE BUYING -->
-                <div id="buying">
+                <!-- ZONE selling -->
+                <div id="selling" class="explain" style="display: none;">
                     <div class="row">
                         <div class="col-12">
                             <h2>Poster un article à vendre</h2>

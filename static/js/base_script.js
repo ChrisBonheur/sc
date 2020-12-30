@@ -109,6 +109,40 @@ $(function(){
     $('.remove-notif').on('click', (e) => {
         let liElt = e.target.parentNode 
         $(liElt).fadeOut()
+    });
+
+
+
+    /***HOW IT WORK PAGE */
+    const navElts = $('.work-page nav li');
+    navElts.click((e) => {
+        navElts.attr('class', '')
+        let element = $(e.target)
+        element.attr('class', 'items-clicked');
+
+        let aElt = document.createElement('a');
+        aElt.href = '#content';
+        $(aElt).click();
+        let btnValue = element.text();
+
+        switch (btnValue) {
+            case 'Inscription':
+                $('.work-page .explain').hide();
+                $('#inscription').fadeIn();
+                break;
+            case 'Achat':
+                $('.work-page .explain').hide();
+                $('#buying').fadeIn();
+                break;
+            case 'Vente':
+                $('.work-page .explain').hide();
+                $('#selling').fadeIn();
+                break;
+            default:
+                $('.work-page .explain').hide();
+                $('#inscription').fadeIn();
+                break;
+        }
     })
 });
 
