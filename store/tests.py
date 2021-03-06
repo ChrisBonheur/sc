@@ -57,13 +57,10 @@ class HomePageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         
 class DetailPageTestCase(TestCase):
-    
-    def setUp(self):
-        # self.user = get_user()
-        self.article = create_article()
         
     def test_detail_page_return_200(self):
-        response = self.client.get(reverse('store:detail', args=(self.article.id,)))
+        article = create_article()
+        response = self.client.get(reverse('store:detail', args=(article.id,)))
         
         self.assertEqual(response.status_code, 200)
     
