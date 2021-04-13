@@ -209,8 +209,8 @@ def invoices(request):
     if request.GET.get('order_id'):
         order_id = request.GET.get('order_id')
         order = get_object_or_404(Order, pk=order_id)
-        #verify if order is for current user
-        if order.user != request.user:
+        #verify if order.article.user is for current user
+        if order.article.user != request.user:
             raise Http404
         Invoice.objects.create(order=order)
     
