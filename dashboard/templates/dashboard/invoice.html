@@ -77,7 +77,7 @@
                         <button>Valider payement article</button>
                     </div>
                     <div class="col-12 btn-2">
-                       <a href="{% url 'dashboard:delete_invoice' invoice_id=invoice.id %}"><button>Annuler payement article</button></a>
+                       <a href="{% url 'dashboard:invoices' %}?annuler-payement={{ invoice.order.article }}?&amp;invoice_id={{ invoice.id }}"><button>Annuler payement article</button></a>
                     </div>
                 </div>
             </div>

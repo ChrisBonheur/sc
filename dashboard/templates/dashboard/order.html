@@ -73,14 +73,14 @@
         </div>
         
         <div class="row3">
-          {% if receive %}
+          {% if request.path == "/gestion/commandes/reçues" %}
               <div class="col-12 text-center">
                 <p style="color: black">Validez la commande si l'article est disponible</p>
-                  <a href="{% url 'dashboard:create_invoice' %}?valider-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Valider la commande</button></a>
+                  <a href="{% url 'dashboard:invoices' %}?valider-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Valider la commande</button></a>
               </div>
               <div class="col-12 btn-2 text-center">
                   <p style="color: black">Déclinez la commande si l'article est indisponible</p>
-                  <a href="{% url 'dashboard:delete_order' %}?decliner-la-commande={{ oder.article }}?&amp;order_id=order.id"><button>Décliner la commande</button></a>
+                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id=order.id"><button>Décliner la commande</button></a>
               </div>
           {% else %}
             <div class="col-12 btn-2 text-center">
@@ -89,7 +89,6 @@
           {% endif %}
         </div>
       </div>
-
     {% empty %}
       <div class="empty-zone">
         {% if request.path == "/gestion/commandes/envoyees" %}

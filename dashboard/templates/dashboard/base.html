@@ -25,7 +25,7 @@
                         <div class="panneau panneau2" style="display: none;">
                             <div class="up"></div>
                             <div class="bloc">
-                                <p><a href="{% url 'dashboard:received_invoice' %}">Factures à payer ({{ user_invoice_number }})</a></p>
+                                <p><a href="{% url 'dashboard:invoices' %}">Factures à payer ({{ user_invoice_number }})</a></p>
                                 <p><a href="{% url 'dashboard:orders' %}/envoyees">Commandes envoyées </a></p>
                                 <p><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></p>
                             </div>
@@ -57,7 +57,7 @@
                     <li>
                         ACHAT
                         <ul>
-                            <li><a href="{% url 'dashboard:received_invoice' %}">Factures à payer ({{ user_invoice_number }})</a></li>
+                            <li><a href="{% url 'dashboard:invoices' %}">Factures à payer ({{ user_invoice_number }})</a></li>
                             <li><a href="{% url 'dashboard:orders' %}envoyees">Commandes envoyées</a></li>
                             <li><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></li>
                         </ul>
