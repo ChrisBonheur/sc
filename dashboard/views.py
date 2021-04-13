@@ -322,7 +322,7 @@ def invoices(request):
 @login_required
 def orders(request):
     path_base = "/gestion/commandes/"
-    context = {"path_base": path_base}
+    context = {}
     
     if request.POST:
         #if request post contain article_id, create new order

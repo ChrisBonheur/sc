@@ -3,7 +3,13 @@
 {% block details-from-menu %}
   <div class="row">
       <div class="col-12">
-        <h3 class="page_name">{{ page_title }}</h3>
+        <h3 class="page_name">
+            {% if request.path == "/gestion/commandes/envoyees" %}
+                Commandes envoyées
+            {% elif request.path == "/gestion/commandes/reçues" %}
+                Commandes reçues
+            {%  endif %}
+        </h3>
       </div>
   </div>
 
@@ -86,7 +92,11 @@
 
     {% empty %}
       <div class="empty-zone">
-          {{ alert }}
+        {% if request.path == "/gestion/commandes/envoyees" %}
+            Liste de commandes envoyées vide !
+        {% elif request.path == "/gestion/commandes/reçues" %}
+            Liste de commande à gerer vide !
+        {%  endif %}
       </div>
     {% endfor %}
   </div>
