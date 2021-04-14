@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 
 from store.models import Article, Category
-from .models import Invoice, Order
+from dashboard.models import Invoice, Order
 from store.tests.tests_views import get_user, create_article, category, USERNAME, PASSWORD
 
 class MyArticlesTestCase(TestCase):

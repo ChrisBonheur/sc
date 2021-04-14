@@ -6,6 +6,9 @@ from django.dispatch import receiver
 from store.models import Article
 
 def upload_manage(sender, instance, **kwargs):
+    """upload order's attribut manage bool to False when invoice  
+    is created whith this order
+    """
     pass
 
 class Order(models.Model):
