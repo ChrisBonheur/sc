@@ -5,12 +5,6 @@ from django.dispatch import receiver
 
 from store.models import Article
 
-def upload_manage(sender, instance, **kwargs):
-    """upload order's attribut manage bool to False when invoice  
-    is created whith this order
-    """
-    pass
-
 class Order(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
     #relation column
@@ -38,3 +32,11 @@ class Archive(models.Model):
     date_add = models.DateTimeField(auto_now_add=True)
     archive_type = models.CharField(max_length=100)
    
+@receiver(post_save, sender=Invoice)
+def upload_manage_order(sender, instance, **kwargs):
+    """upload order's attribut manage bool to False when invoice  
+    is created whith this order
+    """
+    order = instance.order
+    order.manage = True
+    order.save()

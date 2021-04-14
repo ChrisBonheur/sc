@@ -228,6 +228,7 @@ class OrderTestCase(TestCase):
         
     def setUp(self):
         self.user = User.objects.get(username=USERNAME)
+        self.other_user = User.objects.get(username="alchy")
         
     def test_acces_order_page(self):
         self.client.login(username=USERNAME, password=PASSWORD)
@@ -235,14 +236,14 @@ class OrderTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_sent_order_list_in_view(self):
-        self.client.login(username=USERNAME, password=PASSWORD)
+        order = Order.objects.get(user=self.other_user)
+        self.client.login(username=self.other_user, password="1234")
         response = self.client.get(f"{reverse('dashboard:orders')}envoyees")
-        order = Order.objects.filter(user=self.user)[0]
         self.assertContains(response, order.article)
         #list is just for current user
         orders = response.context['orders']
         err_msg = "There are some orders that aren't for current user"
-        [self.assertEqual(self.user, order.user, msg=err_msg) for order in orders]
+        [self.assertEqual(self.other_user, order.user, msg=err_msg) for order in orders]
     
     def test_received_list_in_context(self):
         """test if received list of order is in context and are just for current user"""
