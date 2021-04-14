@@ -203,7 +203,7 @@ def delete_invoice(request, invoice_id):
 @login_required
 def invoices(request):
     context = {
-        "invoices": Invoice.objects.filter(order__user=request.user),
+        "invoices": Invoice.objects.filter(Q(order__user=request.user) & Q(manage=False)),
     }
     #create invoice if argument == order_id
     if request.GET.get('order_id'):
