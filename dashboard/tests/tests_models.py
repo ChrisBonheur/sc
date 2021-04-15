@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.   models import User
+from django.shortcuts import reverse
 
 from dashboard.models import Invoice, Order
 from store.models import Article
@@ -40,7 +41,14 @@ class SignalsTestCase(TestCase):
         decline an order's article
         """
         #get an order
+        order = self.order
         #make a request http with "decliner-la-commande" inside and order_id
+        self.client.login(username="exo", password="123456")
+        self.client.get(reverse('dashboard:orders'), {"decliner-la-commande": order.article, \
+            "order_id": order.id})
+        article = Article.objects.get(name="radio")
         #assert(order.article.available, False)
-        pass
+        err_msg = "Article has been decline but available attribut not upload to False"
+        self.assertEqual(article.available, False, msg=err_msg)
+
         
