@@ -38,7 +38,7 @@ class SignalsTestCase(TestCase):
     
     def test_uplod_article_available(self):
         """test that article.available is False when seller or article.user
-        decline an order's article
+        decline an order's article (action realised by a middleware)
         """
         #get an order
         order = self.order
