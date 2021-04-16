@@ -5,6 +5,7 @@ from django.shortcuts import reverse
 from dashboard.models import Invoice, Order
 from store.models import Article
 from store.tests.tests_views import create_article, PASSWORD
+from communication.models import Message
  
 class SignalsTestCase(TestCase):
     """Test all signals about store app"""
@@ -56,13 +57,17 @@ class SignalsTestCase(TestCase):
         order = self.order
         customer = order.user
         seller = order.article.user
+        customer_msg_count_before = Message.objects.filter(recipient_id=customer.id).count()
         #login seller
         self.client.login(username=seller, password=PASSWORD)
         res_seller = self.client.get(reverse("dashboard:invoices"), {"order_id": order.id, \
             "valider-la-commande": order.article})
+       
         #test seller receive a valid notif
         self.assertContains(res_seller, 'Commande validée avec succès')
+       
         #test notif sended to custommer when seller valid an order
-        #request http with order_id args and valider-la-commande args
-        #assert(response, order_accepted_msg)
+        customer_msg_count_after = Message.objects.filter(recipient_id=customer.id).count()
+        err_msg = "Message not send to a customer for order validation by seller"
+        self.assertEqual(customer_msg_count_before + 1, customer_msg_count_after, msg=err_msg)
     

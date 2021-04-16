@@ -1,5 +1,8 @@
 from django.contrib import messages
+from django.shortcuts import reverse
+
 from .models import Order
+from communication.models import Message
 
 def upload_article_middleware(get_response):
     def middleware(request):
@@ -12,7 +15,15 @@ def upload_article_middleware(get_response):
                 article.save()
             elif request.GET.get('valider-la-commande'):
                 messages.success(request, 'Commande validée avec succès')
-        
+                #signal to customer
+                msg = f"Votre commande pour l'article {order.article} a été validée !\n\
+                    Veuillez règler votre facture !! en cliquant ici"
+                customer = order.user
+                Message.objects.create(
+                    content=msg,
+                    recipient_id=customer.id,
+                    link=reverse('dashboard:invoices')
+                )                
         return get_response(request)
     
     return middleware
