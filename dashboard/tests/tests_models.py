@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 
 from dashboard.models import Invoice, Order
 from store.models import Article
-from store.tests.tests_views import create_article
+from store.tests.tests_views import create_article, PASSWORD
  
 class SignalsTestCase(TestCase):
     """Test all signals about store app"""
@@ -50,5 +50,19 @@ class SignalsTestCase(TestCase):
         #assert(order.article.available, False)
         err_msg = "Article has been decline but available attribut not upload to False"
         self.assertEqual(article.available, False, msg=err_msg)
-
         
+    def test_send_notifs(self):
+        """Test many notif send to customer"""
+        order = self.order
+        customer = order.user
+        seller = order.article.user
+        #login seller
+        self.client.login(username=seller, password=PASSWORD)
+        res_seller = self.client.get(reverse("dashboard:invoices"), {"order_id": order.id, \
+            "valider-la-commande": order.article})
+        #test seller receive a valid notif
+        self.assertContains(res_seller, 'Commande validée avec succès')
+        #test notif sended to custommer when seller valid an order
+        #request http with order_id args and valider-la-commande args
+        #assert(response, order_accepted_msg)
+    
