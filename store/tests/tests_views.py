@@ -9,6 +9,7 @@ from django.conf import settings
 from store.models import Article, Category, Picture, Favourite 
 from communication.models import Message
 from store.utils import *
+from store.messages_notif import article_save_success
 
 BASE_DIR = settings.BASE_DIR
 
@@ -172,6 +173,9 @@ class SellPageTestCase(TestCase):
         })
         #verify that, after post request there is a redirection
         self.assertEqual(response.status_code, 302)
+        #verify if message have been had after creating article
+        response  = self.c_Logged.get(reverse('store:home'))
+        self.assertContains(response, article_save_success('Ordinateur portable'))
  
 class SearchTestCase(TestCase):
     def setUp(self):

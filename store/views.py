@@ -16,6 +16,7 @@ from .models import Article, Picture, Category, Favourite
 from dashboard.models import Order
 from communication.models import Message
 from .utils import add_percentage, send_welcome_message_to_new_user
+from .messages_notif import article_save_success
 
 # Create your views here.
  
@@ -155,7 +156,6 @@ def sell(request):
             print('Not save : ', e)
         else:
             print('new article save')
-            messages.add_message(request, messages.SUCCESS, 'Article ajouté !')
             except_file = None
             
             #get one pics in dict files image
@@ -193,7 +193,8 @@ def sell(request):
             for key, img in files_dict:
                 if img != except_file:        
                     Picture.objects.create(photo=img, article=new_article)
-                
+            #add messege notif for success save
+            messages.add_message(request, messages.SUCCESS, article_save_success(new_article))
             return redirect('store:home')
     
     context = {
