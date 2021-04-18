@@ -17,13 +17,14 @@ def my_articles(request):
         return Article.objects.filter(Q(user=request.user) & \
             Q(available=availability))
     
-    if not cache.get('available_articles') and not cache.get('unavailable_articles'):        
-        cache.set('available_articles', get_article(True))
-        cache.add('unavailable_articles', get_article(False))
+    if not cache.get(f'available_articles_{request.user.id}') and not \
+            cache.get(f'unavailable_articles_{request.user.id}'):        
+        cache.set(f'available_articles_{request.user.id}', get_article(True))
+        cache.add(f'unavailable_articles_{request.user.id}', get_article(False))
            
     context ={
-        'articles_available_of_seller': cache.get('available_articles'),
-        'articles_unavailable_of_seller': cache.get('unavailable_articles'),
+        'articles_available_of_seller': cache.get(f'available_articles_{request.user.id}'),
+        'articles_unavailable_of_seller': cache.get(f'unavailable_articles_{request.user.id}'),
     }
     return render(request, 'dashboard/my_articles.html', context)
 
