@@ -82,11 +82,11 @@ class UpdateArticleTestCase(TestCase):
     def test_save_update(self):
         article = self.article
         data = {
-            "article_name": "Salade",
-            "details": article.description,
+            "name": "Salade",
+            "description": article.description,
             "category": article.category,
             "status": article.status,
-            "article_number": 4,
+            "number": 4,
             "price_init": 12500,
             "town": article.town,
             "district": article.district,
@@ -97,7 +97,7 @@ class UpdateArticleTestCase(TestCase):
         response = self.client.post(reverse('dashboard:update', args=(article.id,)), data)
         article_updated = Article.objects.get(name="Salade")
         #compare old data and new data like article.name
-        self.assertEqual(article_updated.name, data['article_name'], \
+        self.assertEqual(article_updated.name, data['name'], \
             msg="Warning! Data haven't updtated")
         #test redirection
         self.assertRedirects(response, reverse('dashboard:my_articles'))

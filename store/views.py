@@ -130,12 +130,12 @@ def sell(request):
                     return redirect('store:sell')
         
         try:
-            name = request.POST.get('article_name')
-            description = request.POST.get('details')
+            name = request.POST.get('name')
+            description = request.POST.get('description')
             category = request.POST.get('category')
             category = Category.objects.get(name=category)
             status = request.POST.get('status')
-            number_article = request.POST.get('article_number')
+            number_article = request.POST.get('number')
             price_init = request.POST.get('price_init')
             price_init = int(price_init)
             town = request.POST.get('town')

@@ -50,11 +50,11 @@ def update_article(request, article_id):
         
     if request.POST:
         try:
-            name = request.POST.get('article_name')
-            description = request.POST.get('details')
+            name = request.POST.get('name')
+            description = request.POST.get('description')
             category = request.POST.get('category')
             status = request.POST.get('status')
-            number = request.POST.get('article_number')
+            number = request.POST.get('number')
             price_init = request.POST.get('price_init')
             town =  request.POST.get('town') 
             district = request.POST.get('district')

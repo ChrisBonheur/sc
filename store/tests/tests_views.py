@@ -157,11 +157,11 @@ class SellPageTestCase(TestCase):
     def test_sell_page_save_article(self):
         #test if sell page save a new article
         response = self.c_Logged.post(reverse('store:sell'), {
-            "article_name": "Ordinateur portable",
-            "details": "Test description",
+            "name": "Ordinateur portable",
+            "description": "Test description",
             "price_init": 2500,
             "price_ttc": 2700,
-            "article_number": 2,
+            "number": 2,
             "town": 'Pointe-Noire',
             "district": 'Siafoumou',
             "status":'Bon état',

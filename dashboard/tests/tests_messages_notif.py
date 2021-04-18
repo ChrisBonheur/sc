@@ -24,9 +24,9 @@ class MessageNotifTestCase(TestCase):
         attributs = ["category", "status", "price_init", "town", "district",\
              "delivery"]
         data_article = {attr: getattr(article, attr) for attr in attributs}
-        data_article["article_name"] = article.name
-        data_article["article_number"] = article.number
-        data_article["details"] = article.description
+        data_article["name"] = article.name
+        data_article["number"] = article.number
+        data_article["description"] = article.description
         self.client.post(reverse('dashboard:update', args=(article.id,)), data_article)
         response = self.client.get(reverse('dashboard:my_articles'))
         self.assertContains(response, article_update_success(article))
