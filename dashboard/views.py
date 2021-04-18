@@ -203,8 +203,12 @@ def delete_invoice(request, invoice_id):
     
 @login_required
 def invoices(request):
+    if not cache.get(f"invoices_{request.user.id}"):
+        cache.set(f"invoices_{request.user.id}", Invoice.objects.filter\
+                (Q(order__user=request.user) & Q(manage=False)),)
+    invoices = cache.get(f"invoices_{request.user.id}")
     context = {
-        "invoices": Invoice.objects.filter(Q(order__user=request.user) & Q(manage=False)),
+        "invoices": invoices
     }
     #create invoice if argument == order_id
     if request.GET.get('order_id'):
@@ -258,12 +262,16 @@ def orders(request):
     if request.path == f"{path_base}envoyees" or request.path == path_base:
         context['path'] = request.path
         #get sent orders unmanaged
-        context["orders"] = Order.objects.filter(Q(user=request.user) & \
-            Q(manage=False)) 
+        if not cache.get(f'orders_send_{request.user.id}'):
+            cache.set(f'orders_send_{request.user.id}', Order.objects.filter\
+                    (Q(user=request.user) & Q(manage=False))) 
+        context["orders"] = cache.get(f'orders_send_{request.user.id}')
     elif request.path == f"{path_base}reçues":
         context['path'] = request.path
         #get received orders unmanaged
-        context["orders"] = Order.objects.filter(Q(article__user=request.user)\
-             & Q(manage=False))
-        
+        if not cache.get(f'orders_receive_{request.user.id}'):
+            cache.set(f'orders_receive_{request.user.id}', Order.objects.filter\
+                    (Q(article__user=request.user) & Q(manage=False)))
+        context["orders"] = cache.get(f'orders_receive_{request.user.id}')
+           
     return render(request, 'dashboard/order.html', context)
