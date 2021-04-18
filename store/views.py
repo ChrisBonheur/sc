@@ -107,7 +107,8 @@ def search(request):
             articles = Article.objects.filter(name__icontains=query)
         else:
             category = get_object_or_404(Category, name=category)
-            articles = Article.objects.filter(Q(name__icontains=query) & Q(category=category))
+            articles = Article.objects.filter(Q(name__icontains=query) & Q(category=category) & \
+                    Q(available=True))
         context = {
             'articles': articles,
             'elt_to_search': query,
