@@ -9,7 +9,7 @@ from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
 from .forms import OrderForms
-from .messages_info import article_delete_success
+from .messages_info import article_delete_success, article_update_success
 
 @login_required
 def my_articles(request):
@@ -78,9 +78,8 @@ def update_article(request, article_id):
             article.town = town
             article.district = district
             article.delivery = delivery
-            
-            messages.add_message(request, messages.SUCCESS, 'Article modifié avec succes!')
             article.save()
+            messages.success(request, article_update_success(article))
             
             return redirect('dashboard:my_articles')
     
