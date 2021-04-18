@@ -9,7 +9,7 @@ from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
 from .forms import OrderForms
-
+from .messages_info import article_delete_success
 
 @login_required
 def my_articles(request):
@@ -124,10 +124,11 @@ def delete_article(request):
         id = request.GET.get('article_id')
         id = int(id)
         article = get_object_or_404(Article, id=id)
+        #connect info messaage with action in models
         article.delete()
         cache.clear()
-
-        messages.add_message(request, messages.SUCCESS, 'Article supprimé !')
+        #show message success
+        messages.success(request, article_delete_success(article))
     
     return redirect('dashboard:my_articles')
 
