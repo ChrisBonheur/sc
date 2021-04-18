@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-import os
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
+from os import system, path
 from PIL import Image
 
 from user.models import Profil
@@ -19,7 +21,7 @@ def pictures_rename(instance, filename):
         new_name = f'img{last_id}'
         filename = f'{new_name}.{ext}'
     
-    return os.path.join('uploads', filename)
+    return path.join('uploads', filename)
 
 def path_and_rename(instance, filename):
     upload_to='article_img'
@@ -98,4 +100,15 @@ class Favourite(models.Model):
 
     class Meta:
         verbose_name = 'Favoris'
-    
+
+@receiver(post_delete, sender=Article)
+def rm_picture_signal(sender, instance, **kwargs):
+    """Remove article pictures from server when article deleted"""
+    photo_min = instance.image_min
+    system(f'rm {photo_min.path}')
+    article_pictures = Picture.objects.filter(article=instance)
+    for pic in article_pictures:
+        try:
+            system(f'rm {pic.photo.path}')
+        except:
+            print("Can't delete file")

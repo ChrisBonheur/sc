@@ -52,6 +52,7 @@ class SignalsTestCase(TestCase):
         err_msg = "Article has been decline but available attribut not upload to False"
         self.assertEqual(article.available, False, msg=err_msg)
         
+
     def test_send_notifs(self):
         """Test many notif send to customer"""
         order = self.order
