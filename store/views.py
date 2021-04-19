@@ -17,8 +17,7 @@ from dashboard.models import Order
 from communication.models import Message
 from .utils import add_percentage, send_welcome_message_to_new_user
 from .messages_notif import article_save_success
-
-# Create your views here.
+from .forms import ArticleForms
  
 def home(request):
     articles = Article.objects.filter(available=True).order_by('-date_add')
@@ -117,8 +116,22 @@ def search(request):
 
 @login_required
 def sell(request):
+    form = ArticleForms(None)
     if request.POST:
         #here we verify if files is image with extensions(jpg, png, gif, )
+        form = ArticleForms(request.POST, request.FILES)
+        price_init = int(request.POST.get('price_init'))
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.price_ttc = add_percentage(price_init)
+            article.user = request.user
+            try:
+                article.save()
+                messages.add_message(request, messages.SUCCESS, article_save_success(article))
+                return redirect('store:home')
+            except Exception as e:
+                print("Not save ", e)
+
         for name, img in request.FILES.items():
             try:
                 extension = Image.open(img)
@@ -129,7 +142,7 @@ def sell(request):
             else:
                 if extension not in LIST_EXTENSIONS:
                     return redirect('store:sell')
-        
+        """        
         try:
             name = request.POST.get('name')
             description = request.POST.get('description')
@@ -194,12 +207,12 @@ def sell(request):
             for key, img in files_dict:
                 if img != except_file:        
                     Picture.objects.create(photo=img, article=new_article)
-            #add messege notif for success save
-            messages.add_message(request, messages.SUCCESS, article_save_success(new_article))
-            return redirect('store:home')
+           """
+           #add messege notif for success save
     
     context = {
         'categories': Category.objects.all(),
+        'form': form
     }
     return render(request, 'store/sell.html', context)
 

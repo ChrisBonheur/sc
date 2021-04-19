@@ -8,25 +8,6 @@
             </div>
             <form action="{% url 'store:sell' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="row rowBloc1">
-                    <div class="col-12">
-                        <label for="">Ajoutez jusqu'à 6 photos</label> <br>
-                        <div class="bloc-flex">
-                            <div class="row upload_pics">
-
-                            </div>
-                            <div class="row btn-list">
-                                <div class="col-12 text-center">
-                                    <button class="add-pics-btn">Choisir une photo</button><br>
-                                    <span class="alert"></span>
-                                    <input type="number" id="count_click" name="count_click" hidden="hidden">
-                                    <!--User id for register article-->
-                                    <input type="number" name="user_id" value="{{ user.id }}" hidden="hidden">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 {% include 'store/article_forms.html' %}
             </form>

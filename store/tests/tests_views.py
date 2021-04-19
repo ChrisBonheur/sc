@@ -160,14 +160,12 @@ class SellPageTestCase(TestCase):
             "name": "Ordinateur portable",
             "description": "Test description",
             "price_init": 2500,
-            "price_ttc": 2700,
             "number": 2,
             "town": 'Pointe-Noire',
             "district": 'Siafoumou',
             "status":'Bon état',
-            "category": self.category,
-            "user_id": self.user.id,
-            "count_click": 4,
+            "category": self.category.id,
+            "user": self.user.id,
             "image_min": File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
             
         })
