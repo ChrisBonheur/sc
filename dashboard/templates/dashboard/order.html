@@ -80,7 +80,7 @@
               </div>
               <div class="col-12 btn-2 text-center">
                   <p style="color: black">Déclinez la commande si l'article est indisponible</p>
-                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id=order.id"><button>Décliner la commande</button></a>
+                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Décliner la commande</button></a>
               </div>
           {% else %}
             <div class="col-12 btn-2 text-center">
