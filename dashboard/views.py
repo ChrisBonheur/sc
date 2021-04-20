@@ -160,16 +160,16 @@ def orders(request):
                 order.user = request.user
                 order.article = article
                 order.save()
-    elif request.GET:
-        if request.GET.get('order_id'):
-            order_id =  request.GET.get('order_id')
-            order = get_object_or_404(Order, pk=order_id)
-            try:
-                assert order.user == request.user
-            except AssertionError as e:
-                print('Error order_user != current_user ', e)
-            else:
-                order.delete()
+    if request.GET.get('order_id'):
+        order_id =  request.GET.get('order_id')
+        order = get_object_or_404(Order, pk=order_id)
+        try:
+            #verify if order is received to current user
+            assert order.article.user == request.user or order.user == request.user
+        except AssertionError as e:
+            print('Error order_user != current_user ', e)
+        else:
+            order.delete()
                 
     #conditional part of page to show
     if request.path == f"{path_base}envoyees" or request.path == path_base:

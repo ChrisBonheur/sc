@@ -275,8 +275,9 @@ class OrderTestCase(TestCase):
     
     def test_delete_order_view(self):
         #test if order can be deleted
+        user = User.objects.get(username=USERNAME)
         order_count_before = Order.objects.count()
-        order = Order.objects.last()
+        order = Order.objects.get(article__user=user)
         self.client.login(username=USERNAME, password=PASSWORD)
         response = self.client.get(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
         order_count_after = Order.objects.count()
