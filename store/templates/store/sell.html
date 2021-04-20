@@ -8,7 +8,6 @@
             </div>
             <form action="{% url 'store:sell' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-
                 {% include 'store/article_forms.html' %}
             </form>
         </div>
