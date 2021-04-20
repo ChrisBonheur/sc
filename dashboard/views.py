@@ -60,6 +60,9 @@ def update_article(request, article_id):
             article.user = request.user          
             article.save()
             messages.success(request, article_update_success(article))
+            #clear cache set in my_articles views
+            cache.delete_many([f'available_articles_{request.user.id}', \
+                f'unavailable_articles_{request.user.id}'])
             return redirect('dashboard:my_articles')
     
     towns = ['Brazzaville', 'Pointe-Noire', 'Dolisie', 'Nkayi', 'Ouesso', \
@@ -69,7 +72,6 @@ def update_article(request, article_id):
         'article': article,
         'form': form,
         'categories': Category.objects.all(),
-        # 'article_to_update': True,
         'status_list': [
             'Neuf avec facture',
             'Neuf san facture',
