@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 
 from store.models import Article, Category
 from dashboard.models import Invoice, Order
-from store.tests.tests_views import get_user, create_article, category, USERNAME, PASSWORD
+from store.tests.tests_views import get_user, create_article, category, USERNAME, PASSWORD, IMAGE
 
 class MyArticlesTestCase(TestCase):
     @classmethod
@@ -53,14 +53,14 @@ class MyArticlesTestCase(TestCase):
 class UpdateArticleTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user = get_user()# create an user
+        user = get_user("best")# create an user
         category()#create category
-        article = create_article()# create an article
+        article = create_article("piano", user)# create an article
 
     def setUp(self):
-        self.user = User.objects.get(username=USERNAME)
-        self.article = Article.objects.last()
-        self.client.login(username=USERNAME, password=PASSWORD)
+        self.user = User.objects.get(username="best")
+        self.article = Article.objects.get(name="piano")
+        self.client.login(username="best", password=PASSWORD)
         self.response = self.client.get(reverse('dashboard:update', args=(self.article.id,)))
 
     def test_acces_page_update(self):
@@ -84,13 +84,13 @@ class UpdateArticleTestCase(TestCase):
         data = {
             "name": "Salade",
             "description": article.description,
-            "category": article.category,
+            "category": article.category.id,
             "status": article.status,
             "number": 4,
             "price_init": 12500,
             "town": article.town,
             "district": article.district,
-            "delivery": True
+            "image_min": IMAGE,
         }
         
         self.client.login(username=USERNAME, password=PASSWORD)
