@@ -15,17 +15,18 @@ BASE_DIR = settings.BASE_DIR
 
 USERNAME = "bonheur"
 PASSWORD = "12345687"
+IMAGE = File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
 
-def get_user():
+def get_user(name=USERNAME):
     try:
-        user = User.objects.get(username=USERNAME)
+        user = User.objects.get(username=name)
     except:
         pass
     else:
         user.delete()
     finally:
         user = User.objects.create_user(
-            username=USERNAME,
+            username=name,
             email='bonheur@gmail.com',
             password=PASSWORD
         )
