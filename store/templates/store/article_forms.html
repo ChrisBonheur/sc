@@ -1,288 +1,160 @@
-{% if article_to_update %}
-    <div class="row rowBloc2">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Titre ou nom de l'article</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" name="name" value="{{ article.name }}" required>
-                </div>
-            </div>
-            
-            <hr>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Décrivez votre article</label>
-                </div>
-                <div class="col-md-6">
-                    <textarea name="description" id="" cols="30" rows="10" required>
-                        {{ article.description }}
-                    </textarea>
-                </div>
+<div class="row rowBloc2">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Titre ou nom de l'article</label>
+            </div>
+            <div class="col-md-6">
+                {{ form.name }}
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Décrivez votre article</label>
+            </div>
+            <div class="col-md-6">
+                {{ form.description }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row rowBloc3">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Catégorie</label>
+            </div>
+            <div class="col-md-6">
+                {{ form.category }}
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Etat</label>
+            </div>
+            <div class="col-md-6">
+                {{ form.status }}
+                <!-- <select name="status" id="" required>
+                    <option value="Neuf sans facture">Neuf avec facture</option>
+                    <option value="Neuf avec facture">Neuf san facture</option>
+                    <option value="Tres bon état">Très bon état</option>
+                    <option value="Bon état">Bon état</option>
+                    <option value="Satisfaisant">Satisfaisant</option>
+                </select> -->
             </div>
         </div>
     </div>
 
-    <div class="row rowBloc3">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Catégorie</label>
-                </div>
-                <div class="col-md-6">
-                    <select name="category" id="" required>
-                        {% for category in categories %}
-                            <option value="{{ category.name }}"
-                                {% if category.name == article.category.name %} selected {% endif %}
-                            >{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+    <div class="col-md-12">
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Nombre d'article(s)</label>
             </div>
-
-            <hr>
-
-        </div>
-
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Etat</label>
-                </div>
-                <div class="col-md-6">
-                    <select name="status" id="" required>
-                        {% for status in status_list %}
-                            <option value="{{ status }}"
-                                {% if status == article.status %}selected{% endif %}
-                            >{{ status }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Nombre d'article(s)</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" name="number" value="{{ article.number }}" required>
-                </div>
+            <div class="col-md-6">
+                {{ form.number }}
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row rowBloc5">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Prix xaf</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" name="price_init" value="{{ article.price_init }}" required>
-                </div>
+<div class="row rowBloc5">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Prix xaf</label>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Ville</label>
-                </div>
-                <div class="col-md-6">
-                    <select name="town" id="" required>
-                        {% for town in towns_list %}
-                            <option value="{{ town }}"
-                                {% if town == article.town %}selected{% endif %}
-                            >{{ town }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Quartier</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" name="district" value="{{ article.district }}" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Livraison</label>
-                </div>
-                <div class="col-6">
-                    <input type="checkbox" name="delivery" {% if article.delivery %}checked{% endif %}>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row rowBloc4 text-right">
-        <div><button type="submit" class="load-style">Sauvegarder</button></div>
-        <div><a href="{% url 'dashboard:my_articles' %}"><button>Annuler</button></a></div>
-    </div>
-{% else %}
-    <div class="row rowBloc2">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Titre ou nom de l'article</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.name }}
-                </div>
-            </div>
-            
-            <hr>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Décrivez votre article</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.description }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row rowBloc3">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Catégorie</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.category }}
-                </div>
-            </div>
-
-            <hr>
-
-        </div>
-
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Etat</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.status }}
-                    <!-- <select name="status" id="" required>
-                        <option value="Neuf sans facture">Neuf avec facture</option>
-                        <option value="Neuf avec facture">Neuf san facture</option>
-                        <option value="Tres bon état">Très bon état</option>
-                        <option value="Bon état">Bon état</option>
-                        <option value="Satisfaisant">Satisfaisant</option>
-                    </select> -->
-                </div>
+            <div class="col-md-6">
+                {{ form.price_init }}
             </div>
         </div>
 
-        <div class="col-md-12">
-            <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Nombre d'article(s)</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.number }}
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Ville</label>
+            </div>
+            <div class="col-md-6">
+                {{ form.town }}
+                <!-- <select name="town" id="" required>
+                    <option value="Brazzaville">Brazzaville</option>
+                    <option value="Pointe-Noire">Pointe-Noire</option>
+                    <option value="Dolisie">Dolisie</option>
+                    <option value="Nkayi">Nkayi</option>
+                    <option value="Ouesso">Ouesso</option>
+                    <option value="Madingou">Madingou</option>
+                    <option value="Owando">Owando</option>
+                    <option value="Gamboma">Gamboma</option>
+                    <option value="Impfondo">Impfondo</option>
+                    <option value="Sibiti">Sibiti</option>
+                    <option value="Mossendjo">Mossendjo</option>
+                    <option value="Kinkala">Kinkala</option>
+                    <option value="Makoua">Makoua</option>
+                </select> -->
             </div>
         </div>
-    </div>
 
-    <div class="row rowBloc5">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Prix xaf</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.price_init }}
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Quartier</label>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Ville</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.town }}
-                    <!-- <select name="town" id="" required>
-                        <option value="Brazzaville">Brazzaville</option>
-                        <option value="Pointe-Noire">Pointe-Noire</option>
-                        <option value="Dolisie">Dolisie</option>
-                        <option value="Nkayi">Nkayi</option>
-                        <option value="Ouesso">Ouesso</option>
-                        <option value="Madingou">Madingou</option>
-                        <option value="Owando">Owando</option>
-                        <option value="Gamboma">Gamboma</option>
-                        <option value="Impfondo">Impfondo</option>
-                        <option value="Sibiti">Sibiti</option>
-                        <option value="Mossendjo">Mossendjo</option>
-                        <option value="Kinkala">Kinkala</option>
-                        <option value="Makoua">Makoua</option>
-                    </select> -->
-                </div>
+            <div class="col-md-6">
+                {{ form.district }}
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Quartier</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.district }}
-                </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="">Livraison</label>
             </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Livraison</label>
-                </div>
-                <div class="col-6">
-                    {{ form.delivery }}
-                </div>
+            <div class="col-6">
+                {{ form.delivery }}
             </div>
+        </div>
 
-            <hr>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="">Photo principale de l'article</label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.image_min }}
-                </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="">Photo principale de l'article</label>
             </div>
-            
-            <hr>
-            <div class="row rowBloc1">
-                <div class="col-12">
-                    <label for="">Vous pouvez ajouter des photos supplémentaires ici</label> <br>
-                    <div class="bloc-flex">
-                        <div class="row upload_pics">
+            <div class="col-md-6">
+                {{ form.image_min }}
+            </div>
+        </div>
+        
+        <hr>
+        <div class="row rowBloc1">
+            <div class="col-12">
+                <label for="">Vous pouvez ajouter des photos supplémentaires ici</label> <br>
+                <div class="bloc-flex">
+                    <div class="row upload_pics">
 
+                    </div>
+                    <div class="row btn-list">
+                        <div class="col-12 text-center">
+                            <button class="add-pics-btn">Choisir une photo</button><br>
+                            <span class="alert"></span>
+                            <input type="number" id="count_click" name="count_click" hidden="hidden">
                         </div>
-                        <!-- <div class="row btn-list">
-                            <div class="col-12 text-center">
-                                <button class="add-pics-btn">Choisir une photo</button><br>
-                                <span class="alert"></span>
-                                <input type="number" id="count_click" name="count_click" hidden="hidden">
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
-    <div class="row rowBloc4 text-right">
-        <div><button type="submit" class="load-style">Sauvegarder</button></div>
-        <div><a href="{% url 'dashboard:my_articles' %}"><button>Annuler</button></a></div>
-    </div>
-{% endif %}
+</div>
+<div class="row rowBloc4 text-right">
+    <div><button type="submit" class="load-style">Sauvegarder</button></div>
+    <div><a href="{% url 'dashboard:my_articles' %}"><button>Annuler</button></a></div>
+</div>
 
