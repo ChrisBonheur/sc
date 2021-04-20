@@ -64,39 +64,6 @@ def update_article(request, article_id):
                 return redirect('dashboard:my_articles')
             except Exception as e:
                 print(e)
-        # try:
-        #     name = request.POST.get('name')
-        #     description = request.POST.get('description')
-        #     category = request.POST.get('category')
-        #     status = request.POST.get('status')
-        #     number = request.POST.get('number')
-        #     price_init = request.POST.get('price_init')
-        #     town =  request.POST.get('town') 
-        #     district = request.POST.get('district')
-        #     delivery = request.POST.get('delivery')
-            
-        #     #set delivery
-        #     if delivery == 'on':
-        #         delivery = True
-        #     else:
-        #         delivery = False
-                
-        # except:
-        #     return render(request, f'dashboard/update_article.html/?article_id={id}', {})
-        # else:
-        #     article.name = name
-        #     article.description = description
-        #     article.category = Category.objects.get(name=category)
-        #     article.status = status
-        #     article.number = number
-        #     article.price_init = price_init
-        #     article.town = town
-        #     article.district = district
-        #     article.delivery = delivery
-        #     article.save()
-        #     messages.success(request, article_update_success(article))
-            
-        #     return redirect('dashboard:my_articles')
     
     towns = ['Brazzaville', 'Pointe-Noire', 'Dolisie', 'Nkayi', 'Ouesso', \
         'Madingou', 'Owando', 'Gamboma', 'Impfondo', 'Sibiti', 'Mossendjo',\
