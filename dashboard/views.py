@@ -52,7 +52,7 @@ def update_article(request, article_id):
     form = ArticleForms(instance=article)
 
     if request.POST:
-        form = ArticleForms(request.POST, request.FILES)
+        form = ArticleForms(request.POST, request.FILES, instance=article)
         if form.is_valid():
             article = form.save(commit=False)
             price_init = int(request.POST.get('price_init'))

@@ -1,8 +1,8 @@
 {% extends 'store/base.html' %}
 {% block content %}
 <div class="container" style="padding-top: 100px;">
-    <form action="{% url 'dashboard:update' article_id=article.id %}" method="post">
-    {% csrf_token %}
+    <form action="{% url 'dashboard:update' article_id=article.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         {% include 'store/article_forms.html' %}
     </form>
 </div>
