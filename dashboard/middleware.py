@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import reverse
+from django.core.cache import cache
 
 from .models import Order
 from communication.models import Message
@@ -13,6 +14,8 @@ def upload_article_middleware(get_response):
                 article = order.article
                 article.available = False
                 article.save()
+                #clear orders_recv cache set in orders views
+                cache.delete(f'orders_receive_{request.user.id}')
             elif request.GET.get('valider-la-commande'):
                 messages.success(request, 'Commande validée avec succès')
                 #signal to customer
@@ -23,7 +26,9 @@ def upload_article_middleware(get_response):
                     content=msg,
                     recipient_id=customer.id,
                     link=reverse('dashboard:invoices')
-                )                
+                )
+                #clear oders_send cache set in orders views
+                cache.delete(f'orders_send_{request.user.id}'   )             
         return get_response(request)
     
     return middleware
