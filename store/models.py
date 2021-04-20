@@ -105,10 +105,10 @@ class Favourite(models.Model):
 def rm_picture_signal(sender, instance, **kwargs):
     """Remove article pictures from server when article deleted"""
     photo_min = instance.image_min
-    system(f'rm {photo_min.path}')
+    system(f'rm {photo_min.path} 2> /dev/null')
     article_pictures = Picture.objects.filter(article=instance)
     for pic in article_pictures:
         try:
-            system(f'rm {pic.photo.path}')
+            system(f'rm {pic.photo.path} 2> /dev/null')
         except:
             print("Can't delete file")

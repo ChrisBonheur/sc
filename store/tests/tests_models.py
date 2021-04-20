@@ -15,8 +15,8 @@ class SignalsTestCase(TestCase):
         article.delete()
         for img in imgs:
             #for each picture of article try to find it
-            find_file = system(f'find {img.photo.path}')
-            self.assertNotEqual(find_file, 0)
-        find_file = system(f'find {article.image_min.path}')
-        self.assertNotEqual(find_file, 0)
+            find_file = system(f'find {img.photo.path}  2> /dev/null')
+            self.assertNotEqual(find_file, 0, msg="File not remove")
+        find_file = system(f'find {article.image_min.path} 2> /dev/null')
+        self.assertNotEqual(find_file, 0, msg="File not remove")
         
