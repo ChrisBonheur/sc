@@ -10,6 +10,8 @@ from .models import Order, Invoice
 from communication.models import Message
 from .forms import OrderForms
 from .messages_info import article_delete_success, article_update_success
+from store.forms import ArticleForms
+from store.utils import add_percentage
 
 @login_required
 def my_articles(request):
@@ -45,52 +47,65 @@ def bought_article_list(request):
 
 @login_required
 def update_article(request, article_id):
-        
     id = int(article_id)
     article = get_object_or_404(Article, id=id)
-        
+    form = ArticleForms(instance=article)
+
     if request.POST:
-        try:
-            name = request.POST.get('name')
-            description = request.POST.get('description')
-            category = request.POST.get('category')
-            status = request.POST.get('status')
-            number = request.POST.get('number')
-            price_init = request.POST.get('price_init')
-            town =  request.POST.get('town') 
-            district = request.POST.get('district')
-            delivery = request.POST.get('delivery')
+        form = ArticleForms(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            price_init = int(request.POST.get('price_init'))
+            article.price_ttc = add_percentage(price_init)
+            article.user = request.user
+            try:              
+                article.save()
+                messages.success(request, article_update_success(article))
+                return redirect('dashboard:my_articles')
+            except Exception as e:
+                print(e)
+        # try:
+        #     name = request.POST.get('name')
+        #     description = request.POST.get('description')
+        #     category = request.POST.get('category')
+        #     status = request.POST.get('status')
+        #     number = request.POST.get('number')
+        #     price_init = request.POST.get('price_init')
+        #     town =  request.POST.get('town') 
+        #     district = request.POST.get('district')
+        #     delivery = request.POST.get('delivery')
             
-            #set delivery
-            if delivery == 'on':
-                delivery = True
-            else:
-                delivery = False
+        #     #set delivery
+        #     if delivery == 'on':
+        #         delivery = True
+        #     else:
+        #         delivery = False
                 
-        except:
-            return render(request, f'dashboard/update_article.html/?article_id={id}', {})
-        else:
-            article.name = name
-            article.description = description
-            article.category = Category.objects.get(name=category)
-            article.status = status
-            article.number = number
-            article.price_init = price_init
-            article.town = town
-            article.district = district
-            article.delivery = delivery
-            article.save()
-            messages.success(request, article_update_success(article))
+        # except:
+        #     return render(request, f'dashboard/update_article.html/?article_id={id}', {})
+        # else:
+        #     article.name = name
+        #     article.description = description
+        #     article.category = Category.objects.get(name=category)
+        #     article.status = status
+        #     article.number = number
+        #     article.price_init = price_init
+        #     article.town = town
+        #     article.district = district
+        #     article.delivery = delivery
+        #     article.save()
+        #     messages.success(request, article_update_success(article))
             
-            return redirect('dashboard:my_articles')
+        #     return redirect('dashboard:my_articles')
     
     towns = ['Brazzaville', 'Pointe-Noire', 'Dolisie', 'Nkayi', 'Ouesso', \
         'Madingou', 'Owando', 'Gamboma', 'Impfondo', 'Sibiti', 'Mossendjo',\
             'Kinkala', 'Makoua']
     context = {
         'article': article,
+        'form': form,
         'categories': Category.objects.all(),
-        'article_to_update': True,
+        # 'article_to_update': True,
         'status_list': [
             'Neuf avec facture',
             'Neuf san facture',
