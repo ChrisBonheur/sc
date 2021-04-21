@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import reverse
 from django.core.cache import cache
+from django.db.models import F
 
 from .models import Order
 from communication.models import Message
@@ -16,7 +17,11 @@ def upload_article_middleware(get_response):
         if request.GET.get('order_id'):
             order_id = request.GET.get('order_id')
             order = Order.objects.get(pk=order_id)
-            if request.GET.get('decliner-la-commande'):
+            if request.GET.get('annuler-la-commande'):
+                article = order.article
+                article.number = F('number') + 1
+                article.save()
+            elif request.GET.get('decliner-la-commande'):
                 article = order.article
                 article.available = False
                 article.save()

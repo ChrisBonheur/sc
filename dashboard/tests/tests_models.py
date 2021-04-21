@@ -52,23 +52,23 @@ class SignalsTestCase(TestCase):
         err_msg = "Article has been decline but available attribut not upload to False"
         self.assertEqual(article.available, False, msg=err_msg)
         
-
-    def test_send_notifs(self):
-        """Test many notif send to customer"""
-        order = self.order
-        customer = order.user
-        seller = order.article.user
-        customer_msg_count_before = Message.objects.filter(recipient_id=customer.id).count()
-        #login seller
-        self.client.login(username=seller, password=PASSWORD)
-        res_seller = self.client.get(reverse("dashboard:invoices"), {"order_id": order.id, \
-            "valider-la-commande": order.article})
+    # def test_send_notifs(self):
+    #     """Test many notif send to customer"""
+    #     order = self.order
+    #     customer = order.user
+    #     seller = order.article.user
+    #     customer_msg_count_before = Message.objects.filter(recipient_id=customer.id).count()
+    #     #login seller
+    #     self.client.login(username=seller, password=PASSWORD)
+    #     res_seller = self.client.get(reverse("dashboard:invoices"), {"order_id": order.id, \
+    #         "valider-la-commande": order.article})
        
-        #test seller receive a valid notif
-        self.assertContains(res_seller, 'Commande validée avec succès')
+    #     #test seller receive a valid notif
+    #     self.assertContains(res_seller, 'Commande validée avec succès')
        
-        #test notif sended to custommer when seller valid an order
-        customer_msg_count_after = Message.objects.filter(recipient_id=customer.id).count()
-        err_msg = "Message not send to a customer for order validation by seller"
-        self.assertEqual(customer_msg_count_before + 1, customer_msg_count_after, msg=err_msg)
+    #     #test notif sended to custommer when seller valid an order
+    #     customer_msg_count_after = Message.objects.filter(recipient_id=customer.id).count()
+    #     err_msg = "Message not send to a customer for order validation by seller"
+    #     self.assertEqual(customer_msg_count_before + 1, customer_msg_count_after, msg=err_msg)
     
+
