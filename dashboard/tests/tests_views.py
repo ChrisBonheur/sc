@@ -137,70 +137,69 @@ class InvoiceTestCase(MyArticlesTestCase):
     
     
 
-class OrderTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        #create users-----------------------------------------------
-        get_user()
-        User.objects.create_user(username="alchy", password="1234")
-        #get users--------------------------------------------------
-        principal_user = User.objects.get(username=USERNAME)
-        other_user = User.objects.get(username="alchy")
-        #create articles--------------------------------------------
-        create_article("Téléphone", other_user)
-        create_article("Ordinateur", principal_user)
-        #get articles-----------------------------------------------
-        other_user_article = Article.objects.get(name="Téléphone")
-        principal_user_article = Article.objects.get(name="Ordinateur")
-        #====================================================================
-        #create order that will send to principal user to test received order
-        Order.objects.create(
-            user=other_user,
-            article=principal_user_article
-        )
-        #create(send order) order for current principal user that will send to other user
-        order = Order.objects.create(
-            user=principal_user,
-            article=other_user_article
-        )
-        #incoice for principal user
-        Invoice.objects.create(order = order,)
+class OrderTestCase(InvoiceTestCase):
+    # @classmethod
+    # def setUpTestData(cls):
+    #     #create users-----------------------------------------------
+    #     get_user()
+    #     User.objects.create_user(username="alchy", password="1234")
+    #     #get users--------------------------------------------------
+    #     principal_user = User.objects.get(username=USERNAME)
+    #     other_user = User.objects.get(username="alchy")
+    #     #create articles--------------------------------------------
+    #     create_article("Téléphone", other_user)
+    #     create_article("Ordinateur", principal_user)
+    #     #get articles-----------------------------------------------
+    #     other_user_article = Article.objects.get(name="Téléphone")
+    #     principal_user_article = Article.objects.get(name="Ordinateur")
+    #     #====================================================================
+    #     #create order that will send to principal user to test received order
+    #     Order.objects.create(
+    #         user=other_user,
+    #         article=principal_user_article
+    #     )
+    #     #create(send order) order for current principal user that will send to other user
+    #     order = Order.objects.create(
+    #         user=principal_user,
+    #         article=other_user_article
+    #     )
+    #     #incoice for principal user
+    #     Invoice.objects.create(order = order,)
         
     def setUp(self):
-        self.user = User.objects.get(username=USERNAME)
-        self.other_user = User.objects.get(username="alchy")
+        InvoiceTestCase.setUp(self)
+        self.other_user = User.objects.create_user(username="alchy",
+                                                   password="123456")
         
     def test_acces_order_page(self):
-        self.client.login(username=USERNAME, password=PASSWORD)
+        """Test access in order page return 200"""
+        self.user
         response = self.client.get(reverse('dashboard:orders'))
         self.assertEqual(response.status_code, 200)
     
     def test_sent_order_list_in_view(self):
-        order = Order.objects.get(user=self.other_user)
-        self.client.login(username=self.other_user, password="1234")
+        """Test sent orders list in view template"""
+        order = self.order
         response = self.client.get(f"{reverse('dashboard:orders')}envoyees")
-        self.assertContains(response, order.article)
-        #list is just for current user
-        orders = response.context['orders']
-        err_msg = "There are some orders that aren't for current user"
-        [self.assertEqual(self.other_user, order.user, msg=err_msg) for order in orders]
+        self.assertContains(response, order.id)
     
-    def test_received_list_in_context(self):
-        """test if received list of order is in context and are just for current user"""
-        principal_user = User.objects.get(username=USERNAME)
-        self.client.login(username=USERNAME, password=PASSWORD)
+    def test_received_list_in_view(self):
+        """test received oredes list in view"""
+        article = create_article("clavier", self.user)
+        #create other order for another user
+        order = Order.objects.create(user=self.other_user, article=article)
         response = self.client.get(f"{reverse('dashboard:orders')}reçues")
         context_orders = response.context['orders']
         except_msg = "There are some orders for not current user in context"
-        [self.assertEqual(principal_user, context_order.article.user, msg=except_msg) \
+        [self.assertEqual(self.user, context_order.article.user, msg=except_msg) \
             for context_order in context_orders]        
     
     def test_creating_order_view(self):
-        #test if order can be created
+        """test creating order in view
+        """
         order_count_before = Order.objects.count()
-        article_id = Article.objects.get(name="Téléphone").id
         new_order_data = {
-                "article_id": article_id,
+                "article_id": self.article.id,
                 "price_ht": 2500,
                 "price_ttc": 3500,
                 "description": "Jamais utilisé",
@@ -208,17 +207,14 @@ class OrderTestCase(TestCase):
                 "status": "bon état",
                 "delivery": 'True',
                 }
-        self.client.login(username=USERNAME, password=PASSWORD)
         response = self.client.post(f"{reverse('dashboard:orders')}creer", new_order_data)
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before + 1, order_count_after)
     
     def test_delete_order_view(self):
-        #test if order can be deleted
-        user = User.objects.get(username=USERNAME)
+        """test delete order with view"""
+        order = self.order
         order_count_before = Order.objects.count()
-        order = Order.objects.get(article__user=user)
-        self.client.login(username=USERNAME, password=PASSWORD)
         response = self.client.get(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before - 1, order_count_after)
