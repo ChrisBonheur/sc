@@ -24,3 +24,17 @@ class MiddlewareTestCase(TestCase):
         article = Article.objects.get(name=order.article)
         article_number_after = article.number
         self.assertEqual(article_number_before + 1, article_number_after)
+    
+    def test_uplod_article_available(self):
+        """test that article.available is False when seller or article.user
+        decline an order's article (action realised by a middleware)
+        """
+        #get an order
+        order = self.order
+        #make a request http with "decliner-la-commande" inside and order_id
+        self.client.get(reverse('dashboard:orders'), {"decliner-la-commande": order.article, \
+            "order_id": order.id})
+        article = Article.objects.get(name=order.article)
+        #assert(order.article.available, False)
+        err_msg = "Article has been decline but available attribut not upload to False"
+        self.assertEqual(article.available, False, msg=err_msg)

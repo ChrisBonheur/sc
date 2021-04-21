@@ -9,48 +9,43 @@ from communication.models import Message
  
 class SignalsTestCase(TestCase):
     """Test all signals about store app"""
-    @classmethod
-    def setUpTestData(cls):
-        user = User.objects.create_user(username="exo", password="123456",\
-            email="exo@gmail.com")
-        article = create_article("radio")
-        order = Order.objects.create(
-            user=user,
-            article=article,
-        )        
+    # @classmethod
+    # def setUpTestData(cls):
+    #     user = User.objects.create_user(username="exo", password="123456",\
+    #         email="exo@gmail.com")
+    #     article = create_article("radio")
+    #     order = Order.objects.create(
+    #         user=user,
+    #         article=article,
+    #     )        
     def setUp(self):
-        self.user = User.objects.get(username="exo")
-        self.article = Article.objects.get(name="radio")
-        self.order = Order.objects.get(article=self.article)
+        self.user = User.objects.create_user(username="exo", password="123456")
+        self.article = create_article("radio", self.user)
+        self.order = Order.objects.create(user=self.user, article=self.article)
             
     def test_upload_manage(self):
         """test if order's attribut manage become True
         when invoice is created for this order
         """
-        user = self.user
-        article = self.article
-        #create order
-        order = self.order
-        #create invoice
-        invoice = Invoice.objects.create(order=order)
-        order = Order.objects.get(article=article)
+        invoice = Invoice.objects.create(order=self.order)
+        order = Order.objects.get(article=self.article)
         msg = "Signal not send to order to upload manage attribut to False"
         self.assertEqual(order.manage, True, msg=msg)
     
-    def test_uplod_article_available(self):
-        """test that article.available is False when seller or article.user
-        decline an order's article (action realised by a middleware)
-        """
-        #get an order
-        order = self.order
-        #make a request http with "decliner-la-commande" inside and order_id
-        self.client.login(username="exo", password="123456")
-        self.client.get(reverse('dashboard:orders'), {"decliner-la-commande": order.article, \
-            "order_id": order.id})
-        article = Article.objects.get(name="radio")
-        #assert(order.article.available, False)
-        err_msg = "Article has been decline but available attribut not upload to False"
-        self.assertEqual(article.available, False, msg=err_msg)
+    # def test_uplod_article_available(self):
+    #     """test that article.available is False when seller or article.user
+    #     decline an order's article (action realised by a middleware)
+    #     """
+    #     #get an order
+    #     order = self.order
+    #     #make a request http with "decliner-la-commande" inside and order_id
+    #     self.client.login(username="exo", password="123456")
+    #     self.client.get(reverse('dashboard:orders'), {"decliner-la-commande": order.article, \
+    #         "order_id": order.id})
+    #     article = Article.objects.get(name="radio")
+    #     #assert(order.article.available, False)
+    #     err_msg = "Article has been decline but available attribut not upload to False"
+    #     self.assertEqual(article.available, False, msg=err_msg)
         
     # def test_send_notifs(self):
     #     """Test many notif send to customer"""
