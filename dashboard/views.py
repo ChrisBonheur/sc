@@ -116,13 +116,6 @@ def delete_article(request):
     
 @login_required
 def invoices(request):
-    if not cache.get(f"invoices_{request.user.id}"):
-        cache.set(f"invoices_{request.user.id}", Invoice.objects.filter\
-                (Q(order__user=request.user) & Q(manage=False)),)
-    invoices = cache.get(f"invoices_{request.user.id}")
-    context = {
-        "invoices": invoices
-    }
     #create invoice if argument == order_id
     if request.GET.get('order_id'):
         order_id = request.GET.get('order_id')
@@ -131,8 +124,8 @@ def invoices(request):
         if order.article.user != request.user:
             raise Http404
         Invoice.objects.create(order=order)
-    
-    #delete invoice if argument == invoice__id
+        return redirect("/gestion/commandes/reçues")
+    #delete or cacncel invoice if argument == invoice__id
     if request.GET.get('invoice_id'):
         invoice_id = request.GET.get('invoice_id')
         invoice = get_object_or_404(Invoice, pk=invoice_id)
@@ -140,6 +133,15 @@ def invoices(request):
         if invoice.order.user != request.user:
             raise Http404
         invoice.delete() #remove invoice
+    
+    cache_time = (30*60)
+    if not cache.get(f"invoices_{request.user.id}"):
+        cache.set(f"invoices_{request.user.id}", Invoice.objects.filter\
+                (Q(order__user=request.user) & Q(manage=False)), cache_time)
+        
+    context = {
+        "invoices": cache.get(f"invoices_{request.user.id}")
+    }
         
     return render(request, 'dashboard/invoice.html', context)
 
