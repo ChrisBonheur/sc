@@ -86,65 +86,54 @@ class DeleteArticleTestCase(MyArticlesTestCase):
         self.assertRedirects(response, reverse("dashboard:my_articles"))
         
         
-class InvoiceTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        get_user()
-        create_article()
-        article = Article.objects.last()
-        user = User.objects.last()
-        order = Order.objects.create(
-            user=user,
-            article=article
-        )
-        Invoice.objects.create(order = order,)
+class InvoiceTestCase(MyArticlesTestCase):
+    # @classmethod
+    # def setUpTestData(cls):
+    #     get_user()
+    #     create_article()
+    #     article = Article.objects.last()
+    #     user = User.objects.last()
+    #     order = Order.objects.create(
+    #         user=user,
+    #         article=article
+    #     )
+    #     Invoice.objects.create(order = order,)
     
     def setUp(self):
-        self.user = User.objects.get(username=USERNAME)
-        self.article = Article.objects.get(name="Ordinateur portable")
-        self.order = Order.objects.get(user=self.user, article=self.article)
-        self.invoice = Invoice.objects.get(order=self.order)
+        MyArticlesTestCase.setUp(self)
+        self.order = Order.objects.create(user=self.user, article=self.article)
+        self.invoice = Invoice.objects.create(order=self.order)
     
     def test_acces_invoice_page(self):
-        #test if we can get list page
-        self.client.login(username=USERNAME, password=PASSWORD)
+        """Test acces invoices user list return 200"""
+        user = self.client#for execute setUp function and will login user
         response = self.client.get(reverse('dashboard:invoices'))
         self.assertEqual(response.status_code, 200)
     
     def test_received_invoices_in_context(self):
-        #test if received invoices  list is in context
-        self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse('dashboard:invoices'), \
-            {"page": "list"})
-        invoice = Invoice.objects.filter(order__user=self.user).last()
-        #received invoices in context
-        self.assertQuerysetEqual(response.context['invoices'], [repr(invoice),])
-        #test invoices in template
-        #test invoces in context just for current user
+        """Test invoices user list is in invoices page"""
+        response = self.client.get(reverse('dashboard:invoices'))
+        invoices = Invoice.objects.filter(order__user=self.user)
+        self.assertContains(response, invoices[0].id)
             
     def test_invoice_creating(self):
-        #we need to delete a previous invoice to do duplicate order_id for invoice
-        self.invoice.delete()
-        order = self.order
-        self.client.login(username=USERNAME, password=PASSWORD)
+        """test creating invoice"""
+        article = create_article("piano", self.user)
+        order = Order.objects.create(user=self.user, article=article)
         invoices_count_before = Invoice.objects.count()
         response = self.client.get(reverse("dashboard:invoices"), \
             {"order_id": order.id})
         invoices_count_after =Invoice.objects.count()
-        
         self.assertEqual(invoices_count_before + 1, invoices_count_after)
-        #test if message has been sent after creating
     
     def test_invoice_deleting(self):
+        """test delete or cancel invoice"""
         user = self.user
-        self.client.login(username=USERNAME, password=PASSWORD)
         invoices_count_before = Invoice.objects.count()
         response = self.client.get(reverse("dashboard:invoices"), \
             {"invoice_id": self.invoice.id})
         invoices_count_after =Invoice.objects.count()
-        
         self.assertEqual(invoices_count_before - 1, invoices_count_after)
-        #test if message has been sent after deleting
     
     
 
