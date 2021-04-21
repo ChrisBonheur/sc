@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.core.cache import cache
 
 from store.models import Article
 
@@ -33,10 +34,21 @@ class Archive(models.Model):
     archive_type = models.CharField(max_length=100)
    
 @receiver(post_save, sender=Invoice)
-def upload_manage_order(sender, instance, **kwargs):
+def after_save_invoice(sender, instance, **kwargs):
     """upload order's attribut manage bool to False when invoice  
-    is created whith this order
+    is created whith this order and clear cache invoice for customer
     """
+    #upload manage attribut
     order = instance.order
     order.manage = True
     order.save()
+    #clear cache for customer
+    cache.delete(f'invoices_{order.user.id}')
+    
+@receiver(post_delete, sender=Invoice)    
+def after_delete_invoice(sender, instance, **kwargs):
+    """do some action after delete or cancel invoice
+    """
+    #clear cache invoice for customer 
+    cache.delete(f'invoices_{instance.order.user.id}')
+
