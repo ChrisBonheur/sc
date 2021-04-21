@@ -148,18 +148,17 @@ def invoices(request):
 def orders(request):
     path_base = "/gestion/commandes/"
     context = {}
-    
-    if request.POST:
-        #if request post contain article_id, create new order
-        if request.POST.get('article_id'):
-            forms = OrderForms(request.POST)
-            article_id = request.POST.get('article_id')
-            article = get_object_or_404(Article, pk=article_id)
-            if forms.is_valid():
-                order = forms.save(commit=False)
-                order.user = request.user
-                order.article = article
-                order.save()
+    #if request post contain article_id, create new order
+    if request.POST.get('article_id'):
+        forms = OrderForms(request.POST)
+        article_id = request.POST.get('article_id')
+        article = get_object_or_404(Article, pk=article_id)
+        if forms.is_valid():
+            order = forms.save(commit=False)
+            order.user = request.user
+            order.article = article
+            order.save()
+            return redirect("dashboard:orders")
     if request.GET.get('order_id'):
         order_id =  request.GET.get('order_id')
         order = get_object_or_404(Order, pk=order_id)
@@ -170,6 +169,7 @@ def orders(request):
             print('Error order_user != current_user ', e)
         else:
             order.delete()
+            return redirect(f"{path_base}reçues")
                 
     #conditional part of page to show
     if request.path == f"{path_base}envoyees" or request.path == path_base:
