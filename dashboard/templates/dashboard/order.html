@@ -4,7 +4,7 @@
   <div class="row">
       <div class="col-12">
         <h3 class="page_name">
-            {% if request.path == "/gestion/commandes/envoyees" %}
+            {% if request.path == "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
                 Commandes envoyées
             {% elif request.path == "/gestion/commandes/reçues" %}
                 Commandes reçues
@@ -91,7 +91,7 @@
       </div>
     {% empty %}
       <div class="empty-zone">
-        {% if request.path == "/gestion/commandes/envoyees" %}
+        {% if request.path == "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
             Liste de commandes envoyées vide !
         {% elif request.path == "/gestion/commandes/reçues" %}
             Liste de commande à gerer vide !
