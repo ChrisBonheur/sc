@@ -87,18 +87,6 @@ class DeleteArticleTestCase(MyArticlesTestCase):
         
         
 class InvoiceTestCase(MyArticlesTestCase):
-    # @classmethod
-    # def setUpTestData(cls):
-    #     get_user()
-    #     create_article()
-    #     article = Article.objects.last()
-    #     user = User.objects.last()
-    #     order = Order.objects.create(
-    #         user=user,
-    #         article=article
-    #     )
-    #     Invoice.objects.create(order = order,)
-    
     def setUp(self):
         MyArticlesTestCase.setUp(self)
         self.order = Order.objects.create(user=self.user, article=self.article)
@@ -138,34 +126,6 @@ class InvoiceTestCase(MyArticlesTestCase):
     
 
 class OrderTestCase(InvoiceTestCase):
-    # @classmethod
-    # def setUpTestData(cls):
-    #     #create users-----------------------------------------------
-    #     get_user()
-    #     User.objects.create_user(username="alchy", password="1234")
-    #     #get users--------------------------------------------------
-    #     principal_user = User.objects.get(username=USERNAME)
-    #     other_user = User.objects.get(username="alchy")
-    #     #create articles--------------------------------------------
-    #     create_article("Téléphone", other_user)
-    #     create_article("Ordinateur", principal_user)
-    #     #get articles-----------------------------------------------
-    #     other_user_article = Article.objects.get(name="Téléphone")
-    #     principal_user_article = Article.objects.get(name="Ordinateur")
-    #     #====================================================================
-    #     #create order that will send to principal user to test received order
-    #     Order.objects.create(
-    #         user=other_user,
-    #         article=principal_user_article
-    #     )
-    #     #create(send order) order for current principal user that will send to other user
-    #     order = Order.objects.create(
-    #         user=principal_user,
-    #         article=other_user_article
-    #     )
-    #     #incoice for principal user
-    #     Invoice.objects.create(order = order,)
-        
     def setUp(self):
         InvoiceTestCase.setUp(self)
         self.other_user = User.objects.create_user(username="alchy",
