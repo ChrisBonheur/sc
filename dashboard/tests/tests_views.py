@@ -36,12 +36,6 @@ class MyArticlesTestCase(TestCase):
                  articles of user miss in context")
         
 class UpdateArticleTestCase(MyArticlesTestCase):
-    # @classmethod
-    # def setUpTestData(cls):
-    #     user = get_user("best")# create an user
-    #     category()#create category
-    #     article = create_article("piano", user)# create an article
-
     def test_acces_page_update(self):
         """Test access page update article return 200"""
         user = self.user#for execute setUp function and will login user
@@ -69,35 +63,26 @@ class UpdateArticleTestCase(MyArticlesTestCase):
         self.assertRedirects(response, reverse('dashboard:my_articles'))
     
         
-class DeleteArticleTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        get_user()
-        create_article()
+class DeleteArticleTestCase(MyArticlesTestCase):
+    # @classmethod
+    # def setUpTestData(cls):
+    #     get_user()
+    #     create_article()
     
-    def setUp(self):
-        self.article = Article.objects.get(name="Ordinateur portable")
-    
-    def test_return_404_if_no_article_found(self):
-        article_id_out_range = self.article.id + 1
-        self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id_out_range})
-        self.assertEqual(response.status_code, 404)
+    # def setUp(self):
+    #     self.article = create_article("Ordinateur portable")
     
     def test_article_removed(self):
-        article_id = self.article.id
+        """Test removing existing article"""
         articles_count_before = Article.objects.count()
-        self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id})
+        response = self.client.get(reverse("dashboard:delete"), {"article_id": self.article.id})
         self.assertRedirects(response, reverse("dashboard:my_articles"))
-        #article with id article_id not exist in db
         articles_count_after = Article.objects.count()
         self.assertEqual(articles_count_before - 1, articles_count_after)
     
     def test_reirection_after_removed(self):
-        article_id = self.article.id
-        self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.get(reverse("dashboard:delete"), {"article_id": article_id})
+        """test redirection page after remove article"""
+        response = self.client.get(reverse("dashboard:delete"), {"article_id": self.article.id})
         self.assertRedirects(response, reverse("dashboard:my_articles"))
         
         
