@@ -170,21 +170,21 @@ def orders(request):
         else:
             order.delete()
             return redirect(f"{path_base}reçues")
-                
+    cache_time = (30*60)#set cache time            
     #conditional part of page to show
     if request.path == f"{path_base}envoyees" or request.path == path_base:
         context['path'] = request.path
         #get sent orders unmanaged
         if not cache.get(f'orders_send_{request.user.id}'):
             cache.set(f'orders_send_{request.user.id}', Order.objects.filter\
-                    (Q(user=request.user) & Q(manage=False))) 
+                    (Q(user=request.user) & Q(manage=False)), cache_time) 
         context["orders"] = cache.get(f'orders_send_{request.user.id}')
     elif request.path == f"{path_base}reçues":
         context['path'] = request.path
         #get received orders unmanaged
         if not cache.get(f'orders_receive_{request.user.id}'):
             cache.set(f'orders_receive_{request.user.id}', Order.objects.filter\
-                    (Q(article__user=request.user) & Q(manage=False)))
+                    (Q(article__user=request.user) & Q(manage=False)), cache_time)
         context["orders"] = cache.get(f'orders_receive_{request.user.id}')
            
     return render(request, 'dashboard/order.html', context)
