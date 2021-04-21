@@ -15,7 +15,7 @@ class MyArticlesTestCase(TestCase):
     
     def test_acces_my_articles_list_page(self):
         """test page that list articles's user return 200"""
-        user = self.user#just to make connection with setup to use self.client.login
+        user = self.user#for execute setUp function and will login user
         response = self.client.get(reverse('dashboard:my_articles'))
         self.assertEqual(response.status_code, 200)
         
@@ -35,52 +35,33 @@ class MyArticlesTestCase(TestCase):
              [repr(article) for article in unavailable_articles], msg="Unavailable \
                  articles of user miss in context")
         
-class UpdateArticleTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        user = get_user("best")# create an user
-        category()#create category
-        article = create_article("piano", user)# create an article
-
-    def setUp(self):
-        self.user = User.objects.get(username="best")
-        self.article = Article.objects.get(name="piano")
-        self.client.login(username="best", password=PASSWORD)
-        self.response = self.client.get(reverse('dashboard:update', args=(self.article.id,)))
+class UpdateArticleTestCase(MyArticlesTestCase):
+    # @classmethod
+    # def setUpTestData(cls):
+    #     user = get_user("best")# create an user
+    #     category()#create category
+    #     article = create_article("piano", user)# create an article
 
     def test_acces_page_update(self):
-        response = self.response
+        """Test access page update article return 200"""
+        user = self.user#for execute setUp function and will login user
+        response = self.client.get(reverse('dashboard:update', args=(self.article.id,)))
         self.assertEqual(response.status_code, 200)
-        
-    def test_return_404_while_no_article_found(self):
-        pass
-        
-    def test_context_contains(self):
-        article = self.article
-        response = self.response
-        category = Category.objects.get(name="Informatique")
-        #test context contain article
-        self.assertEqual(article, response.context['article'], msg="Context not contain article")
-        #test context contain categories
-        self.assertQuerysetEqual(response.context['categories'], [repr(category)])
     
     def test_save_update(self):
-        article = self.article
         data = {
             "name": "Salade",
-            "description": article.description,
-            "category": article.category.id,
-            "status": article.status,
+            "description": self.article.description,
+            "category": self.article.category.id,
+            "status": self.article.status,
             "number": 4,
             "price_init": 12500,
-            "town": article.town,
-            "district": article.district,
+            "town": self.article.town,
+            "district": self.article.district,
             "image_min": IMAGE,
         }
-        
-        self.client.login(username=USERNAME, password=PASSWORD)
-        response = self.client.post(reverse('dashboard:update', args=(article.id,)), data)
-        article_updated = Article.objects.get(name="Salade")
+        response = self.client.post(reverse('dashboard:update', args=(self.article.id,)), data)
+        article_updated = Article.objects.get(pk=self.article.id)   
         #compare old data and new data like article.name
         self.assertEqual(article_updated.name, data['name'], \
             msg="Warning! Data haven't updtated")
