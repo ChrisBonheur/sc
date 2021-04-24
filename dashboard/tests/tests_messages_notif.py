@@ -27,10 +27,11 @@ class MessageNotifTestCase(TestCase):
         """test message info succes update is added after
         update action"""
         article = self.article
-        attributs = ["status", "price_init", "town", "district",\
-             "delivery", "number", "description", "image_min"]
+        attributs = ["price_init", "district", "delivery", "number", "description", "image_min"]
         data_article = {attr: getattr(article, attr) for attr in attributs}
         data_article["name"] = "clavier azerty"
+        data_article["town"] = article.town.id
+        data_article["status"] = article.status.id
         data_article["category"] = article.category.id
         self.client.post(reverse('dashboard:update', args=(article.id,)), data_article)
         response = self.client.get(reverse('dashboard:my_articles'))

@@ -6,7 +6,7 @@ from django.core.files import File
 from pathlib import Path
 from django.conf import settings
 
-from store.models import Article, Category, Picture, Favourite 
+from store.models import Article, Category, Picture, Favourite, Status, Town
 from communication.models import Message
 from store.utils import *
 from store.messages_notif import article_save_success
@@ -16,6 +16,12 @@ BASE_DIR = settings.BASE_DIR
 USERNAME = "bonheur"
 PASSWORD = "12345687"
 IMAGE = File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
+
+def create_town(name):
+    return Town.objects.create(name=name)
+
+def create_status(name):
+    return Status.objects.create(name=name)
 
 def get_user(name=USERNAME):
     try:
@@ -43,7 +49,8 @@ def category():
         category = Category.objects.create(name='Informatique') 
     return category
 
-def create_article(name="Ordinateur portable", user_param=" "):
+def create_article(name="Ordinateur portable", user_param=" ", \
+    town="Poinnte-Noire", status="Bon état"):
     user = user_param
     if isinstance(user, User) != True:
         user = get_user()
@@ -54,9 +61,9 @@ def create_article(name="Ordinateur portable", user_param=" "):
         price_init=2500,
         price_ttc=2700,
         number=2,
-        town='Pointe-Noire',
+        town=create_town(town),
         district='Siafoumou',
-        status='Bon état',
+        status=create_status(town),
         category=category(),
         user=user,
         image_min=File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
@@ -124,14 +131,6 @@ class DetailPageTestCase(TestCase):
         favourite_articles = Article.objects.filter(favourite__user=user)
         [self.assertEqual(context_article, page_article) for context_article, page_article in \
             zip(response.context['favourite_articles'], favourite_articles)]
-    
-    def test_detail_page_return_404(self):
-        #return 404 if not article found
-        article_id = create_article().id + 1 
-        response = self.client.get(reverse('store:detail', args=(article_id,)))
-        
-        self.assertEqual(response.status_code, 404)
-
 
 class SellPageTestCase(TestCase):
     def setUp(self):
@@ -162,9 +161,9 @@ class SellPageTestCase(TestCase):
             "description": "Test description",
             "price_init": 2500,
             "number": 2,
-            "town": 'Pointe-Noire',
+            "town": create_town('Pointe-Noire').id,
             "district": 'Siafoumou',
-            "status":'Bon état',
+            "status":create_status('Bon état').id,
             "category": self.category.id,
             "user": self.user.id,
             "image_min": File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))

@@ -47,6 +47,20 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Status(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    class Meta:
+        verbose_name = "Etat"
+    def __str__(self):
+        return self.name
+
+class Town(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    class Meta:
+        verbose_name = "Villes"
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nom de l\'article')
     description = models.TextField()
@@ -54,9 +68,7 @@ class Article(models.Model):
     price_ttc = models.IntegerField(verbose_name='Prix TTC', null=True)
     number = models.IntegerField(verbose_name='Nombre d\'article dispo', default=1)
     available = models.BooleanField(verbose_name='Disponible', default=True)
-    town = models.CharField(max_length=100, verbose_name='Ville')
     district = models.CharField(max_length=100, verbose_name='Quartier')
-    status = models.CharField(max_length=100, verbose_name='Etat de l\'article')
     seen = models.IntegerField(verbose_name='Nombre de vue', default=0)
     date_add = models.DateTimeField(auto_now_add=True, verbose_name='Ajouté')
     date_edit = models.DateTimeField(auto_now_add=False, verbose_name='Modifié', null=True)
@@ -64,6 +76,8 @@ class Article(models.Model):
     img_background = models.CharField(max_length=100, null=True)
     delivery = models.BooleanField(default=False, null=True)
     #relation table
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Etat', null=True)
+    town = models.ForeignKey(Town,on_delete=models.CASCADE, verbose_name='Ville', null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, verbose_name='Categorie',\
         null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')

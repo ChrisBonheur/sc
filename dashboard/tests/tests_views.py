@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 
 from store.models import Article, Category
 from dashboard.models import Invoice, Order
-from store.tests.tests_views import get_user, create_article, category, USERNAME, PASSWORD, IMAGE
+from store.tests.tests_views import create_article, IMAGE
 
 class MyArticlesTestCase(TestCase):
     def setUp(self):
@@ -47,10 +47,10 @@ class UpdateArticleTestCase(MyArticlesTestCase):
             "name": "Salade",
             "description": self.article.description,
             "category": self.article.category.id,
-            "status": self.article.status,
+            "status": self.article.status.id,
             "number": 4,
             "price_init": 12500,
-            "town": self.article.town,
+            "town": self.article.town.id,
             "district": self.article.district,
             "image_min": IMAGE,
         }
@@ -64,14 +64,6 @@ class UpdateArticleTestCase(MyArticlesTestCase):
     
         
 class DeleteArticleTestCase(MyArticlesTestCase):
-    # @classmethod
-    # def setUpTestData(cls):
-    #     get_user()
-    #     create_article()
-    
-    # def setUp(self):
-    #     self.article = create_article("Ordinateur portable")
-    
     def test_article_removed(self):
         """Test removing existing article"""
         articles_count_before = Article.objects.count()
@@ -106,7 +98,7 @@ class InvoiceTestCase(MyArticlesTestCase):
             
     def test_invoice_creating(self):
         """test creating invoice"""
-        article = create_article("piano", self.user)
+        article = create_article("piano", self.user, "Nkayi", "Neuf avec facture")
         order = Order.objects.create(user=self.user, article=article)
         invoices_count_before = Invoice.objects.count()
         response = self.client.get(reverse("dashboard:invoices"), \
@@ -145,7 +137,7 @@ class OrderTestCase(InvoiceTestCase):
     
     def test_received_list_in_view(self):
         """test received oredes list in view"""
-        article = create_article("clavier", self.user)
+        article = create_article("clavier", self.user, 'Dolisie', 'Neuf')
         #create other order for another user
         order = Order.objects.create(user=self.other_user, article=article)
         response = self.client.get(f"{reverse('dashboard:orders')}reçues")
