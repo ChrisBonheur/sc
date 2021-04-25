@@ -10,19 +10,18 @@ from store.views import home
 from .models import Profil
 from communication.models import Message
 
-# Create your views here.
-
 def login_user(request):
+    """Login user"""
+    #if user login, no need to see login view
+    if request.user.is_authenticated:
+        return redirect('store:home')
     form = LoginForm(request.POST or None)
     error = False
-
     if request.method == "POST":
         form = LoginForm(request.POST)
-        
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
@@ -32,26 +31,26 @@ def login_user(request):
                 error = True
                 content = 'ATTENTION ! Mot de passe ou nom d\'utilisateur invalide'
                 messages.add_message(request, messages.ERROR, content)
-
-        
     white_font = True    
     
     return render(request, 'user/login.html', locals())
         
 
 def register(request):
+    """Register new user"""
+    #if user login, no need to see login view
+    if request.user.is_authenticated:
+        return redirect('store:home')
+    redirect_if_login(request)#test first if no login
     form = RegisterForm(request.POST or None)
     email_exist = False
-    username_exist = False
-    
+    username_exist = False 
     if form.is_valid():
         username = form.cleaned_data['username']
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
-        
         check_email = User.objects.filter(email=email)
         check_username = User.objects.filter(username=username)
-        
         if not check_email and not check_username:
             try:
                 new_user = User.objects.create_user(username, email, password)
@@ -68,12 +67,13 @@ def register(request):
             email_exist = True
         elif check_username:
             username_exist = True
-    
     white_font = True
     
     return render(request, 'user/register.html', locals())
 
 def auto_login(request):
+    if request.user.is_authenticated:
+        return redirect('store:home')
     return render(request, 'user/auto_login.html', {})
 
 @login_required
