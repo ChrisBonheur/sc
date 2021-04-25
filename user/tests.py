@@ -48,3 +48,20 @@ class RegisterViewTestCase(LoginViewTestCase):
         data = {"username": "not_exist"}
         response = self.client.get(reverse('user:register'))
         self.assertEqual(response.status_code, 200)
+
+class UpdataViewTestCase(TestCase):
+    def test_access_update_view(self):
+        """test if access update page return 200"""
+        pass
+    def test_user_is_update(self):
+        """test user update"""
+        pass
+
+    def test_redirect_after_update(self):
+        """Test the redirection after update"""
+        pass
+
+class ProfilTestCase(TestCase):
+    def test_access_profil_page(self):
+        """test acces profil page return 200"""
+        pass
