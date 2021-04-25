@@ -40,10 +40,8 @@ def path_and_rename(instance, filename):
         
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    
     class Meta:
         verbose_name = 'Categorie'
-        
     def __str__(self):
         return self.name
 

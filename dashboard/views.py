@@ -23,7 +23,7 @@ def my_articles(request):
             cache.get(f'unavailable_articles_{request.user.id}'):        
         cache.set(f'available_articles_{request.user.id}', get_article(True))
         cache.add(f'unavailable_articles_{request.user.id}', get_article(False))
-           
+    
     context ={
         'articles_available_of_seller': cache.get(f'available_articles_{request.user.id}'),
         'articles_unavailable_of_seller': cache.get(f'unavailable_articles_{request.user.id}'),
@@ -50,7 +50,6 @@ def update_article(request, article_id):
     id = int(article_id)
     article = get_object_or_404(Article, id=id)
     form = ArticleForms(instance=article)
-
     if request.POST:
         form = ArticleForms(request.POST, request.FILES, instance=article)
         if form.is_valid():
@@ -64,22 +63,10 @@ def update_article(request, article_id):
             cache.delete_many([f'available_articles_{request.user.id}', \
                 f'unavailable_articles_{request.user.id}'])
             return redirect('dashboard:my_articles')
-    
-    towns = ['Brazzaville', 'Pointe-Noire', 'Dolisie', 'Nkayi', 'Ouesso', \
-        'Madingou', 'Owando', 'Gamboma', 'Impfondo', 'Sibiti', 'Mossendjo',\
-            'Kinkala', 'Makoua']
     context = {
         'article': article,
         'form': form,
         'categories': Category.objects.all(),
-        'status_list': [
-            'Neuf avec facture',
-            'Neuf san facture',
-            'Très bon état',
-            'Bon état',
-            'Satisfaisant',   
-        ],
-        'towns_list': towns,
     }
 
     return render(request, 'dashboard/update_article.html', context)
