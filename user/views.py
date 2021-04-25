@@ -41,7 +41,6 @@ def register(request):
     #if user login, no need to see login view
     if request.user.is_authenticated:
         return redirect('store:home')
-    redirect_if_login(request)#test first if no login
     form = RegisterForm(request.POST or None)
     email_exist = False
     username_exist = False 
