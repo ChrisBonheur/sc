@@ -1,6 +1,6 @@
 {% extends 'store/base.html' %}
 {% block content %}
-    {% load static store_extras %}
+    {% load static store_extras humanize %}
         <div class="b_h">
             <div class="container-fluid detail_page">
                 <div class="row article">
@@ -28,7 +28,7 @@
 
                     <div class="col-lg-4">
                         <aside class="buy_bloc">
-                            <p class="price">{{ article.price_ttc }} XAF</p>
+                            <p class="price">{{ article.price_ttc|intword }} XAF</p>
                             <p class="city"><img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article.town|upper }}</p>
                             <p>Quartier: {{ article.district }}</p>
 

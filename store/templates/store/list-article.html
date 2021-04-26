@@ -1,4 +1,5 @@
 {% load static store_extras %}
+{% load humanize %}
     <div class="container-fluid">
         <div class="row list-article infinite-container">
             {% for article in articles %}
@@ -30,7 +31,7 @@
                         <div class="details">
                             <h5>{{ article.name }}</h5>
                             <p> 
-                                <span class="prix">{{ article.price_ttc }}</span> <span class="xaf">XAF</span> <br>
+                                <span class="prix">{{ article.price_ttc|intword }}</span> <span class="xaf">XAF</span> <br>
                                 <img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article.town }} <br>
                                 Qtier: {{ article.district }} <br>
                                 
