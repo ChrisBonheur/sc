@@ -1,6 +1,7 @@
 from django.db import models
+from django.db.models.signals import pre_save, post_save, post_delete
+from django.db.models import F
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.cache import cache
 
@@ -52,3 +53,10 @@ def after_delete_invoice(sender, instance, **kwargs):
     #clear cache invoice for customer 
     cache.delete(f'invoices_{instance.order.user.id}')
 
+@receiver(pre_save, sender=Order)
+def post_save_order(sender, instance, **kwargs):
+    """Do some actions after create order"""
+    #decremente article number after ordering
+    article = instance.article
+    article.number -= 1 
+    article.save()
