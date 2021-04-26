@@ -6,7 +6,7 @@ from os import system, path
 from PIL import Image
 
 from user.models import Profil
-from .utils import edit_image_before_save
+from .utils import edit_image_before_save, add_percentage 
 
 def pictures_rename(instance, filename):
     upload_to='article_img'
@@ -88,6 +88,7 @@ class Article(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
+        self.price_ttc = add_percentage(self.price_init)
         super().save(*args, **kwargs)
         edit_image_before_save(self.image_min.path, 255)
         

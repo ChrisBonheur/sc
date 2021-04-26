@@ -123,7 +123,6 @@ def sell(request):
         price_init = int(request.POST.get('price_init'))
         if form.is_valid():
             article = form.save(commit=False)
-            article.price_ttc = add_percentage(price_init)
             article.user = request.user
             try:
                 article.save()

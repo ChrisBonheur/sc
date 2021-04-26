@@ -55,7 +55,6 @@ def update_article(request, article_id):
         if form.is_valid():
             article = form.save(commit=False)
             price_init = int(request.POST.get('price_init'))
-            article.price_ttc = add_percentage(price_init)
             article.user = request.user          
             article.save()
             messages.success(request, article_update_success(article))
