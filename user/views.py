@@ -95,6 +95,12 @@ def logout_user(request):
 
 @login_required
 def update(request):
+    if request.GET.get('supprimer'):
+        user = request.user
+        user.is_active = False
+        user.save()
+        return redirect('store:home')
+
     if request.POST.get('new_password'):
         current_password = request.POST.get('current_password')
         new_password = request.POST.get('new_password')

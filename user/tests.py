@@ -49,7 +49,7 @@ class RegisterViewTestCase(LoginViewTestCase):
         response = self.client.get(reverse('user:register'))
         self.assertEqual(response.status_code, 200)
 
-class UpdataViewTestCase(TestCase):
+class UpdateViewTestCase(TestCase):
     def test_access_update_view(self):
         """test if access update page return 200"""
         pass
@@ -60,6 +60,14 @@ class UpdataViewTestCase(TestCase):
     def test_redirect_after_update(self):
         """Test the redirection after update"""
         pass
+    
+    def test_deactive_user(self):
+        """test user can be deactive his account"""
+        user = User.objects.create_user(username="bnhr", password="123456")
+        self.client.login(username=user, password="123456")
+        self.client.get(reverse('user:update'), {"supprimer": user})
+        user_login = self.client.login(username=user, password="123456")
+        self.assertFalse(user_login)
 
 class ProfilTestCase(TestCase):
     def test_access_profil_page(self):
