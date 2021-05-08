@@ -1,15 +1,13 @@
 {% extends 'store/base.html' %}
 {% block content %}
 {% load static cache%}
-    {% cache 10000 selling_page %}
-        <div class="container sell_page b_h">
-            <div class="row">
-                <h1>Vends ton article</h1>
-            </div>
-            <form action="{% url 'store:sell' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% include 'store/article_forms.html' %}
-            </form>
+    <div class="container sell_page b_h">
+        <div class="row">
+            <h1>Vends ton article</h1>
         </div>
-    {% endcache %}
+        <form action="{% url 'store:sell' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'store/article_forms.html' %}
+        </form>
+    </div>
 {% endblock %}

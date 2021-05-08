@@ -50,12 +50,12 @@ $(function(){
     
     /****************************************************************************** */
     /***SELL PAGE */
-    let file_nbr = 0;
+    let file_nbr = 1;
     const action_pics_add = () => {
         let browse = document.createElement('input')
         $(browse).attr({
             'type': 'file',
-            'name': `file${file_nbr}`,
+            'name': `image_${file_nbr}`,
             'class': 'img_article'
         });
         $('.rowBloc1 .btn-list').append(browse);
@@ -117,7 +117,8 @@ $(function(){
     
     /*action click on btn add pics**/
     let count_click = 0; //to count nber of click in button
-    $('.add-pics-btn').on('click', () => {
+    $('.add-pics-btn').on('click', (e) => {
+        e.preventDefault();
         if (file_nbr < 6){
             action_pics_add();
             $('.sell_page .alert').text('');
