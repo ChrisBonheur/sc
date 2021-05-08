@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
 from PIL import Image
 import os
+import logging as lg
 from spectreCorp.settings import BASE_DIR
 from django.core.files import File
 
@@ -117,30 +118,40 @@ def search(request):
 @login_required
 def sell(request):
     form = ArticleForms(None)
+    
     if request.POST:
         #here we verify if files is image with extensions(jpg, png, gif, )
         form = ArticleForms(request.POST, request.FILES)
-        price_init = int(request.POST.get('price_init'))
         if form.is_valid():
             article = form.save(commit=False)
             article.user = request.user
             try:
                 article.save()
                 messages.add_message(request, messages.SUCCESS, article_save_success(article))
-                return redirect('store:home')
             except Exception as e:
                 print("Not save ", e)
-
-        for name, img in request.FILES.items():
-            try:
-                extension = Image.open(img)
-                extension = extension.format
-                LIST_EXTENSIONS = ('JPEG', 'JPG', 'PNG')
-            except Exception as e:
-                return redirect('store:sell')
-            else:
-                if extension not in LIST_EXTENSIONS:
-                    return redirect('store:sell')
+            else: 
+                image_min_for_article = 1 #number of image direct in article
+                image_sup_count = len(request.FILES) - image_min_for_article
+                if image_sup_count > 0:
+                    for i in range(1, image_sup_count + 1):
+                        img = request.FILES.get(f"image_{i}")
+                        try:
+                            Picture.objects.create(photo=img, article=article)
+                        except Exception as e:
+                            lg.debug(f"Not save {e}")
+                return redirect('store:home')
+        
+        # for name, img in request.FILES.items():
+        #     try:
+        #         extension = Image.open(img)
+        #         extension = extension.format
+        #         LIST_EXTENSIONS = ('JPEG', 'JPG', 'PNG')
+        #     except Exception as e:
+        #         return redirect('store:sell')
+        #     else:
+        #         if extension not in LIST_EXTENSIONS:
+        #             return redirect('store:sell')
         """        
         try:
             name = request.POST.get('name')

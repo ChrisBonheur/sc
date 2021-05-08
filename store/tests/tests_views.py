@@ -134,29 +134,19 @@ class DetailPageTestCase(TestCase):
 
 class SellPageTestCase(TestCase):
     def setUp(self):
+        self.image =  File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
         self.category = category()
-        self.user = get_user()
-        self.c_Logged = Client()
-        self.c_Logged.login(username=USERNAME, password=PASSWORD)
-        
-    def test_sell_page_access(self):
-        #test to return a direction 302 if user not login 
-        response = self.client.get(reverse('store:sell'))
-        self.assertEqual(response.status_code, 302)
+        self.user = User.objects.create_user(username="bonheur", password="1234")
+        self.client.login(username=self.user, password="1234")
         
     def test_sell_page_with_no_post_request(self):
-        #test with user logged and if no post request
-        response = self.c_Logged.get(reverse("store:sell"))
-
-        #return 200
+        self.user#to make user login for request
+        response = self.client.get(reverse("store:sell"))
         self.assertEqual(response.status_code, 200)
         
-        #test if categories list is in context
-        self.assertQuerysetEqual(response.context['categories'], [repr(self.category)])
-        
     def test_sell_page_save_article(self):
-        #test if sell page save a new article
-        response = self.c_Logged.post(reverse('store:sell'), {
+        user_id = self.user.id
+        response = self.client.post(reverse('store:sell'), {
             "name": "Ordinateur portable",
             "description": "Test description",
             "price_init": 2500,
@@ -165,16 +155,32 @@ class SellPageTestCase(TestCase):
             "district": 'Siafoumou',
             "status":create_status('Bon état').id,
             "category": self.category.id,
-            "user": self.user.id,
-            "image_min": File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
-            
+            "user": user_id,
+            "image_min": self.image
         })
         #verify that, after post request there is a redirection
         self.assertEqual(response.status_code, 302)
-        #verify if message have been had after creating article
-        response  = self.c_Logged.get(reverse('store:home'))
+        #verify if message have been show after creating article
+        response  = self.client.get(reverse('store:home'))
         self.assertContains(response, article_save_success('Ordinateur portable'))
- 
+    
+    def test_save_suplemantary_pics(self):
+        pics_count_before = Picture.objects.count()
+        article = create_article(user_param=self.user)
+        keys_list = ["name", "description", "price_init", "district", "image_min"
+                     , "number"]
+        data = {k:getattr(article, k) for k in keys_list}
+        data["town"] = article.town.id
+        data["status"] = article.status.id
+        data["user"] = article.user.id
+        data["category"] = article.category.id
+        data["image_1"] = self.image
+        data["image_2"] = self.image
+        self.client.login(username=article.user, password="1234")
+        res = self.client.post(reverse("store:sell"), data)
+        pics_count_after = Picture.objects.count()
+        self.assertEqual(pics_count_before + 2, pics_count_after)
+    
 class SearchTestCase(TestCase):
     def setUp(self):
         self.article = create_article()
