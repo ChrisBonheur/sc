@@ -118,9 +118,7 @@ def search(request):
 @login_required
 def sell(request):
     form = ArticleForms(None)
-    
     if request.POST:
-        #here we verify if files is image with extensions(jpg, png, gif, )
         form = ArticleForms(request.POST, request.FILES)
         if form.is_valid():
             article = form.save(commit=False)
@@ -140,88 +138,10 @@ def sell(request):
                             Picture.objects.create(photo=img, article=article)
                         except Exception as e:
                             lg.debug(f"Not save {e}")
+                cache.delete('articles_home')#clear articles list in home
                 return redirect('store:home')
-        
-        # for name, img in request.FILES.items():
-        #     try:
-        #         extension = Image.open(img)
-        #         extension = extension.format
-        #         LIST_EXTENSIONS = ('JPEG', 'JPG', 'PNG')
-        #     except Exception as e:
-        #         return redirect('store:sell')
-        #     else:
-        #         if extension not in LIST_EXTENSIONS:
-        #             return redirect('store:sell')
-        """        
-        try:
-            name = request.POST.get('name')
-            description = request.POST.get('description')
-            category = request.POST.get('category')
-            category = Category.objects.get(name=category)
-            status = request.POST.get('status')
-            number_article = request.POST.get('number')
-            price_init = request.POST.get('price_init')
-            price_init = int(price_init)
-            town = request.POST.get('town')
-            district = request.POST.get('district')
-            user = request.user
-            delivery = request.POST.get('delivery')
-            count_click = request.POST.get('count_click')
-            count_click = int(count_click)
-            files_dict = request.FILES.items()
-            
-            #set delivery
-            if delivery == 'on':
-                delivery = True
-            else:
-                delivery = False
-                
-        except Exception as e:
-            print('Not save : ', e)
-        else:
-            print('new article save')
-            except_file = None
-            
-            #get one pics in dict files image
-            for key, img in files_dict:
-                article_img = img
-                except_file = key#file often added in article
-                image = Image.open(article_img)
-                color = f'rgb{image.getdata()[0]}'
-                break
-            
-            new_article = Article.objects.create(
-                name=name,
-                description=description,
-                price_init=price_init,
-                price_ttc=add_percentage(price_init),
-                number=number_article,
-                town=town,
-                district=district,
-                status=status,
-                image_min=article_img,
-                img_background=color,
-                category=category,
-                user=user,
-            )
-            last_article = Article.objects.last()
-            img = Image.open(last_article.image_min.path)
-            color = img.getdata()[0]
-            
-            last_article.img_background = f'rgb{color}'
-            last_article.save()
-            
-            #delete cache
-            cache.clear()
-            
-            for key, img in files_dict:
-                if img != except_file:        
-                    Picture.objects.create(photo=img, article=new_article)
-           """
-           #add messege notif for success save
-    
+
     context = {
-        'categories': Category.objects.all(),
         'form': form
     }
     return render(request, 'store/sell.html', context)
