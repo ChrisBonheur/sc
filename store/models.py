@@ -89,6 +89,8 @@ class Article(models.Model):
     
     def save(self, *args, **kwargs):
         self.price_ttc = add_percentage(self.price_init)
+        if self.number == 0:
+            self.available = False
         super().save(*args, **kwargs)
         edit_image_before_save(self.image_min.path, 255)
         
