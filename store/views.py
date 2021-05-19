@@ -153,7 +153,6 @@ def update(request, article_id):
         form = ArticleForms(request.POST, request.FILES, instance=article)
         if form.is_valid():
             article = form.save(commit=False)
-            price_init = int(request.POST.get('price_init'))
             article.user = request.user          
             article.save()
             messages.success(request, article_update_success(article))
