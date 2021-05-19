@@ -168,7 +168,7 @@ def update_article(request, article_id):
         'categories': Category.objects.all(),
     }
 
-    return render(request, 'dashboard/update_article.html', context)
+    return render(request, 'store/update.html', context)
 
 @login_required
 def favourite(request):
