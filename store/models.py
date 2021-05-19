@@ -2,8 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
+from django.utils import timezone
 from os import system, path
 from PIL import Image
+
 
 from user.models import Profil
 from .utils import edit_image_before_save, add_percentage 
@@ -87,6 +89,7 @@ class Article(models.Model):
     
     def save(self, *args, **kwargs):
         self.price_ttc = add_percentage(self.price_init)
+        self.date_edit = timezone.now()
         if self.number == 0:
             self.available = False
         super().save(*args, **kwargs)
