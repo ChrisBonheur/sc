@@ -16,8 +16,7 @@ from django.core.files import File
 from .models import Article, Picture, Category, Favourite
 from dashboard.models import Order
 from communication.models import Message
-from .utils import add_percentage, send_welcome_message_to_new_user, article_update_success
-from .messages_notif import article_save_success
+from .utils import *
 from .forms import ArticleForms
  
 def home(request):

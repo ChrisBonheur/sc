@@ -56,5 +56,6 @@ def send_welcome_message_to_new_user(user, Message, User):
             )
         return True
 
-#showing message 
+#showing messages
 article_update_success = lambda article: f"Votre article {article} a été modifié!"
+article_save_success = lambda article: f"Votre article {article} a bien été ajouté !"

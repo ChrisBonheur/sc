@@ -9,7 +9,6 @@ from django.conf import settings
 from store.models import Article, Category, Picture, Favourite, Status, Town
 from communication.models import Message
 from store.utils import *
-from store.messages_notif import article_save_success
 
 BASE_DIR = settings.BASE_DIR
 

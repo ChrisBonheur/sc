@@ -1,1 +1,0 @@
-article_save_success = lambda article: f"Votre article {article} a bien été ajouté !"
