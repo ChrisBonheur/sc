@@ -133,28 +133,30 @@
         </div>
         
         <hr>
-        <div class="row rowBloc1">
-            <div class="col-12">
-                <label for="">Vous pouvez ajouter des photos supplémentaires ici</label> <br>
-                <div class="bloc-flex">
-                    <div class="row upload_pics">
+        {% if request.path == "/store/sell/" %}
+            <div class="row rowBloc1">
+                <div class="col-12">
+                    <label for="">Vous pouvez ajouter des photos supplémentaires ici</label> <br>
+                    <div class="bloc-flex">
+                        <div class="row upload_pics">
 
-                    </div>
-                    <div class="row btn-list">
-                        <div class="col-12 text-center">
-                            <button class="add-pics-btn">Choisir une photo</button><br>
-                            <span class="alert"></span>
-                            <input type="number" id="count_click" name="count_click" hidden="hidden">
+                        </div>
+                        <div class="row btn-list">
+                            <div class="col-12 text-center">
+                                <button class="add-pics-btn">Choisir une photo</button><br>
+                                <span class="alert"></span>
+                                <input type="number" id="count_click" name="count_click" hidden="hidden">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
 
     </div>
 </div>
 <div class="row rowBloc4 text-right">
-    <div><button type="submit" class="load-style">Sauvegarder</button></div>
-    <div><a href="{% url 'dashboard:my_articles' %}"><button>Annuler</button></a></div>
+    <div><button type="submit">Sauvegarder</button></div>
+    <div><a href="{% url 'dashboard:my_articles' %}">Annuler</a></div>
 </div>
 
