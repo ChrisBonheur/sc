@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from store.tests.tests_views import create_article
 from communication.models import Message
 from dashboard.models import Order
-from dashboard.messages_info import article_delete_success, article_update_success
+from dashboard.messages_info import article_delete_success
 
 class MessageNotifTestCase(TestCase):
     def setUp(self):

@@ -9,7 +9,7 @@ from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
 from .forms import OrderForms
-from .messages_info import article_delete_success, article_update_success
+from .messages_info import article_delete_success
 from store.forms import ArticleForms
 from store.utils import add_percentage
 
@@ -44,31 +44,6 @@ def bought_article_list(request):
     }
     
     return render(request, 'dashboard/archives.html', context)
-
-@login_required
-def update_article(request, article_id):
-    id = int(article_id)
-    article = get_object_or_404(Article, id=id)
-    form = ArticleForms(instance=article)
-    if request.POST:
-        form = ArticleForms(request.POST, request.FILES, instance=article)
-        if form.is_valid():
-            article = form.save(commit=False)
-            price_init = int(request.POST.get('price_init'))
-            article.user = request.user          
-            article.save()
-            messages.success(request, article_update_success(article))
-            #clear cache set in my_articles views
-            cache.delete_many([f'available_articles_{request.user.id}', \
-                f'unavailable_articles_{request.user.id}'])
-            return redirect('dashboard:my_articles')
-    context = {
-        'article': article,
-        'form': form,
-        'categories': Category.objects.all(),
-    }
-
-    return render(request, 'dashboard/update_article.html', context)
 
 @login_required
 def delete_article(request):

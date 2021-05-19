@@ -114,23 +114,23 @@ class DetailPageTestCase(TestCase):
         pictures = Picture.objects.filter(article=self.article)
         self.assertQuerysetEqual(self.response.context['pictures'], pictures)
         
-    def test_favourite_articles_missing_for_not_login_user(self):
-        #if user not login don't contain (context) favourites articles of  current user
-        self.assertEqual(self.response.context.get("favourites_articles"), None)
+    # def test_favourite_articles_missing_for_not_login_user(self):
+    #     #if user not login don't contain (context) favourites articles of  current user
+    #     self.assertEqual(self.response.context.get("favourites_articles"), None)
         
-    def test_favourite_list_in_detail_page(self):
-        # get_user()#create user
-        article = self.article
-        user = User.objects.get(username=USERNAME)
-        #contain (context) favourites articles for login user
-        self.client.login(username=USERNAME, password=PASSWORD)
-        # user = User.objects.get(username="fail")
-        Favourite.objects.create(user=user, article=article)
+    # def test_favourite_list_in_detail_page(self):
+    #     # get_user()#create user
+    #     article = self.article
+    #     user = User.objects.get(username=USERNAME)
+    #     #contain (context) favourites articles for login user
+    #     self.client.login(username=USERNAME, password=PASSWORD)
+    #     # user = User.objects.get(username="fail")
+    #     Favourite.objects.create(user=user, article=article)
         
-        response = self.client.get(reverse("store:detail", args=(article.id,)))
-        favourite_articles = Article.objects.filter(favourite__user=user)
-        [self.assertEqual(context_article, page_article) for context_article, page_article in \
-            zip(response.context['favourite_articles'], favourite_articles)]
+    #     response = self.client.get(reverse("store:detail", args=(article.id,)))
+    #     favourite_articles = Article.objects.filter(favourite__user=user)
+    #     [self.assertEqual(context_article, page_article) for context_article, page_article in \
+    #         zip(response.context['favourite_articles'], favourite_articles)]
 
 class SellPageTestCase(TestCase):
     def setUp(self):
@@ -139,7 +139,7 @@ class SellPageTestCase(TestCase):
         self.user = User.objects.create_user(username="bonheur", password="1234")
         self.client.login(username=self.user, password="1234")
         
-    def test_sell_page_with_no_post_request(self):
+    def test_create_article_page_access(self):
         self.user#to make user login for request
         response = self.client.get(reverse("store:sell"))
         self.assertEqual(response.status_code, 200)
@@ -198,51 +198,84 @@ class SearchTestCase(TestCase):
             zip(self.response.context['articles'], articles)]
 
 
-class FavouriteTestCase(TestCase):
-    def setUp(self):
-        self.article = create_article()
-        self.c_Logged = Client()
-        self.c_Logged.login(username=USERNAME, password=PASSWORD)
-        self.response = lambda get_request_dict: self.c_Logged.get(reverse('store:favourite'),\
-             get_request_dict)
+# class FavouriteTestCase(TestCase):
+#     def setUp(self):
+#         self.article = create_article()
+#         self.c_Logged = Client()
+#         self.c_Logged.login(username=USERNAME, password=PASSWORD)
+#         self.response = lambda get_request_dict: self.c_Logged.get(reverse('store:favourite'),\
+#              get_request_dict)
         
-    def test_page_return_200(self):
-        response = self.response({})
+#     def test_page_return_200(self):
+#         response = self.response({})
+#         self.assertEqual(response.status_code, 200)
+    
+#     def test_add_article_in_favourite(self):
+#         article = self.article
+#         user = User.objects.get(username=USERNAME)
+#         #get favourite count before creating favourite
+#         favourites_user_count_before = Favourite.objects.filter(user=user).count()
+#         self.response({"article_id": article.id})
+#         #get favourite count after creating favourite
+#         favourites_user_count_after = Favourite.objects.filter(user=user).count()
+        
+#         self.assertEqual(favourites_user_count_before + 1, favourites_user_count_after)
+        
+#     def test_delete_favourite(self):
+#         article = self.article
+#         user = User.objects.get(username=USERNAME)
+#         Favourite.objects.create(article=article, user=user)
+#         #get favourite count before creating favourite
+#         favourites_user_count_before = Favourite.objects.filter(user=user).count()
+#         self.response({"delete_article_id": article.id})
+#         #get favourite count after creating favourite
+#         favourites_user_count_after = Favourite.objects.filter(user=user).count()
+        
+#         self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
+
+#     def test_context_data(self):
+#         article = self.article
+#         user = User.objects.get(username=USERNAME)
+#         Favourite.objects.create(article=article, user=user)
+#         favourites_article = Article.objects.filter(favourite__user=user)
+#         response = self.response({})
+          
+#         [self.assertIn(favourite_article, response.context['articles']) for \
+#             favourite_article in favourites_article]
+
+class UpdateArticleTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="chance", password="123456")
+        self.article = create_article("Ordinateur portable", self.user)
+        #make login user 
+        self.client.login(username=self.user, password="123456")
+        
+    def test_acces_page_update(self):
+        """Test access page update article return 200"""
+        user = self.user#for execute setUp function and will login user
+        response = self.client.get(reverse('store:update', args=(self.article.id,)))
         self.assertEqual(response.status_code, 200)
     
-    def test_add_article_in_favourite(self):
-        article = self.article
-        user = User.objects.get(username=USERNAME)
-        #get favourite count before creating favourite
-        favourites_user_count_before = Favourite.objects.filter(user=user).count()
-        self.response({"article_id": article.id})
-        #get favourite count after creating favourite
-        favourites_user_count_after = Favourite.objects.filter(user=user).count()
+    def test_save_update(self):
+        data = {
+            "name": "Salade",
+            "description": self.article.description,
+            "category": self.article.category.id,
+            "status": self.article.status.id,
+            "number": 4,
+            "price_init": 12500,
+            "town": self.article.town.id,
+            "district": self.article.district,
+            "image_min": IMAGE,
+        }
+        response = self.client.post(reverse('store:update', args=(self.article.id,)), data)
+        article_updated = Article.objects.get(pk=self.article.id)   
+        #compare old data and new data like article.name
+        self.assertEqual(article_updated.name, data['name'], \
+            msg="Warning! Data haven't updtated")
+        #test redirection
+        self.assertRedirects(response, reverse('dashboard:my_articles'))
         
-        self.assertEqual(favourites_user_count_before + 1, favourites_user_count_after)
-        
-    def test_delete_favourite(self):
-        article = self.article
-        user = User.objects.get(username=USERNAME)
-        Favourite.objects.create(article=article, user=user)
-        #get favourite count before creating favourite
-        favourites_user_count_before = Favourite.objects.filter(user=user).count()
-        self.response({"delete_article_id": article.id})
-        #get favourite count after creating favourite
-        favourites_user_count_after = Favourite.objects.filter(user=user).count()
-        
-        self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
-
-    def test_context_data(self):
-        article = self.article
-        user = User.objects.get(username=USERNAME)
-        Favourite.objects.create(article=article, user=user)
-        favourites_article = Article.objects.filter(favourite__user=user)
-        response = self.response({})
-          
-        [self.assertIn(favourite_article, response.context['articles']) for \
-            favourite_article in favourites_article]
-
 class UtilsTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -266,6 +299,6 @@ class UtilsTestCase(TestCase):
         self.assertEqual(messages_after, messages_after_after, \
             msg="WARNING: Welcome message is sent more than one times to same user")
         
-        
+       
         
         

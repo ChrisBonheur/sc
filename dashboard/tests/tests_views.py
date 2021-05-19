@@ -35,34 +35,6 @@ class MyArticlesTestCase(TestCase):
              [repr(article) for article in unavailable_articles], msg="Unavailable \
                  articles of user miss in context")
         
-class UpdateArticleTestCase(MyArticlesTestCase):
-    def test_acces_page_update(self):
-        """Test access page update article return 200"""
-        user = self.user#for execute setUp function and will login user
-        response = self.client.get(reverse('dashboard:update', args=(self.article.id,)))
-        self.assertEqual(response.status_code, 200)
-    
-    def test_save_update(self):
-        data = {
-            "name": "Salade",
-            "description": self.article.description,
-            "category": self.article.category.id,
-            "status": self.article.status.id,
-            "number": 4,
-            "price_init": 12500,
-            "town": self.article.town.id,
-            "district": self.article.district,
-            "image_min": IMAGE,
-        }
-        response = self.client.post(reverse('dashboard:update', args=(self.article.id,)), data)
-        article_updated = Article.objects.get(pk=self.article.id)   
-        #compare old data and new data like article.name
-        self.assertEqual(article_updated.name, data['name'], \
-            msg="Warning! Data haven't updtated")
-        #test redirection
-        self.assertRedirects(response, reverse('dashboard:my_articles'))
-    
-        
 class DeleteArticleTestCase(MyArticlesTestCase):
     def test_article_removed(self):
         """Test removing existing article"""

@@ -16,7 +16,7 @@ from django.core.files import File
 from .models import Article, Picture, Category, Favourite
 from dashboard.models import Order
 from communication.models import Message
-from .utils import add_percentage, send_welcome_message_to_new_user
+from .utils import add_percentage, send_welcome_message_to_new_user, article_update_success
 from .messages_notif import article_save_success
 from .forms import ArticleForms
  
@@ -98,7 +98,6 @@ def detail(request, article_id):
     article.save()
     return render(request, 'store/detail.html', context)
 
-
 def search(request):
     if request.GET:
         category = request.GET.get('category')
@@ -146,6 +145,30 @@ def sell(request):
     }
     return render(request, 'store/sell.html', context)
 
+@login_required
+def update_article(request, article_id):
+    id = int(article_id)
+    article = get_object_or_404(Article, id=id)
+    form = ArticleForms(instance=article)
+    if request.POST:
+        form = ArticleForms(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            price_init = int(request.POST.get('price_init'))
+            article.user = request.user          
+            article.save()
+            messages.success(request, article_update_success(article))
+            #clear cache set in my_articles views
+            cache.delete_many([f'available_articles_{request.user.id}', \
+                f'unavailable_articles_{request.user.id}'])
+            return redirect('dashboard:my_articles')
+    context = {
+        'article': article,
+        'form': form,
+        'categories': Category.objects.all(),
+    }
+
+    return render(request, 'dashboard/update_article.html', context)
 
 @login_required
 def favourite(request):

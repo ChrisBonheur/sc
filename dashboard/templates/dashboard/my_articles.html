@@ -19,7 +19,7 @@
                                 <nav>
                                     <ul>
                                         <li><a href="" class="btn-delete" id="{{ article.id }}">Supprimer</a></li>
-                                        <li><a href="{% url 'dashboard:update' article_id=article.id %}">Modifier</a></li>
+                                        <li><a href="{% url 'store:update' article_id=article.id %}">Modifier</a></li>
                                         <li>
                                             <label for="available">Disponible</label>
                                             <input type="checkbox" name="available" class="available-btn" id="{{ article.id }}"
@@ -61,7 +61,7 @@
                                     <nav>
                                         <ul>
                                             <li><a href="">Supprimer</a></li>
-                                            <li><a href="{% url 'dashboard:update' article_id=article.id %}">Modifier</a></li>
+                                            <li><a href="{% url 'store:update' article_id=article.id %}">Modifier</a></li>
                                             <li>
                                                 <label for="available">Disponible</label>
                                                 <input type="checkbox" name="available" class="available-btn" id="{{ article.id }}"

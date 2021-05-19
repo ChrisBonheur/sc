@@ -55,3 +55,6 @@ def send_welcome_message_to_new_user(user, Message, User):
                 link='user:profil'
             )
         return True
+
+#showing message 
+article_update_success = lambda article: f"Votre article {article} a été modifié!"
