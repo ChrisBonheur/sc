@@ -37,27 +37,25 @@ def path_and_rename(instance, filename):
         filename = f'{new_name}.{ext}'
     
     return os.path.join('uploads', filename)
-        
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+
+class Identity(models.Model):
+    name = models.CharField(max_length=100, unique=True, blank=True)
+    def __str__(self):
+        return self.name
+    class Meta:
+        abstract = True
+    
+class Category(Identity):
     class Meta:
         verbose_name = 'Categorie'
-    def __str__(self):
-        return self.name
 
-class Status(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+class Status(Identity):
     class Meta:
         verbose_name = "Etat"
-    def __str__(self):
-        return self.name
 
-class Town(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+class Town(Identity):
     class Meta:
         verbose_name = "Villes"
-    def __str__(self):
-        return self.name
 
 class Article(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nom de l\'article')
@@ -73,7 +71,7 @@ class Article(models.Model):
     image_min = models.ImageField(upload_to=pictures_rename, null=True)
     img_background = models.CharField(max_length=100, null=True)
     delivery = models.BooleanField(default=False, null=True)
-    #relation table
+    slug = models.SlugField(max_length=100, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Etat', null=True)
     town = models.ForeignKey(Town,on_delete=models.CASCADE, verbose_name='Ville', null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, verbose_name='Categorie',\
@@ -102,16 +100,21 @@ class Picture(models.Model):
         super().save(*args, **kwargs)
         edit_image_before_save(self.photo.path, 400)
 
-class Like(models.Model):
-    status = models.BooleanField(verbose_name='Etat')
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='articles')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Utilisateur')
+class SocialApp(Identity):
+    class Meta:
+        verbose_name = "Applications sociales de partage"
+
+class Share(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    social_app = models.ForeignKey(SocialApp, on_delete=models.CASCADE)
+    date_share = models.DateTimeField(auto_now_add=True)
     
+    class Meta:
+        verbose_name = "Partage sur réseaux sociaux"
     
 class Favourite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    date_add = models.DateTimeField(auto_now_add=True, verbose_name='Date d\'ajout')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    articles = models.ManyToManyField(Article, related_name="favourite")
 
     class Meta:
         verbose_name = 'Favoris'
