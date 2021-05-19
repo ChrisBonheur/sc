@@ -45,13 +45,6 @@
             </div>
             <div class="col-md-6">
                 {{ form.status }}
-                <!-- <select name="status" id="" required>
-                    <option value="Neuf sans facture">Neuf avec facture</option>
-                    <option value="Neuf avec facture">Neuf san facture</option>
-                    <option value="Tres bon état">Très bon état</option>
-                    <option value="Bon état">Bon état</option>
-                    <option value="Satisfaisant">Satisfaisant</option>
-                </select> -->
             </div>
         </div>
     </div>
@@ -86,21 +79,6 @@
             </div>
             <div class="col-md-6">
                 {{ form.town }}
-                <!-- <select name="town" id="" required>
-                    <option value="Brazzaville">Brazzaville</option>
-                    <option value="Pointe-Noire">Pointe-Noire</option>
-                    <option value="Dolisie">Dolisie</option>
-                    <option value="Nkayi">Nkayi</option>
-                    <option value="Ouesso">Ouesso</option>
-                    <option value="Madingou">Madingou</option>
-                    <option value="Owando">Owando</option>
-                    <option value="Gamboma">Gamboma</option>
-                    <option value="Impfondo">Impfondo</option>
-                    <option value="Sibiti">Sibiti</option>
-                    <option value="Mossendjo">Mossendjo</option>
-                    <option value="Kinkala">Kinkala</option>
-                    <option value="Makoua">Makoua</option>
-                </select> -->
             </div>
         </div>
 
@@ -133,7 +111,7 @@
         </div>
         
         <hr>
-        {% if request.path == "/store/sell/" %}
+        {% if request.path == "/store/poster-un-article/" %}
             <div class="row rowBloc1">
                 <div class="col-12">
                     <label for="">Vous pouvez ajouter des photos supplémentaires ici</label> <br>

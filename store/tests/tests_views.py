@@ -132,7 +132,7 @@ class DetailPageTestCase(TestCase):
     #     [self.assertEqual(context_article, page_article) for context_article, page_article in \
     #         zip(response.context['favourite_articles'], favourite_articles)]
 
-class SellPageTestCase(TestCase):
+class CreateArticlePageTestCase(TestCase):
     def setUp(self):
         self.image =  File(open(f'{BASE_DIR}/store/static/store/img_test/pic5.png', 'rb'))
         self.category = category()
@@ -141,12 +141,12 @@ class SellPageTestCase(TestCase):
         
     def test_create_article_page_access(self):
         self.user#to make user login for request
-        response = self.client.get(reverse("store:sell"))
+        response = self.client.get(reverse("store:create_article"))
         self.assertEqual(response.status_code, 200)
         
     def test_sell_page_save_article(self):
         user_id = self.user.id
-        response = self.client.post(reverse('store:sell'), {
+        response = self.client.post(reverse('store:create_article'), {
             "name": "Ordinateur portable",
             "description": "Test description",
             "price_init": 2500,
@@ -177,7 +177,7 @@ class SellPageTestCase(TestCase):
         data["image_1"] = self.image
         data["image_2"] = self.image
         self.client.login(username=article.user, password="1234")
-        res = self.client.post(reverse("store:sell"), data)
+        res = self.client.post(reverse("store:create_article"), data)
         pics_count_after = Picture.objects.count()
         self.assertEqual(pics_count_before + 2, pics_count_after)
     

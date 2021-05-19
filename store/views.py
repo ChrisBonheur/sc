@@ -115,7 +115,7 @@ def search(request):
         return render(request, 'store/search_result.html', context)
 
 @login_required
-def sell(request):
+def create_article(request):
     form = ArticleForms(None)
     if request.POST:
         form = ArticleForms(request.POST, request.FILES)
@@ -146,7 +146,7 @@ def sell(request):
     return render(request, 'store/sell.html', context)
 
 @login_required
-def update_article(request, article_id):
+def update(request, article_id):
     id = int(article_id)
     article = get_object_or_404(Article, id=id)
     form = ArticleForms(instance=article)

@@ -40,7 +40,7 @@
                    <div class="bloc_1">
 
                         <div class="btn_sell">
-                            <a href="{% url 'store:sell' %}"><button>Vendre un article</button></a>
+                            <a href="{% url 'store:create_article' %}"><button>Vendre un article</button></a>
                         </div>
                         {% if not user.is_authenticated %}
                             <div class="login">
@@ -141,7 +141,7 @@
                             </div>
                         {% endif %}
 
-                        <a href="{% url 'store:sell' %}"><button>Vendre un article</button></a>
+                        <a href="{% url 'store:create_article' %}"><button>Vendre un article</button></a>
                         <div class="patch-question"> 
                             <a href="{% url 'work_step' %}"></a>
                         </div>
