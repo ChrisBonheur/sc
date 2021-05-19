@@ -22,20 +22,6 @@ class MessageNotifTestCase(TestCase):
         self.client.get(reverse('dashboard:delete'), {"article_id": article.id})
         response = self.client.get(reverse('dashboard:my_articles'))
         self.assertContains(response, article_delete_success(article))
-    
-    def test_success_update_article(self):
-        """test message info succes update is added after
-        update action"""
-        article = self.article
-        attributs = ["price_init", "district", "delivery", "number", "description", "image_min"]
-        data_article = {attr: getattr(article, attr) for attr in attributs}
-        data_article["name"] = "clavier azerty"
-        data_article["town"] = article.town.id
-        data_article["status"] = article.status.id
-        data_article["category"] = article.category.id
-        self.client.post(reverse('dashboard:update', args=(article.id,)), data_article)
-        response = self.client.get(reverse('dashboard:my_articles'))
-        self.assertContains(response, article_update_success(data_article["name"]))
         
     def test_send_notifs_valid_order(self):
         """Test send notification when ordering is valided"""

@@ -275,6 +275,19 @@ class UpdateArticleTestCase(TestCase):
             msg="Warning! Data haven't updtated")
         #test redirection
         self.assertRedirects(response, reverse('dashboard:my_articles'))
+    
+    def test_message_confirmation_showing(self):
+        """test message info succes update showing UI"""
+        article = self.article
+        attributs = ["price_init", "district", "delivery", "number", "description", "image_min"]
+        data_article = {attr: getattr(article, attr) for attr in attributs}
+        data_article["name"] = "clavier azerty"
+        data_article["town"] = article.town.id
+        data_article["status"] = article.status.id
+        data_article["category"] = article.category.id
+        self.client.post(reverse('store:update', args=(article.id,)), data_article)
+        response = self.client.get(reverse('dashboard:my_articles'))
+        self.assertContains(response, article_update_success(data_article["name"]))
         
 class UtilsTestCase(TestCase):
     @classmethod
