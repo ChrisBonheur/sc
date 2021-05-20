@@ -9,7 +9,6 @@ from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
 from .forms import OrderForms
-from .messages_info import article_delete_success
 from store.forms import ArticleForms
 from store.utils import add_percentage
 
