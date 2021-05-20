@@ -106,18 +106,22 @@ def search(request):
         if query != "":
             if category == 'all':
                 word_to_search = f"{query} categorie: tout"
-                articles = Article.objects.filter(name__icontains=query)
+                #cache don't accept space for his key we remove any space
+                cache_name = "".join(f"filter_{query}".split(" "))
+                articles = get_or_create_cache(cache_name, Article, Q(name__icontains=query)\
+                    & Q(available=True))
             else:
                 category = get_object_or_404(Category, name=category)
-                articles = Article.objects.filter(Q(name__icontains=query) & Q(category=category) & \
-                        Q(available=True))
+                cache_name = "".join(f"filter_{category}_{query}".split(" "))
+                articles = get_or_create_cache(cache_name, Article, Q(name__icontains=query) \
+                    & Q(category=category) & Q(available=True))
                 word_to_search = f"{query} categorie: {category}"
         elif category == "all":
-            articles = Article.objects.all()
+            articles = get_or_create_cache("all", Article)
             word_to_search = "Toutes catégories"
         else:
             category = get_object_or_404(Category, name=category)
-            articles = Article.objects.filter(category=category)
+            articles = get_or_create_cache(f"filter_{category}", Article, Q(category=category))
             word_to_search = category
             
         context = {
