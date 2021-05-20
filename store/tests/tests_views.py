@@ -91,7 +91,7 @@ class DetailPageTestCase(TestCase):
         self.response = self.client.get(reverse('store:detail', args=(self.article.id,)))
         
     def test_detail_page_return_200(self):
-        article = self.article
+        response = self.client.get(reverse('store:detail'), args=(self.article.id))
         self.assertEqual(self.response.status_code, 200)
     
     def test_page_contain_article_selected(self):
@@ -99,7 +99,7 @@ class DetailPageTestCase(TestCase):
         self.assertEqual(self.response.context.get("article"), self.article)
     
     def test_page_contain_all_articles_for_user_s_article_selected(self):
-        #verify that all articles_for_seller is just for user's article
+        #verify that all articles_for_seller is just for him
         [self.assertEqual(article_for_seller.user, self.article.user) for article_for_seller in \
             self.response.context.get("articles_for_seller")]
         
