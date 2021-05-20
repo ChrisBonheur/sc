@@ -227,17 +227,7 @@ class FavouriteTestCase(TestCase):
         favourites_user_count_after = self.favourite.articles.count()
         
         self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
-
-#     def test_context_data(self):
-#         article = self.article
-#         user = User.objects.get(username=USERNAME)
-#         Favourite.objects.create(article=article, user=user)
-#         favourites_article = Article.objects.filter(favourite__user=user)
-#         response = self.response({})
-          
-#         [self.assertIn(favourite_article, response.context['articles']) for \
-#             favourite_article in favourites_article]
-
+        
 class UpdateArticleTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="chance", password="123456")
