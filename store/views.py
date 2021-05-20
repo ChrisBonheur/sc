@@ -214,3 +214,20 @@ def favourite(request):
     }
     return render(request, 'store/favourite.html', context)
 
+@login_required
+def my_articles_added(request):
+    def get_article(availability=True):
+        return Article.objects.filter(Q(user=request.user) & \
+            Q(available=availability))
+    
+    available_cache_name = f'available_articles_{request.user.id}'
+    unavailable_cache_name = f'unavailable_articles_{request.user.id}'
+    if not cache.get(available_cache_name) or not cache.get(unavailable_cache_name):        
+        cache.set(available_cache_name, get_article(True))
+        cache.add(unavailable_cache_name, get_article(False))
+    
+    context ={
+        'articles_available_of_seller': cache.get(available_cache_name),
+        'articles_unavailable_of_seller': cache.get(unavailable_cache_name),
+    }
+    return render(request, 'store/my_articles.html', context)
