@@ -1,6 +1,8 @@
 from django import template
 from django.utils import timezone
 
+from store.models import Favourite
+
 register = template.Library()
 
 @register.filter
@@ -32,3 +34,13 @@ def calcul_date(date_time):
             if year > 1:
                 indication = 'ans'
             return f'{year}{indication}'
+        
+@register.filter
+def is_favourite(user, article):
+    """test if article is in user favourite"""
+    try:
+        Favourite.objects.get(user=user).articles.get(pk=article.id)
+    except Exception:
+        return False
+    else:
+        return True
