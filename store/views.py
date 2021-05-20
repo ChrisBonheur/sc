@@ -188,6 +188,8 @@ def update(request, article_id):
 
 @login_required
 def favourite(request):
+    cache_name = f"articles_favourite_{request.user}"
+    
     if request.GET.get('article_id'):
         article_id = request.GET.get('article_id')
         article = get_object_or_404(Article, pk=article_id)
@@ -197,22 +199,24 @@ def favourite(request):
             favourite = Favourite.objects.create(user=request.user)
         favourite.articles.add(article)
         #clear cache
-        cache.clear()
+        cache.delete(cache_name)
     elif request.GET.get('delete_article_id'):
         article_id = request.GET.get('delete_article_id')
         article = get_object_or_404(Article, pk=article_id)
         favourite = get_object_or_404(Favourite, user=request.user)
         favourite.articles.remove(article)
         #clear cache
-        cache.clear()
+        cache.delete(cache_name)
     
-    user = request.user
-    
-    if not cache.get('articles_favourite'):
-        cache.set('articles_favourite', Article.objects.filter(favourite__user=user))
+    if not cache.get(cache_name):
+        try:
+            articles_favourite = Favourite.objects.get(user=request.user).articles.all()
+        except Exception:
+            articles_favourite = Favourite.objects.create(user=request.user).articles.all()
+        cache.set(cache_name, articles_favourite)
         
     context = {
-        'articles': cache.get('articles_favourite'),
+        'articles': cache.get(cache_name),
         'favourite_page': True,
     }
     return render(request, 'store/favourite.html', context)
