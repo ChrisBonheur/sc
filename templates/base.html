@@ -64,6 +64,7 @@
                                 {% endif %}
                                 <li><a href="{% url 'store:home' %}">Acceuil</a></li>
                                 {% if user.is_authenticated %}
+                                    <li><a href="{% url 'store:my_articles' %}">Mes articles ajoutés</a></li>
                                     <li><a href="{% url 'dashboard:my_articles' %}">Tableau de bord</a></li>
                                 {% endif %}
                                 <li><a href="{% url 'about' %}">A propos</a></li>
@@ -162,6 +163,7 @@
                         <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">À propos</a></li>
                         <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                         {% if user.is_authenticated %}
+                            <li class="nav-item"><a href="{% url 'store:my_articles' %}" class="nav-link">Mes articles ajoutés</a></li>
                             <li class="nav-item"><a href="{% url 'dashboard:my_articles' %}" class="nav-link">Tableau de bord</a></li>
                         {% endif %}
                     </ul>
