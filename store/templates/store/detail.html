@@ -55,7 +55,7 @@
                                         <a href="{% url 'communication:new_msg' %}?article_id={{ article.id }}"><button class="send-btn">Enoyez un message</button></a>
                                     </div>
                                     <div>
-                                        {% if article_in_order == True %}
+                                        {% if article_in_order %}
                                             <p>Cet article est déjà en cours de commande</p>
                                         {% else %}
                                             <form action="{% url 'dashboard:orders' %}envoyees" method="post">
@@ -73,8 +73,10 @@
                                         {% endif %}
                                     </div>
                                     <div>
-                                        {% if article not in favourite_articles %}
-                                            <button class="add-btn" id="{{ article.id }}">Ajouter aux favoris</button>
+                                        {% if request.user.is_authenticated %}
+                                            {% if not request.user|is_favourite:article %}
+                                                <button class="add-btn" id="{{ article.id }}">Ajouter aux favoris</button>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -94,7 +96,7 @@
                             {% endif %} alt="avatar"> {{ article.user.username }}
                         </div>
                         <div>
-                            Articles({{ articles_for_seller_count }})
+                            Articles({{ articles_for_seller|length }})
                         </div>
                     </div>
                     <hr>

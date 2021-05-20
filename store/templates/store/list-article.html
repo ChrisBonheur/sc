@@ -37,7 +37,8 @@
                                 
                                 <div class="bloc-links">
                                     <div><a class="" href="{% url 'store:detail' article_id=article.id %}"><button>Détails</button></a></div>
-                                        {% if article not in favourite_articles %}
+                                    {% if request.user.is_authenticated %}
+                                        {% if not request.user|is_favourite:article %}
                                             <div class="save-favourite" id="{{ article.id }}" title="Ajoutez aux favoris">
                                                 <img src="{% static 'images/icons/heart.png' %}" alt="">
                                             </div>
@@ -46,7 +47,7 @@
                                                 Retirer
                                             </div>
                                         {% endif %}
-                                
+                                    {% endif %}
                                     <div class="time_add">
                                         Il ya {{ article.date_add|calcul_date }}
                                     </div>
