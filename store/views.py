@@ -101,16 +101,30 @@ def search(request):
     if request.GET:
         category = request.GET.get('category')
         query = request.GET.get('query')
-        if category == 'all':
-            articles = Article.objects.filter(name__icontains=query)
+        word_to_search = None
+        
+        if query != "":
+            if category == 'all':
+                word_to_search = f"{query} categorie: tout"
+                articles = Article.objects.filter(name__icontains=query)
+            else:
+                category = get_object_or_404(Category, name=category)
+                articles = Article.objects.filter(Q(name__icontains=query) & Q(category=category) & \
+                        Q(available=True))
+                word_to_search = f"{query} categorie: {category}"
+        elif category == "all":
+            articles = Article.objects.all()
+            word_to_search = "Toutes catégories"
         else:
             category = get_object_or_404(Category, name=category)
-            articles = Article.objects.filter(Q(name__icontains=query) & Q(category=category) & \
-                    Q(available=True))
+            articles = Article.objects.filter(category=category)
+            word_to_search = category
+            
         context = {
             'articles': articles,
-            'elt_to_search': query,
+            'elt_to_search': word_to_search,
         }
+        
         return render(request, 'store/search_result.html', context)
 
 @login_required

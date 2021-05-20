@@ -190,12 +190,11 @@ class SearchTestCase(TestCase):
         self.assertEqual(self.response.status_code, 200)
         
     def test_articles_result_and_query_in_context(self):
-        articles = Article.objects.filter(name=self.article.name)
-        #test if articles and element_to_search is in context
+        articles = Article.objects.filter(name__icontains=self.article.name)
+        #test if element_to_search is in context
         self.assertContains(self.response, self.data_request['query'])
-        [self.assertEqual(article_context, article_page) for article_context, article_page in \
-            zip(self.response.context['articles'], articles)]
-
+        #test result in page
+        [self.assertContains(self.response, article) for article in articles]
 
 # class FavouriteTestCase(TestCase):
 #     def setUp(self):
