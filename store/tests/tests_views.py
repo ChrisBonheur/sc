@@ -196,40 +196,37 @@ class SearchTestCase(TestCase):
         #test result in page
         [self.assertContains(self.response, article) for article in articles]
 
-# class FavouriteTestCase(TestCase):
-#     def setUp(self):
-#         self.article = create_article()
-#         self.c_Logged = Client()
-#         self.c_Logged.login(username=USERNAME, password=PASSWORD)
-#         self.response = lambda get_request_dict: self.c_Logged.get(reverse('store:favourite'),\
-#              get_request_dict)
+class FavouriteTestCase(TestCase):
+    def setUp(self):
+        self.article = create_article()
+        self.user = User.objects.create_user(username="dash", password="123")
+        self.favourite = Favourite.objects.create(user=self.user)
+        self.client.login(username=self.user, password="123")
         
-#     def test_page_return_200(self):
-#         response = self.response({})
-#         self.assertEqual(response.status_code, 200)
-    
-#     def test_add_article_in_favourite(self):
-#         article = self.article
-#         user = User.objects.get(username=USERNAME)
-#         #get favourite count before creating favourite
-#         favourites_user_count_before = Favourite.objects.filter(user=user).count()
-#         self.response({"article_id": article.id})
-#         #get favourite count after creating favourite
-#         favourites_user_count_after = Favourite.objects.filter(user=user).count()
+    def test_page_favourite_list_return_200(self):
+        self.user
+        response = self.client.get(reverse('store:favourite'))
+        self.assertEqual(response.status_code, 200)
         
-#         self.assertEqual(favourites_user_count_before + 1, favourites_user_count_after)
+    def test_add_article_in_favourite(self):
+        article = self.article
+        user = self.user
+        #get favourite count before creating favourite
+        articles_in_favourite_count_before = self.favourite.articles.count()
+        self.client.get(reverse("store:favourite"), {"article_id": article.id})
+        #get favourite count after creating favourite
+        articles_in_favourite_count_after = self.favourite.articles.count()
+        self.assertEqual(articles_in_favourite_count_before + 1, articles_in_favourite_count_after)
         
-#     def test_delete_favourite(self):
-#         article = self.article
-#         user = User.objects.get(username=USERNAME)
-#         Favourite.objects.create(article=article, user=user)
-#         #get favourite count before creating favourite
-#         favourites_user_count_before = Favourite.objects.filter(user=user).count()
-#         self.response({"delete_article_id": article.id})
-#         #get favourite count after creating favourite
-#         favourites_user_count_after = Favourite.objects.filter(user=user).count()
+    def test_delete_favourite(self):
+        user = self.user
+        article = self.article
+        self.favourite.articles.add(article)
+        favourites_user_count_before = self.favourite.articles.count()
+        self.client.get(reverse('store:favourite'), {"delete_article_id": article.id})
+        favourites_user_count_after = self.favourite.articles.count()
         
-#         self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
+        self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
 
 #     def test_context_data(self):
 #         article = self.article

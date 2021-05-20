@@ -190,20 +190,19 @@ def update(request, article_id):
 def favourite(request):
     if request.GET.get('article_id'):
         article_id = request.GET.get('article_id')
-        article = Article.objects.get(pk=article_id)
-        
-        Favourite.objects.create(
-            user=request.user,
-            article=article
-        )
+        article = get_object_or_404(Article, pk=article_id)
+        try:
+            favourite = get_object_or_404(Favourite, user=request.user)
+        except Exception as e:
+            favourite = Favourite.objects.create(user=request.user)
+        favourite.articles.add(article)
         #clear cache
         cache.clear()
     elif request.GET.get('delete_article_id'):
         article_id = request.GET.get('delete_article_id')
-        favourite = Favourite.objects.get(Q(article__id=article_id) & Q(user=request.user))
-        print(favourite.id)
-        
-        favourite.delete()
+        article = get_object_or_404(Article, pk=article_id)
+        favourite = get_object_or_404(Favourite, user=request.user)
+        favourite.articles.remove(article)
         #clear cache
         cache.clear()
     
