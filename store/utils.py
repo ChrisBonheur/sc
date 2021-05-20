@@ -1,4 +1,6 @@
+from django.core.cache import cache
 from PIL import Image
+import logging as lg
 
 def add_percentage(price_init):
     PERCENTAGE_15 = 15
@@ -59,3 +61,24 @@ def send_welcome_message_to_new_user(user, Message, User):
 #showing messages
 article_update_success = lambda article: f"Votre article {article} a été modifié!"
 article_save_success = lambda article: f"Votre article {article} a bien été ajouté !"
+
+def get_or_create_cache(cache_name, model, Q_object=None):
+    """get or create cache if not exist for model filter
+    Args:
+        cache_name (str): name of cache
+        model (model class): model to filter
+        Q_object: filter model with Q object from django.db.models 
+    """
+    if cache.get(cache_name, "not exist") == "not exist":
+        try:
+            if Q_object != None:
+                cache.set(cache_name, model.objects.filter(Q_object))
+            else:
+                cache.set(cache_name, model.objects.all())
+        except NameError as e:
+            lg.critical(f"Model name not found : {e}")
+        except Exception as e:
+            lg.warning(e)
+    
+    return cache.get(cache_name, "not exist")
+
