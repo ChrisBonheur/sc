@@ -5,35 +5,6 @@ from django.shortcuts import reverse
 from store.models import Article, Category
 from dashboard.models import Invoice, Order
 from store.tests.tests_views import create_article, IMAGE
-
-class MyArticlesTestCase(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username="chance", password="123456")
-        self.article = create_article("Ordinateur portable", self.user)
-        #make login user 
-        self.client.login(username=self.user, password="123456")
-    
-    def test_acces_my_articles_list_page(self):
-        """test page that list articles's user return 200"""
-        user = self.user#for execute setUp function and will login user
-        response = self.client.get(reverse('dashboard:my_articles'))
-        self.assertEqual(response.status_code, 200)
-        
-    def test_available_and_unavailable_articles_in_context(self):
-        """This is test if all articles(available and unavailable) of curent 
-        user are in context"""
-        user = self.user
-        available_articles = Article.objects.filter(user=user, available=True)
-        unavailable_articles = Article.objects.filter(user=user, available=False)
-        response = self.client.get(reverse('dashboard:my_articles'))
-        #available articles in context ?
-        self.assertQuerysetEqual(response.context['articles_available_of_seller'],\
-             [repr(article) for article in available_articles], msg="Available \
-                 articles of user miss in context")
-        #unavailable articles in context ?
-        self.assertQuerysetEqual(response.context['articles_unavailable_of_seller'],\
-             [repr(article) for article in unavailable_articles], msg="Unavailable \
-                 articles of user miss in context")
         
 class DeleteArticleTestCase(MyArticlesTestCase):
     def test_article_removed(self):
