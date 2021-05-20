@@ -97,7 +97,8 @@ class Article(models.Model):
         
 class Picture(models.Model):
     photo = models.ImageField(upload_to=pictures_rename, null=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, \
+        related_name="pictures")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
