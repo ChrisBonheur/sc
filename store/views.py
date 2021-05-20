@@ -231,3 +231,14 @@ def my_articles_added(request):
         'articles_unavailable_of_seller': cache.get(unavailable_cache_name),
     }
     return render(request, 'store/my_articles.html', context)
+
+@login_required
+def delete_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    #connect info messaage with action in models
+    article.delete()
+    cache.delete(f"available_articles_{request.user.id}")
+    #show message success
+    messages.success(request, article_delete_success(article))
+    
+    return redirect('store:my_articles')
