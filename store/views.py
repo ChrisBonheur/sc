@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
@@ -86,7 +86,7 @@ def detail(request, article_id):
         pass
     
     #add 1 to seen article
-    article.seen = article.seen + 1
+    article.seen = F("seen") + 1
     article.save()
     return render(request, 'store/detail.html', context)
 
