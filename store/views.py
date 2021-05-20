@@ -55,35 +55,28 @@ def detail(request, article_id):
     #filtre seller of article_id to get list of all article from this seller
     article = get_object_or_404(Article, id=article_id)
     seller_id = article.user.id
-    article_category = article.category
-    #verification article is ordered
-    try:
-        get_object_or_404(Order, article__id=article_id)
-        article_in_order = True
-    except:
-        article_in_order = False
     
-    #set of cache request on database  
-    if not cache.get(f'same_category_articles_{article_category}'):
-        cache.set(f'same_category_articles_{article_category}', Article.objects.filter(available=True, \
-            category=article_category).order_by('-date_add'))
+    #set of cache request on database
+    articles_category_cache_name = f'filter_{article.category}'
+    if not cache.get(articles_category_cache_name):
+        cache.set(articles_category_cache_name, Article.objects.filter(available=True, \
+            category=article.category).order_by('-date_add'))
     
-    if not cache.get(f'articles_for_seller_{article.user}'):
-        cache.set(f'articles_for_seller_{article.user}', Article.objects.filter(Q(user__id=seller_id) & \
+    articles_user_cache_name = f'{article.user}_articles'
+    if not cache.get(articles_user_cache_name):
+        cache.set(articles_user_cache_name, Article.objects.filter(Q(user__id=seller_id) & \
             Q(available=True)))
     
     #get articles with same category with article select
-    articles_same_category = cache.get(f'same_category_articles_{article_category}')
+    articles_same_category = cache.get(articles_category_cache_name)
     
-    articles_for_seller = cache.get(f'articles_for_seller_{article.user}')
+    articles_for_seller = cache.get(articles_user_cache_name)
     
     context = {
         'articles': articles_same_category,
         'articles_for_seller': articles_for_seller,
-        'articles_for_seller_count': articles_for_seller.count(),
         'article': article,
-        'pictures': Picture.objects.filter(article__id=article_id),
-        'article_in_order': article_in_order,
+        'pictures': article.pictures.all(),
     }
     
     try:
