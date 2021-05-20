@@ -6,21 +6,6 @@ from store.models import Article, Category
 from dashboard.models import Invoice, Order
 from store.tests.tests_views import create_article, IMAGE
         
-class DeleteArticleTestCase(MyArticlesTestCase):
-    def test_article_removed(self):
-        """Test removing existing article"""
-        articles_count_before = Article.objects.count()
-        response = self.client.get(reverse("dashboard:delete"), {"article_id": self.article.id})
-        self.assertRedirects(response, reverse("dashboard:my_articles"))
-        articles_count_after = Article.objects.count()
-        self.assertEqual(articles_count_before - 1, articles_count_after)
-    
-    def test_reirection_after_removed(self):
-        """test redirection page after remove article"""
-        response = self.client.get(reverse("dashboard:delete"), {"article_id": self.article.id})
-        self.assertRedirects(response, reverse("dashboard:my_articles"))
-        
-        
 class InvoiceTestCase(MyArticlesTestCase):
     def setUp(self):
         MyArticlesTestCase.setUp(self)

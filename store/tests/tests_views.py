@@ -337,4 +337,17 @@ class MyArticlesTestCase(TestCase):
              [repr(article) for article in unavailable_articles], msg="Unavailable \
                  articles of user miss in context")     
         
-        
+class DeleteArticleTestCase(MyArticlesTestCase):
+    def test_article_removed(self):
+        """Test removing existing article"""
+        articles_count_before = Article.objects.count()
+        response = self.client.get(reverse("store:delete", args=(self.article.id,)))
+        self.assertRedirects(response, reverse("store:my_articles"))
+        articles_count_after = Article.objects.count()
+        self.assertEqual(articles_count_before - 1, articles_count_after)
+    
+    def test_showing_message_confirmation(self):
+        article = self.article
+        self.client.get(reverse("store:delete", args=(self.article.id,)))
+        response = self.client.get(reverse("store:my_articles"))
+        self.assertContains(response, article_delete_success(article))
