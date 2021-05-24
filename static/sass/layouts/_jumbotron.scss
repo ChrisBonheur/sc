@@ -1,0 +1,12 @@
+.jumbotron{
+    display: none;
+    height: $jumbotron-height-md;
+    padding: 1em;
+    padding-top: 4em;
+    background: url("../images/pictures/pic4.jpg") no-repeat center;
+    background-size: cover;
+    @include mobile{
+        padding-top: 2em;
+        height: $jumbotron-height-sm;
+    }
+}

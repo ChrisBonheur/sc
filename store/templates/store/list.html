@@ -1,0 +1,25 @@
+{% load humanize %}
+<div class="articles row row-cols-2 row-cols-md-3 row-cols-xl-4 mt-md-3 p-1 justify-content-around">
+    {% for article in articles %}
+    <div class="article p-1 col">
+      <div class="card p-0">
+        <a href="{% url 'store:detail' article_id=article.id %}"><img src="../static/img_test/img3.jpg" class="card-img-top" alt="..."></a>
+        <div class="card-body p-1 pb-0">
+          <h5 class="card-title text-secondary">{{ article.name }}</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
+            <span class="d-block">Prix:</span>  <span class="d-block text-dark">{{ article.price_ttc|intcomma|intword }} XAF</span>
+          </li>
+          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
+            <span class="d-block"><img src="../static/images/icons/geo.png" class="w-50" alt=""></span>  <span class="d-block text-truncate">{{ article.town }}</span>
+          </li>
+          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
+            <span class="d-block"><img src="../static/images/icons/eye.png" class="w-50" alt="">150</span> <span class="d-block text-truncate">il y a 3 min</span>
+          </li>
+        </ul>
+        <a href="{% url 'store:detail' article_id=article.id %}" class="btn btn-primary">Consulter ?</a>
+      </div>
+    </div>
+    {% endfor %}
+</div>

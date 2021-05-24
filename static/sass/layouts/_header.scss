@@ -1,0 +1,77 @@
+/*=========================================================================================*/
+.form_search{
+    height: $form-search-height-md;
+    border-radius: 3px;
+    padding: 6px;
+    font-size: $font-size-md;
+    @include mobile{
+        height: $form-search-height-sm;
+        padding: 2px;
+        font-size: $font-size-sm;
+    }
+    &__input{
+        &_submit{
+            background: url('../images/icons/lop.png') no-repeat center center;
+            background-size: 50%;
+            width: 50px;
+            @include mobile{
+                width: 30px;
+                background-size: 50%;
+            }
+        }
+    }
+}
+
+.account-info{
+    min-width: 140px;
+    height: $form-search-height-md;
+    @include mobile{
+        height: $form-search-height-sm;
+    }
+    & img{
+        width: 20px;
+        @include mobile{
+            width: 15px;
+        }
+    }
+    &__access{
+        & a{
+            text-decoration: none;
+        }
+        &__badge{
+            color: red;
+            font-size: $font-size-extra-sm;
+            font-weight: bold;
+            position: relative;
+            bottom: 10%;
+            right: 15%;
+        }
+    }
+    & .img-avatar{
+        width: 40px;
+        @include mobile{
+            width: 25px;
+        }
+    }
+}
+
+.logo{
+    height: $form-search-height-md;
+    @include mobile {
+        height: $form-search-height-sm;
+    }
+    & img{
+        height: 100%;
+    }
+}
+
+.menu-icon{
+    height: $form-search-height-sm;
+}
+
+.icon-question{
+    height: $form-search-height-md;
+    & img{
+        width: $form-search-height-sm;
+    }
+}

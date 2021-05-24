@@ -8,7 +8,7 @@ urlpatterns = [
     re_path(r'^supprimer-un-article/(?P<article_id>[0-9]+)/$', views.delete_article, name='delete'),
     re_path(r'^poster-un-article/', views.create_article, name="create_article"),
     re_path(r'^modifier-article/(?P<article_id>[0-9]+)/$', views.update, name='update'),
-    re_path(r'^mes-articles-favoris/$', views.favourite, name="favourite"),
+    re_path(r'^mes-favoris/$', views.favourite, name="favourite"),
     re_path(r'^mes-articles-ajoutés/$', views.my_articles_added, name="my_articles"),
     re_path(r'^rechercher-un-article/', views.search, name="search"),
 ]

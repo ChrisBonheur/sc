@@ -1,0 +1,6 @@
+.body-page-content{
+    margin-top: 8.2em;
+    @include mobile{
+        margin-top: 7em;
+    }
+}

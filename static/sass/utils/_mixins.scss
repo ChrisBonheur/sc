@@ -1,0 +1,31 @@
+@mixin  screen-md {
+    @media screen and (max-width: map-get($breack-points, screen-md)){
+        @content;
+    }
+}
+
+@mixin  mobile {
+    @media screen and (max-width: map-get($breack-points, mobile)){
+        @content;
+    }
+}
+
+@mixin  screen-lg {
+    @media screen and (max-width: map-get($breack-points, screen-lg)){
+        @content;
+    }
+}
+
+
+@mixin  screen-xl {
+    @media screen and (max-width: map-get($breack-points, screen-xl)){
+        @content;
+    }
+}
+
+
+@mixin  screen-xxl {
+    @media screen and (max-width: map-get($breack-points, screen-xxl)){
+        @content;
+    }
+}

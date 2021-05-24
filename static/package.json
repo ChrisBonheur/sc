@@ -1,0 +1,15 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  		"sass": "sass --watch sass/main.scss:css/style_sass.css" 
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.0",
+    "sass": "^1.32.8"
+  }
+}

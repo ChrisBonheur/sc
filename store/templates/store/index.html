@@ -1,26 +1,40 @@
-{% extends 'store/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 {% load cache %}
-<div class="body-page b_h" style="padding-top: 100px;">
-    {% cache 500 banner %}
-        <div class="jumbotron">
-            <div style="display: none;">
-                <p>SpectreCorp Vous offre <br> une plate forme de vente en ligne</p>
-                <p><button>Poster votre article à vendre</button></p>
-            </div>
+<div class="body-page-content">
+    <div class="jumbotron-caroussel bg-secondary">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container shadow-lg">
+          <h1 class="display-4 ">Fluid jumbotron 1</h1>
+          <p class="lead">This is a modified jumbotron th</p>
         </div>
+        <img src="../static/images/pictures/pic1.png" hidden alt="">
+      </div>
 
-        <div class="mobile-show">
-            <div>
-
-                <a href="{% url 'store:create_article' %}"><button>Poster un article à vendre</button></a>
-            </div>
-            <div>
-                <p><a href="{% url 'work_step' %}">Comment ça marche </a></p>
-            </div>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container shadow-lg">
+          <h1 class="display-4 ">Fluid  2</h1>
+          <p class="lead">This is a modified jumbotron th</p>
         </div>
-    {% endcache %}
-    
-    {% include 'store/list-article.html' %}
+        <img src="../static/images/pictures/b1.jpg" hidden alt="">
+      </div>
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container shadow-lg">
+          <h1 class="display-4 ">Fluid  3</h1>
+          <p class="lead">This is a modified jumbotron th</p>
+        </div>
+        <img src="../static/images/pictures/pic4.jpg"   hidden alt="">
+      </div>
+
+    </div>
+
+    <div class="d-md-none d-flex flex-column align-items-center pt-4 bloc_btn">
+      <a href="{% url 'store:create_article' %}" class="btn-style w-100 mb-3" style="text-decoration: none;"> Poster un article à vendre</a></a>
+      <p><a href="{% url 'work_step' %}" class="text-primary">Comment ça marche ?</a></p>
+    </div>
+    <!--============including articles list html ====================-->
+    {% include 'store/list.html' %}
 </div>
+
 {% endblock %}

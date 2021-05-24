@@ -1,0 +1,17 @@
+.btn-style {
+    height: $form-search-height-md;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $primary;
+    background: $primary;
+    color: white;
+    border-radius: 3px;
+    @include mobile{
+        height: $form-search-height-sm;
+        font-size: $font-size-sm;
+    }
+    & a{
+        font-weight: bold;
+    }
+}

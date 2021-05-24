@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static pwa cache %}
+<head>
+    <meta charset="UTF-8">
+    {% include 'head.html' %}
+    {% block links %}
+    {%  endblock %}
+    {% progressive_web_app_meta %} 
+    <title>SC</title>
+</head>
+<body>
+    <div class="container-fluid about" 
+    {% if not white_font %} style="background: #ebedee; padding-right: 10px; padding-left: 10px;" {% endif %}>
+        <header class="container-fluid">
+            <div class="row h_line1">
+               <div class="col-lg-1 font-weight-bold corner-left">
+                    {% cache 1000 logo %}
+                        <div id="logo">
+                            <a href="{% url 'store:home' %}"><img src="{% static 'images/icons/Logo.jpg' %}" alt="logo"></a>
+                        </div>
+                    {% endcache %}
+
+                    {% if user.is_authenticated %}
+                    <div class="bloc_conected">
+                        <div class="conected-elts conected1" style="display: flex; justify-content: space-around;">
+                            {% include 'icons.html' %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="menu-btn">
+                        <button class=" menu-icon btn1" type="button"></button>
+                        <button class=" menu-icon btn2" type="button" style="display: none;"></button>
+                    </div>
+               </div> 
+               
+               <!-- Menu for mobile phone only -->
+               <div id="mobile-menu">
+                   <div class="bloc_1">
+
+                        <div class="btn_sell">
+                            <a href="{% url 'store:create_article' %}"><button>Vendre un article</button></a>
+                        </div>
+                        {% if not user.is_authenticated %}
+                            <div class="login">
+                                <div><a href="{% url 'user:auto_login' %}" class="link1">S'inscrire</a></div><span class="separator"></span>
+                                <div><a href="{% url 'user:auto_login' %}" class="link2">Se connecter</a></div>
+                            </div>
+                        {% endif %}
+                        <div class="guide">
+                            <a href="{% url 'work_step' %}"><button>Voir notre guide</button></a>
+                        </div>
+                   </div>
+
+                   <hr>
+
+                   <div class="bloc_2">
+                        <h3>Navigation</h3>
+                        <nav>
+                            <ul>
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url 'user:logout' %}">Se deconnecter</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'store:home' %}">Acceuil</a></li>
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url 'store:my_articles' %}">Mes articles ajoutés</a></li>
+                                    <li><a href="{% url 'dashboard:my_articles' %}">Tableau de bord</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'about' %}">A propos</a></li>
+                            </ul>
+                        </nav>
+                   </div>
+
+                   <div class="bloc_3">
+                        <h3>Découvrez</h3>
+                        <nav>
+                            <ul>
+                                <li><a href="{% url 'work_step' %}">Comment ça marche</a></li>
+                                <li><a href="{% url 'about' %}?#apps">Applications mobiles</a></li>
+                            </ul>
+                        </nav>
+                   </div>
+
+                   <div class="bloc_4">
+                        <h3>Entreprise</h3>
+                        <nav>
+                            <ul>
+                                <li><a href="{% url 'about' %}">A propos de SC</a></li>
+                                <li><a href="{% url 'contact' %}">Contactez-nous</a></li>
+                            </ul>
+                        </nav>
+                   </div>
+                  
+               </div>
+
+               {% cache 1000 search_input %}
+                <div class="col-lg-5  corner-center b_h">
+                    <form action="{% url 'store:search' %}" method="GET" >
+                            <div class="row">
+                                <div id="category-elt">
+                                    <select name="category" id="list-catgegory">
+                                        <option value="all">Tous</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div id="search-element">
+                                    <div class="child-1 d-flex">
+                                        <div class="col-md-2">
+                                            <input type="submit" value="cate">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="text" id="search-elt" name="query" placeholder="Rechercher des articles">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button id="cancel-search">
+                                        </button>
+                                    </div>
+                                        
+                                    <div class="result-search-zone">
+                                        
+                                    </div>
+                                </div>
+                        </div>
+                        <input type="submit" id="valid-search" style="display: none;" class="load-style">
+                    </form>
+                </div>
+               {% endcache %}
+
+                <div class="col-lg-6  corner-right ">
+                    <div class="row">
+                    
+                        {% if user.is_authenticated %}
+                            <div class="conected-elts conected2" style="display: flex; justify-content: space-around;
+                            width: 50%;">
+                                {% include 'icons.html' %}
+                            </div>
+                        {% else %}
+                            <div class="connected-link">
+                                <a href="{% url 'user:auto_login' %}">S'inscrire </a>
+                                <span class="vertical-line"> </span>
+                                <a href="{% url 'user:auto_login' %}"> Se connecter </a>
+                            </div>
+                        {% endif %}
+
+                        <a href="{% url 'store:create_article' %}"><button>Vendre un article</button></a>
+                        <div class="patch-question"> 
+                            <a href="{% url 'work_step' %}"></a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <nav class="navbar navbar-expand-lg ">
+                <div id="navbarContent" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active"><a href="{% url 'store:home' %}" class="nav-link">Acceuil</a></li>
+                        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">À propos</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a href="{% url 'store:my_articles' %}" class="nav-link">Mes articles ajoutés</a></li>
+                            <li class="nav-item"><a href="{% url 'dashboard:my_articles' %}" class="nav-link">Tableau de bord</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center flex-column align-items-center alert-notifs">
+                    {% if messages %}
+                        {% for message in messages %}
+                         <li class="alert-notif {{ message.tags }}">
+                             {{ message }} <span class="remove-notif">x</span> 
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </header>
+        <div class="center-body">
+            <div class="pages-content">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="load-deco" style="display: none;">
+                <img src="{% static 'images/icons/loading.gif' %}" width="50" class="loading" alt="">
+            </div>
+        </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/base_script.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}" ></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    
+    {% block scripts_links %}
+    {% endblock %}
+
+    
+    <script type="text/javascript">
+        $(function(){
+            /****Favourite avent to add */
+            $('.save-favourite, #action .add-btn').click( function(){
+                let article_id = $(this).attr('id');
+                $.get('{% url "store:favourite" %}?article_id=' + article_id);
+                $(this).hide()
+            });
+            /*********Favourite evennt to remove*/
+            $('.delete-favourite').click( function(){
+                let article_id = $(this).attr('id');
+                $.get('{% url "store:favourite" %}?delete_article_id=' + article_id);
+                $('.card'+article_id).hide();
+            });
+
+            /**********ARTICLE EVENT***********/
+            /**DELETE***/
+            $('.btn-delete').click( function(){
+                let article_id = $(this).attr('id');
+                $.get('{% url "dashboard:delete" %}?article_id=' + article_id);
+            });
+            /***update availability***/
+            $('.available-btn').change( function(){
+                let article_id = $(this).attr('id');
+                $.get("{% url 'dashboard:delete' %}?availability=" + article_id);
+                $('body').html('');
+                $('body').load("{% url 'dashboard:my_articles' %}");
+            });
+
+            /***LOGIN HIDE/SHOW PASSWORD****/
+            let pInput = $('.bloc-login-input p:last');
+            let inputElt = $('.bloc-login-input p:last input');
+            let pwdInput = $('.icons-hide-show')
+            
+            let imgHide = document.createElement('img');
+            $(imgHide).attr({
+                'src': '{% static "user/images/hide.png" %}',
+                "width": '20',
+                "height": '20',
+            }).css('cursor', 'pointer');
+            
+            let imgShow = document.createElement('img');
+            $(imgShow).attr({
+                'src': '{% static "user/images/show.png" %}',
+                "width": '20',
+                "height": '20',
+            }).css('cursor', 'pointer');
+
+
+            pInput.append(imgHide);
+            pInput.append(imgShow);
+            pwdInput.append(imgShow);
+            pwdInput.append(imgHide);
+
+            $(imgShow).hide()
+
+            $(imgHide).click(()=>{
+                $(imgHide).toggle()
+                $(imgShow).toggle()
+                $('.inputForm').attr('type', 'text')
+            });
+            $(imgShow).click(()=>{
+                $(imgHide).toggle()
+                $(imgShow).toggle()
+                $('.inputForm').attr('type', 'password')
+            });
+        
+        
+            /***Infinite scroll script**/
+            let infinite = new Waypoint.Infinite({
+                element: $('.infinite-container')[0],
+                offset: 'bottom-in-view',
+                onBeforePageLoad: function(){
+
+                },
+                onAfterPageLoad: function(){
+                    
+                }
+
+            })        
+        })
+    
+    </script>
+
+</body>
+</html>
