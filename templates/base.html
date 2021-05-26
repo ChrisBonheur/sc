@@ -71,7 +71,7 @@
           <form class="d-flex bg-primary form_search" action="{% url 'store:search' %}" method="get">
             <div class="form_search__select">
               <select name="category" id="" class="h-100 bg-primary border-0 text-light">
-                <option value="all">tous</option>
+                <option value="all">Trier</option>
                 {% for category in categories %}
                   <option value="{{ category.name }}">{{ category.name }}</option>
                 {% endfor %}
@@ -82,7 +82,7 @@
                 <input type="submit" value="" class="h-100 rounded-0 border-0 form_search__input_submit">
               </div>
               <div class="w-100">
-                <input type="text" class="h-100 w-100 rounded-0 border-0 text-secondary form_search__input_text">
+                <input type="text" name="query" class="h-100 w-100 rounded-0 border-0 text-secondary form_search__input_text">
               </div>
             </div>
           </form>
