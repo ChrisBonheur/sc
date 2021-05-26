@@ -1,9 +1,9 @@
-{% load humanize %}
+{% load humanize static %}
 <div class="articles row row-cols-2 row-cols-md-3 row-cols-xl-4 mt-md-3 p-1 justify-content-around">
     {% for article in articles %}
     <div class="article p-1 col">
       <div class="card p-0">
-        <a href="{% url 'store:detail' article_id=article.id %}"><img src="../static/img_test/img3.jpg" class="card-img-top" alt="..."></a>
+        <a href="{% url 'store:detail' article_id=article.id %}"><img src="{% static 'img_test/img3.jpg' %}" class="card-img-top" alt="..."></a>
         <div class="card-body p-1 pb-0">
           <h5 class="card-title text-secondary">{{ article.name }}</h5>
         </div>
@@ -21,5 +21,9 @@
         <a href="{% url 'store:detail' article_id=article.id %}" class="btn btn-primary">Consulter ?</a>
       </div>
     </div>
+    {% empty %}
+      <div class="alert alert-info w-50 text-center m-auto" role="alert">
+        {{ empty_article_text_alert }}
+      </div>
     {% endfor %}
 </div>
