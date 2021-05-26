@@ -148,7 +148,7 @@ def create_article(request):
                         except Exception as e:
                             lg.debug(f"Not save {e}")
                 cache.delete('articles_home')#clear articles list in home
-                return redirect('store:home')
+                return redirect('store:my_articles')
 
     context = {
         'form': form
