@@ -10734,6 +10734,7 @@ textarea.form-control-lg {
   background: #0b4a97;
   color: white;
   border-radius: 3px;
+  text-decoration: none;
 }
 @media screen and (max-width: 576px) {
   .btn-style {
@@ -10743,6 +10744,20 @@ textarea.form-control-lg {
 }
 .btn-style a {
   font-weight: bold;
+}
+
+.form-bloc-group {
+  border: 3px solid #6c757d;
+  margin-bottom: 2em;
+  padding: 1em;
+  box-shadow: 5px 5px 10px #212529;
+}
+.form-bloc-group hr {
+  border: 1.5px solid gray;
+}
+
+.form-box-btn {
+  margin-bottom: 2em;
 }
 
 /*=========================================================================================*/

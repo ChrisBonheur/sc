@@ -1,13 +1,12 @@
-{% extends 'store/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-{% load static cache%}
-    <div class="container sell_page b_h">
+    <div class="body-page-content container">
         <div class="row">
             <h1>Vends ton article</h1>
         </div>
         <form action="{% url 'store:create_article' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {% include 'store/article_forms.html' %}
+            {% include 'store/form.html' %}
         </form>
     </div>
 {% endblock %}

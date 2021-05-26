@@ -20,38 +20,36 @@
         </div>
         <div class="col-8 col-md-4 order-md-3 d-flex justify-content-end">
           {% if request.user.is_authenticated %}
-          <div class="d-flex justify-content-end account-info">
-            <div class="account-info__access">
-              <a href="">
-                <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
+            <div class="d-flex justify-content-end account-info">
+              <div class="account-info__access">
+                <a href="">
+                  <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
+                  <span class="account-info__access__badge">12</span>
+                </a>
+              </div>
+            
+              <div class="account-info__access">
+                <img class="" src="{% static 'images/icons/notif.png' %}" alt="notif">
                 <span class="account-info__access__badge">12</span>
-              </a>
+              </div>
+            
+              <div class="account-info__access avatar">
+                <a href="">
+                  {% if request.user.profil.avatar.path %}
+                    <img src="{{ request.user.profil.avatar.path }}" alt="avatar" class="img-avatar">
+                  {% else %}
+                    <img src="{% static 'images/icons/stand.png' %}" alt="avatar" class="img-avatar">
+                  {% endif %}
+                </a>
+              </div>
             </div>
-          
-            <div class="account-info__access">
-              <img class="" src="{% static 'images/icons/notif.png' %}" alt="notif">
-              <span class="account-info__access__badge">12</span>
-            </div>
-          
-            <div class="account-info__access avatar">
-              <a href="">
-                {% if request.user.profil.avatar.path %}
-                  <img src="{{ request.user.profil.avatar.path }}" alt="avatar" class="img-avatar">
-                {% else %}
-                  <img src="{% static 'images/icons/stand.png' %}" alt="avatar" class="img-avatar">
-                {% endif %}
-              </a>
-            </div>
-          </div>
 
-          <button type="button" class="text-secondary btn-style d-none d-md-block text-truncate w-100 bg-primary">
-            <a href="{% url 'store:create_article' %}" class="text-light text-truncate" style="text-decoration:none">
-              Poster article</a>
-          </button>
+            <a href="{% url 'store:create_article' %}" class="btn text-light text-truncate btn-style d-none d-md-block text-truncate w-100 bg-primary" style="text-decoration:none">
+                Poster article</a>
           {% else %}
-          <button type="button" class="text-secondary btn-style d-none d-md-block text-truncate w-100 bg-light">
-            <a href="{% url 'user:auto_login' %}">s'inscrire | se connecter</a>
-          </button>
+            <button type="button" class="text-secondary btn-style d-none d-md-block text-truncate w-100 bg-light">
+              <a href="{% url 'user:auto_login' %}">s'inscrire | se connecter</a>
+            </button>
           {% endif %}
 
           <div class="p-2 icon-question d-flex justify-content-center align-items-center">

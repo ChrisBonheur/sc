@@ -1,12 +1,11 @@
-
-<div class="row rowBloc2">
+<div class="row form-bloc-group">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
                 <label for="">Titre ou nom de l'article</label>
             </div>
             <div class="col-md-6">
-                {{ form.name }}
+               {{ form.name }}
             </div>
         </div>
         
@@ -23,7 +22,7 @@
     </div>
 </div>
 
-<div class="row rowBloc3">
+<div class="row form-bloc-group">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
@@ -62,7 +61,7 @@
     </div>
 </div>
 
-<div class="row rowBloc5">
+<div class="row form-bloc-group">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
@@ -73,6 +72,8 @@
             </div>
         </div>
 
+        <hr/>
+
         <div class="row">
             <div class="col-md-6">
                 <label for="">Ville</label>
@@ -81,6 +82,8 @@
                 {{ form.town }}
             </div>
         </div>
+
+        <hr/>
 
         <div class="row">
             <div class="col-md-6">
@@ -91,12 +94,15 @@
             </div>
         </div>
 
+        <hr/>
+
         <div class="row">
             <div class="col-6">
-                <label for="">Livraison</label>
+                <p for="defaultCheck1">Livraison ? </p>
             </div>
-            <div class="col-6">
+            <div class="col-6 d-flex ">
                 {{ form.delivery }}
+                <label for="defaultCheck1" class="d-block w-75">cochez si vous livrez l'article</label>
             </div>
         </div>
 
@@ -133,8 +139,8 @@
 
     </div>
 </div>
-<div class="row rowBloc4 text-right">
-    <div><button type="submit">Sauvegarder</button></div>
-    <div><a href="{% url 'store:my_articles' %}">Annuler</a></div>
+<div class="form-box-btn d-flex justify-content-between w-50">
+    <div><a href="{% url 'store:my_articles' %}" class="btn btn-style bg-danger border-danger">Annuler</a></div>
+    <div><button type="submit" class="btn-style">Sauvegarder</button></div>
 </div>
 
