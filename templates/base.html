@@ -117,7 +117,18 @@
       </nav>
 
       <hr class="m-1 mt-1 d-none d-md-block"/>
-
+      {% if messages %}
+      <div class="alerts text-center w-100">
+        {% for message in messages %}
+        <div {% if message.tags %}
+              class="alert text-center alert-{{ message.tags }} font-sm-md"
+              {% else %}
+              class="alert alert-info font-sm-md"
+              {% endif %}> 
+          {{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
     </header>
     <!--=============================END_HEADER-->
 

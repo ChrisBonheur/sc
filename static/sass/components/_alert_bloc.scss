@@ -1,0 +1,10 @@
+header .alerts{
+    position: absolute;
+    right: 0%;
+    & .alert{
+        @include mobile{
+            padding: 1px;
+            font-size: $font-size-md;
+        }
+    }
+}

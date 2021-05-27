@@ -10789,6 +10789,17 @@ textarea.form-control-lg {
   }
 }
 
+header .alerts {
+  position: absolute;
+  right: 0%;
+}
+@media screen and (max-width: 576px) {
+  header .alerts .alert {
+    padding: 1px;
+    font-size: 1em;
+  }
+}
+
 /*=========================================================================================*/
 .form_search {
   height: 2.7em;
