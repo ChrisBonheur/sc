@@ -170,7 +170,8 @@ def update(request, article_id):
             #clear cache set in my_articles views
             cache.delete_many([f'available_articles_{request.user.id}', \
                 f'unavailable_articles_{request.user.id}'])
-            return redirect('dashboard:my_articles')
+            cache.delete('articles_home')#clear articles list in home
+            return redirect('store:my_articles')
     context = {
         'article': article,
         'form': form,
