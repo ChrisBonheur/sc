@@ -5,7 +5,7 @@
       <div class="card p-0">
         <a href="{% url 'store:detail' article_id=article.id %}"><img src="{% static 'img_test/img3.jpg' %}" class="card-img-top" alt="..."></a>
         <div class="card-body p-1 pb-0">
-          <h5 class="card-title text-secondary font-md mb-0">{{ article.name }} <br></h5>
+          <h5 class="card-title text-secondary font-md mb-0 text-truncate">{{ article.name }} <br></h5>
           <span class="d-block mt-0 font-sm-esm">il y a 3 min</span>
         </div>
 
@@ -20,11 +20,11 @@
               {% endif %}
             </li>
             <li class="list-group-item p-0 d-flex flex-wrap justify-content-between text-light font-sm-sm">
-              <a href="" class="d-block btn btn-danger text-light p-0 flex-fill" >supprimer</a> 
-              <a href="" class="d-block btn btn-info text-light p-0 flex-fill" >Modifier</a>
+              <a href="{% url 'store:delete' article_id=article.id %}" class="d-block btn btn-danger text-light p-0 flex-fill" >supprimer</a> 
+              <a href="{% url 'store:update' article_id=article.id %}" class="d-block btn btn-info text-light p-0 flex-fill" >Modifier</a>
             </li>
             <li class="list-group-item p-0 d-flex flew-wrap justify-content-between text-light font-sm-sm">
-              <button type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm">Activé</button>              
+              <button type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm" disabled>Activé</button>              
               <button type="button" class="btn btn-outline-secondary flex-fill p-0 font-sm-sm">Désactivé ?</button>              
             </li>
         {% else %}
