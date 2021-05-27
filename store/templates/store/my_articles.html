@@ -1,15 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="body-page-content">
+<div class="body-page-content container-fluid">
     <div class="row">
-        <h1 class="col-12 text-center bg-secondary font-weight-bold" >
+        <h1 class="col-12 text-center bg-secondary font-weight-bold font-md" >
             Mes articles ajoutés
         </h1>
     </div>
-    <div class="row">
-        <h2 class="bg-secondary text-left w-50">Article(s) disponible(s)</h2>
-    </div>
-    <div class="container">
+    <div class="p-0 row">
         {% include 'store/list.html' with articles=articles_available_of_seller empty_article_text_alert="Aucun article disponible" %}
     </div>
     
