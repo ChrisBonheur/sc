@@ -1,0 +1,33 @@
+.font-esm{
+    font-size: $font-size-extra-sm;
+}
+
+.font-sm{
+    font-size: $font-size-sm;
+}
+
+.font-md{
+    font-size: $font-size-md;
+}
+
+.font-sm-esm{
+    @media all and (min-width: 0px) and (max-width: 576px){
+        font-size: $font-size-extra-sm;
+    }
+}
+
+.font-sm-sm{
+    @media all and (min-width: 0px) and (max-width: 576px){
+        font-size: $font-size-sm;
+    }
+}
+
+// .font-sm-md
+
+// .font-sm-lg
+
+// .font-md-sm
+
+// .font-md-md
+
+// .font-md-lg
