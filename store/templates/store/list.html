@@ -5,20 +5,50 @@
       <div class="card p-0">
         <a href="{% url 'store:detail' article_id=article.id %}"><img src="{% static 'img_test/img3.jpg' %}" class="card-img-top" alt="..."></a>
         <div class="card-body p-1 pb-0">
-          <h5 class="card-title text-secondary">{{ article.name }}</h5>
+          <h5 class="card-title text-secondary font-md mb-0">{{ article.name }} <br></h5>
+          <span class="d-block mt-0 font-sm-esm">il y a 3 min</span>
         </div>
+
         <ul class="list-group list-group-flush">
-          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
-            <span class="d-block">Prix:</span>  <span class="d-block text-dark">{{ article.price_ttc|intcomma|intword }} XAF</span>
-          </li>
-          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
-            <span class="d-block"><img src="../static/images/icons/geo.png" class="w-50" alt=""></span>  <span class="d-block text-truncate">{{ article.town }}</span>
-          </li>
-          <li class="list-group-item p-0 d-flex justify-content-between text-secondary">
-            <span class="d-block"><img src="../static/images/icons/eye.png" class="w-50" alt="">150</span> <span class="d-block text-truncate">il y a 3 min</span>
-          </li>
+        {% if request.user.is_authenticated and request.path == "/store/mes-articles-ajoutés/" %}
+            <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">
+              <span class="d-block font-sm-sm ">Prix:</span> 
+              {% if article.price_init >= 1000000 %} 
+                <span class="d-block text-dark text-truncate">{{ article.price_init|intword }} XAF</span>
+              {% else %}
+                <span class="d-block text-dark text-truncate">{{ article.price_init|intcomma }} XAF</span>
+              {% endif %}
+            </li>
+            <li class="list-group-item p-0 d-flex flex-wrap justify-content-between text-light font-sm-sm">
+              <a href="" class="d-block btn btn-danger text-light p-0 flex-fill" >supprimer</a> 
+              <a href="" class="d-block btn btn-info text-light p-0 flex-fill" >Modifier</a>
+            </li>
+            <li class="list-group-item p-0 d-flex flew-wrap justify-content-between text-light font-sm-sm">
+              <button type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm">Activé</button>              
+              <button type="button" class="btn btn-outline-secondary flex-fill p-0 font-sm-sm">Désactivé ?</button>              
+            </li>
+        {% else %}
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">
+              <span class="d-block font-sm-sm ">Prix:</span> 
+              {% if article.price_ttc >= 1000000 %} 
+                <span class="d-block text-dark text-truncate">{{ article.price_ttc|intword }} XAF</span>
+              {% else %}
+                <span class="d-block text-dark text-truncate">{{ article.price_ttc|intcomma }} XAF</span>
+              {% endif %}
+            </li>
+            <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">
+              <span class="d-block"><img src="{% static 'images/icons/geo.png' %}" class="w-50" alt=""></span>  
+              <span class="d-block text-truncate">{{ article.town }}</span>
+            </li>
+        {% endif %}
+          <!--Views deactivate for now  
+            <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">
+            <span class="d-block"><img src="{% static 'images/icons/eye.png' %}" class="w-50 w-sm-25" alt=""> 150</span>
+          </li> -->
         </ul>
-        <a href="{% url 'store:detail' article_id=article.id %}" class="btn btn-primary">Consulter ?</a>
+
+        <a href="{% url 'store:detail' article_id=article.id %}" class="btn-style text-light ">Consulter ?</a>
       </div>
     </div>
     {% empty %}
