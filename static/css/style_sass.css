@@ -10800,7 +10800,21 @@ header .alerts {
   }
 }
 
+.dialog_confirm {
+  position: fixed;
+  z-index: 2;
+  top: 0%;
+  background: rgba(211, 211, 211, 0.6);
+  overflow-y: hidden;
+}
+
 /*=========================================================================================*/
+header {
+  position: fixed;
+  top: 0%;
+  z-index: 1;
+}
+
 .form_search {
   height: 2.7em;
   border-radius: 3px;
