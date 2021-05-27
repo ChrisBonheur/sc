@@ -1,4 +1,9 @@
 /*=========================================================================================*/
+header{
+    position: fixed;
+    top: 0%;
+    z-index: 1;
+}
 .form_search{
     height: $form-search-height-md;
     border-radius: 3px;
