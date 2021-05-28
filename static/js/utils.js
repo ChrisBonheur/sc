@@ -27,22 +27,3 @@ const dialogEvent = () => {
     });
 }
 
-const main = () => { 
-    //==============================================
-    //script for app store
-    const linkAppStore = '/static/store/js/main.js';
-    $.getScript(linkAppStore)
-    .done((script, textStatus) => {
-        //launch main of app store
-        mainStore();
-    })
-    .fail((jqxhr, settings, exception) =>{
-        console.error(`Can't find ${linkAppStore}`);
-    });
-
-    dialogEvent();
-}
-
-$(() => {
-    main();
-})
