@@ -20,7 +20,9 @@
               {% endif %}
             </li>
             <li class="list-group-item p-0 d-flex flex-wrap justify-content-between text-light font-sm-sm">
-              <a href="{% url 'store:delete' article_id=article.id %}" class="d-block btn btn-danger text-light p-0 flex-fill" >supprimer</a> 
+              <a href="{% url 'store:delete' article_id=article.id %}" class="d-block btn btn-danger text-light p-0 flex-fill dialog_confirm_before" >
+                supprimer <span class="title_confirm_for_js d-none" >Suppresion de l'article {{ article.name }}</span>
+              </a> 
               <a href="{% url 'store:update' article_id=article.id %}" class="d-block btn btn-info text-light p-0 flex-fill" >Modifier</a>
             </li>
             <li class="list-group-item p-0 d-flex flew-wrap justify-content-between text-light font-sm-sm">
