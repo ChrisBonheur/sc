@@ -13,9 +13,15 @@ const diaporama = ()=>{
         i = 0;
     }
 }
-//show the first jumbotron before the set interval begin in 5000 ms
-$('.jumbotron:first').css({
-    "background": `gray url(${$('.jumbotron img')[0].getAttribute("src")}) no-repeat center center`,
-    "background-size": "contain", 
-}).fadeIn();
-setInterval(diaporama, 5000);
+
+const main = () => {
+    //show the first jumbotron before the set interval begin in 5000 ms
+    $('.jumbotron:first').css({
+        "background": `gray url(${$('.jumbotron img')[0].getAttribute("src")}) no-repeat center center`,
+        "background-size": "contain", 
+    }).fadeIn();
+    
+    setInterval(diaporama, 5000);
+}
+
+main();
