@@ -15,7 +15,7 @@ def pictures_rename(instance, filename):
     img_format = filename.split('.')[-1]
     try:
         #we use first, coz odering  of articles is on DESC
-        last_id = 5#Article.objects.first().id
+        last_id = Article.objects.first().id
     except:
         last_id = 1 
         
