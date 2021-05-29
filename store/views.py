@@ -88,7 +88,7 @@ def detail(request, article_id):
     #add 1 to seen article
     article.seen = F("seen") + 1
     article.save()
-    return render(request, 'store/detail.html', context)
+    return render(request, 'store/detail-new.html', context)
 
 def search(request):
     if request.GET:

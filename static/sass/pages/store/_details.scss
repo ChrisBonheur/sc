@@ -1,0 +1,16 @@
+.figure{
+    & img{
+        width: 100%;
+        max-width: 500px;
+        max-height: auto;
+    }
+}
+
+.img-sup{
+    // max-height: 7em;
+    border: 2px solid red;
+    & img{
+        max-width: 100px;
+        height: auto;
+    }
+}

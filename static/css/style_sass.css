@@ -10947,4 +10947,18 @@ header {
   }
 }
 
+.figure img {
+  width: 100%;
+  max-width: 500px;
+  max-height: auto;
+}
+
+.img-sup {
+  border: 2px solid red;
+}
+.img-sup img {
+  max-width: 100px;
+  height: auto;
+}
+
 /*# sourceMappingURL=style_sass.css.map */
