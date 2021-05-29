@@ -14,6 +14,19 @@ const diaporama = ()=>{
     }
 }
 
+/**===========================================================
+ * details page script*/
+//change principal figure on click
+$(".img-sup-item").on("click", (e) => {
+    //remove border on all img
+    $(".img-sup-item").removeClass('border-2');
+    //add border on curent selected element
+    $(e)[0].target.classList.add("border-2");
+    //replace principale figure by current selected
+    $("#figure-img-principal").attr("src", e.target.src);
+})
+
+
 const mainStore = () => {
     let baseLink = 'http://127.0.0.1:8000/'
     let homePageLink = baseLink + 'store/'
