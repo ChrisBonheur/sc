@@ -5,3 +5,4 @@ avatars/
 __pycache__/
 db.sqlite3
 spectreCorp/settings.py
+media/
