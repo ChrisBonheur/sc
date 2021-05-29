@@ -10960,5 +10960,9 @@ header {
   max-width: 100px;
   height: auto;
 }
+.img-sup .border-2 {
+  border: 2px solid #0b4a97;
+  border-radius: 5px;
+}
 
 /*# sourceMappingURL=style_sass.css.map */

@@ -13,4 +13,8 @@
         max-width: 100px;
         height: auto;
     }
+    & .border-2{
+        border: 2px solid $primary;
+        border-radius: 5px;
+    }
 }
