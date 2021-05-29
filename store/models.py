@@ -11,34 +11,18 @@ from user.models import Profil
 from .utils import edit_image_before_save, add_percentage 
 
 def pictures_rename(instance, filename):
-    upload_to='article_img'
-    ext = filename.split('.')[-1]
-    if instance.pk:
-        filename = f'{instance.pk}.{ext}'
-    else:
-        try:
-            last_id = Article.objects.last().id
-        except:
-            last_id = 1 
-        new_name = f'img{last_id}'
-        filename = f'{new_name}.{ext}'
+    """Rename picture while saving"""
+    img_format = filename.split('.')[-1]
+    try:
+        #we use first, coz odering  of articles is on DESC
+        last_id = 5#Article.objects.first().id
+    except:
+        last_id = 1 
+        
+    new_name = f"{instance}_{last_id}".replace(" ", "_").lower()
+    filename = f"{new_name}.{img_format}"
     
-    return path.join('uploads', filename)
-
-def path_and_rename(instance, filename):
-    upload_to='article_img'
-    ext = filename.split('.')[-1]
-    if instance.pk:
-        filename = f'{instance.pk}.{ext}'
-    else:
-        try:
-            last_id = Article.objects.last().id
-        except:
-            last_id = 1 
-        new_name = f'img{last_id}'
-        filename = f'{new_name}.{ext}'
-    
-    return os.path.join('uploads', filename)
+    return path.join('articles', filename)
 
 class Identity(models.Model):
     name = models.CharField(max_length=100, unique=True, blank=True)
