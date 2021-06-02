@@ -27,10 +27,35 @@ $(".img-sup-item").on("click", (e) => {
 })
 
 
+/**
+ * create a proportional block element by given a height percentage
+ * @param {*} element : dom element selected with jquery
+ * @param {*} height_percentage : the percentage height 
+ */
+const create_block_proportion = (element, height_percentage) => {
+    const set_height_proportion = () => {
+        //get element width
+        let article_bg_img_width = element.innerWidth() ;
+        let article_bg_img_height = (height_percentage * article_bg_img_width) / 100;
+        //set element height with the height found
+        element.innerHeight(article_bg_img_height);
+    }
+    set_height_proportion();
+    $(window).resize(() => {
+        set_height_proportion();
+    })
+}
+
+
+
 const mainStore = () => {
-    let baseLink = 'http://127.0.0.1:8000/'
-    let homePageLink = baseLink + 'store/'
-    
+    let baseLink = 'http://127.0.0.1:8000/';
+    let homePageLink = baseLink + 'store/';
+    let myArticlsPageLink = baseLink + 'store/mes-articles-ajoutés/';
+
+    //create equitable background image for article card
+    create_block_proportion($('.article .background-img'), 100);
+
     if ($.ajaxSettings.url == homePageLink){
         //show the first jumbotron before the set interval begin in 5000 ms
         $('.jumbotron:first').css({

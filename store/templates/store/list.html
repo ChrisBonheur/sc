@@ -3,7 +3,11 @@
     {% for article in articles %}
     <div class="article p-1 col">
       <div class="card p-0">
-        <a href="{% url 'store:detail' article_id=article.id %}"><img src="{% static 'img_test/img3.jpg' %}" class="card-img-top" alt="..."></a>
+        <a href="{% url 'store:detail' article_id=article.id %}">
+          <div class="background-img w-100" style="background: url({{ article.image_min.url }}) no-repeat center center;
+          background-size: contain">
+          </div>
+        </a>
         <div class="card-body p-1 pb-0">
           <h5 class="card-title text-secondary font-md mb-0 text-truncate">{{ article.name }} <br></h5>
           <span class="d-block mt-0 font-sm-esm">il y a 3 min</span>
