@@ -239,6 +239,7 @@ def delete_article(request, article_id):
     #connect info messaage with action in models
     article.delete()
     cache.delete(f"available_articles_{request.user.id}")
+    cache.delete("articles_home")
     #show message success
     messages.success(request, article_delete_success(article))
     
