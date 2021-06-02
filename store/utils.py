@@ -85,3 +85,37 @@ def get_or_create_cache(cache_name, model, Q_object=None):
     
     return cache.get(cache_name, "not exist")
 
+
+def resize_proportion_image(image_path, image_size=(263, 350)):
+    """Redefine proportion of an image by percentage with base
+    percentage 75/100 
+    Args: 
+        image_size (tuple): the size proportion of an image 
+    """
+    width=75
+    height=100
+    image = Image.open(image_path)
+    initial_width_px = image.width
+    initial_height_px = image.height
+    #get percentage of image width 
+    image_percentage_width = (initial_width_px * height) / image.height
+    #verify if image_percentage_width is great than default width dismiss width px:
+    if image_percentage_width > width:
+        new_width_px = image_size[0]
+        new_height_px = (new_width_px * initial_height_px) / initial_width_px
+        new_size = (new_width_px, int(new_height_px))
+        image.thumbnail(new_size)
+        #save output image
+        image.save(image_path)
+    #if with percentage is lower than default width center, dismiss height percentage 
+    elif image_percentage_width < width:
+        print("yes")
+        #get proportion percentage about height
+        percentage_width_missing = width - image_percentage_width 
+        new_height_percentage = height - percentage_width_missing# now proportion is 100 / 75
+        new_height_px = (new_height_percentage * initial_height_px) / 100
+        #crop image in center
+        px_remove_from_initial_height = initial_height_px - new_height_px
+        image.crop((0, px_remove_from_initial_height / 2, initial_width_px, new_height_px))\
+            .resize(image_size).save(image_path)
+        
