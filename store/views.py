@@ -22,7 +22,7 @@ from .forms import ArticleForms
 def home(request):
     articles = Article.objects.filter(available=True).order_by('-date_add')
     
-    #articles in cache
+    #articles in cachearticle_add_in_favourite_success
     if not cache.get('articles_home'):
         cache.set('articles_home', articles)
     
@@ -191,9 +191,15 @@ def favourite(request):
             favourite = get_object_or_404(Favourite, user=request.user)
         except Exception as e:
             favourite = Favourite.objects.create(user=request.user)
-        favourite.articles.add(article)
-        #clear cache
-        cache.delete(cache_name)
+        
+        if article in favourite.articles.all():
+            messages.success(request, article_add_in_favourite_if_exist(article))
+        else:
+            favourite.articles.add(article)
+            message.success(request, article_add_in_favourite_success(article))
+            #clear cache
+            cache.delete(cache_name)
+            
     elif request.GET.get('delete_article_id'):
         article_id = request.GET.get('delete_article_id')
         article = get_object_or_404(Article, pk=article_id)
