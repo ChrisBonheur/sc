@@ -191,12 +191,12 @@ def favourite(request):
             favourite = get_object_or_404(Favourite, user=request.user)
         except Exception as e:
             favourite = Favourite.objects.create(user=request.user)
-        
+        #verify if article is in favourite
         if article in favourite.articles.all():
-            messages.success(request, article_add_in_favourite_if_exist(article))
+            messages.info(request, article_add_in_favourite_if_exist(article))
         else:
             favourite.articles.add(article)
-            message.success(request, article_add_in_favourite_success(article))
+            messages.success(request, article_add_in_favourite_success(article))
             #clear cache
             cache.delete(cache_name)
             
