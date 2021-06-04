@@ -63,6 +63,8 @@ def send_welcome_message_to_new_user(user, Message, User):
 article_update_success = lambda article: f"Votre article {article} a été modifié!"
 article_save_success = lambda article: f"Votre article {article} a bien été ajouté !"
 article_delete_success = lambda article: f"Votre article {article} a été supprimé !"
+article_add_in_favourite_success = lambda article: f"l'article {article} a été ajouté aux favoris !"
+article_add_in_favourite_if_exist = lambda article: f"l'article {article} existe déjà aux favoris !"
 #======================================================================================
 
 def get_or_create_cache(cache_name, model, Q_object=None):
