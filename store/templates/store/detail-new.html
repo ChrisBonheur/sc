@@ -44,11 +44,13 @@
             <li class="list-group-item d-flex justify-content-between text-secondary">
               <span class="d-block">Livraison</span><span class="d-block">{{ article.delivery }}</span>
             </li>
+            {% if request.user != article.user %}
             <li class="list-group-item d-flex flex-column">
               <button type="button" class="btn btn-outline-secondary text-primary">Envoyer un message</button>
               <button type="button" class="btn btn-primary mt-2 mb-2">Passer la commande</button>
               <a type="button" class="btn btn-outline-secondary text-primary">Ajouter aux favoris</a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </aside>    
