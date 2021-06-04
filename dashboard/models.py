@@ -9,30 +9,34 @@ from store.models import Article
 
 class Order(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
-    #relation column
-    quantity = models.IntegerField(default=1)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    availability = models.BooleanField(default=True)
-    manage = models.BooleanField(default=False)
-    status = models.CharField(max_length=100, null=True)
-    price_ht = models.IntegerField(null=True)
-    price_ttc = models.IntegerField(null=True)
-    description = models.TextField(null=True)
-    delivery = models.BooleanField(null=True)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, 
+                             related_name="orders")
+    article = models.OneToOneField(Article, on_delete=models.CASCADE)
     
 class Invoice(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
-    manage = models.BooleanField(default=False)
-    #relation column
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
-    pay = models.BooleanField(default=False)
-
-class Archive(models.Model):
+    payed = models.BooleanField(default=False)
     article_name = models.CharField(max_length=100)
-    price_ttc = models.IntegerField()
-    date_add = models.DateTimeField(auto_now_add=True)
-    archive_type = models.CharField(max_length=100)
+    description = models.TextField()
+    quantity = models.PositiveIntegerField(default=1)
+    delivery = models.BooleanField()
+    price_init = models.PositiveIntegerField()
+    price_ttc = models.PositiveIntegerField()
+    seller_id = models.PositiveIntegerField()
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, 
+                                 related_name="invoices")
+    airtel_account_number = models.IntegerField(blank=True)
+    mtn_account_number = models.IntegerField(blank=True)
+    payed = models.BooleanField(default=False)
+    
+    def seller(self):
+        return User.objects.get(pk=self.seller_id)
+    
+class Transaction(models.Model):
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
+    date_create = models.DateTimeField(auto_now_add=True)
+    details = models.CharField(max_length=200)
+    is_final = models.BooleanField(default=False)
    
 @receiver(post_save, sender=Invoice)
 def after_save_invoice(sender, instance, **kwargs):
