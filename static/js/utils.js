@@ -14,7 +14,7 @@ const showDialogConfirm = (title, link, text=$('.dialog_confirm .card-text').tex
  */
 const hideElementWithTimeOut = (element, timeOut=3000) => {
     setTimeout(() => {
-        element.slideUp();
+        element.slideUp(1000);
     }, timeOut);
 }
 
