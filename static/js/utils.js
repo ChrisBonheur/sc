@@ -7,6 +7,20 @@ const showDialogConfirm = (title, link, text=$('.dialog_confirm .card-text').tex
     $('.dialog_confirm').removeClass("d-none");
 }
 
+/**
+ * this function hidde element from DOM with time in ms
+ * @param {jquery selection element from DOM} element 
+ * @param {set time in ms before element hidden} timeOut 
+ */
+const hideElementWithTimeOut = (element, timeOut=3000) => {
+    setTimeout(() => {
+        element.slideUp();
+    }, timeOut);
+}
+
+/**
+ * Show dialog block confirmation on click a link need a confirmation action 
+ * before to continue*/
 const dialogEvent = () => {
     $('.dialog_confirm_before').on("click", (e) => {
         e.preventDefault();

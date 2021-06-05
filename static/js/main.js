@@ -3,7 +3,11 @@ const main = () => {
     let globalUtilsLink = "/static/js/utils.js";
     $.getScript(globalUtilsLink)
     .done((script, textStatus) => {
+        //dialog init
         dialogEvent();
+        
+        /**Hide message alert with timeout */
+        hideElementWithTimeOut($(".top-alerts"), 4000);
     })
     .fail((jqxhr, settings, exception) => {
         console.error(`Can't find ${globalUtilsLink}`);
