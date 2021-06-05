@@ -123,24 +123,6 @@ class DetailPageTestCase(TestCase):
         response = self.client.get(reverse("store:detail", args=(article.id,)))
         article_seen_after = Article.objects.get(pk=article.id).seen
         self.assertEqual(article_seen_after, article_seen_before + 1)        
-        
-    # def test_favourite_articles_missing_for_not_login_user(self):
-    #     #if user not login don't contain (context) favourites articles of  current user
-    #     self.assertEqual(self.response.context.get("favourites_articles"), None)
-        
-    # def test_favourite_list_in_detail_page(self):
-    #     # get_user()#create user
-    #     article = self.article
-    #     user = User.objects.get(username=USERNAME)
-    #     #contain (context) favourites articles for login user
-    #     self.client.login(username=USERNAME, password=PASSWORD)
-    #     # user = User.objects.get(username="fail")
-    #     Favourite.objects.create(user=user, article=article)
-        
-    #     response = self.client.get(reverse("store:detail", args=(article.id,)))
-    #     favourite_articles = Article.objects.filter(favourite__user=user)
-    #     [self.assertEqual(context_article, page_article) for context_article, page_article in \
-    #         zip(response.context['favourite_articles'], favourite_articles)]
 
 class CreateArticlePageTestCase(TestCase):
     def setUp(self):
@@ -222,13 +204,11 @@ class FavouriteTestCase(TestCase):
     def test_add_article_in_favourite(self):
         article = self.article
         user = self.user
-        #get favourite count before creating favourite
         articles_in_favourite_count_before = self.favourite.articles.count()
         self.client.get(reverse("store:favourite"), {"article_id": article.id})
-        #get favourite count after creating favourite
         articles_in_favourite_count_after = self.favourite.articles.count()
         self.assertEqual(articles_in_favourite_count_before + 1, articles_in_favourite_count_after)
-        
+            
     def test_delete_favourite(self):
         user = self.user
         article = self.article
@@ -238,7 +218,7 @@ class FavouriteTestCase(TestCase):
         favourites_user_count_after = self.favourite.articles.count()
         
         self.assertEqual(favourites_user_count_before - 1, favourites_user_count_after)
-        
+    
 class UpdateArticleTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="chance", password="123456")
@@ -285,10 +265,25 @@ class UpdateArticleTestCase(TestCase):
         response = self.client.get(reverse('dashboard:my_articles'))
         self.assertContains(response, article_update_success(data_article["name"]))
         
+    def test_deactivate_article(self):
+        article = self.article
+        response = self.client.get(reverse('store:update', args=(article.id,)), 
+                                   {"availability": "unavailable"})
+        article = Article.objects.get(pk=article.id)
+        self.assertFalse(article.available)
+    
+    def test_activate_article(self):
+        article = self.article
+        response = self.client.get(reverse('store:update', args=(article.id,)), 
+                                   {"availability": "available"})
+        article = Article.objects.get(pk=article.id)
+        self.assertTrue(article.available)
+        
 class UtilsTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        User.objects.create_user(username=USERNAME, password=PASSWORD, email="bonheur@gmail.com")
+        User.objects.create_user(username=USERNAME, password=PASSWORD, 
+                                 email="bonheur@gmail.com")
         
     def setUp(self):
         self.user = User.objects.get(username=USERNAME)
