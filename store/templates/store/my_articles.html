@@ -12,7 +12,9 @@
     
     {% if articles_unavailable_of_seller|length >= 1 %}
         <div class="row">
-            <h2 class="bg-secondary text-left w-50">Article(s) non disponible(s)</h2>
+            <h2 class="bg-secondary text-center text-light w-100">
+                Article{{ articles_unavailable_of_seller|pluralize }} non disponible{{ articles_unavailable_of_seller|pluralize }}
+            </h2>
         </div>
         <div class="container">
             {% comment %}  
