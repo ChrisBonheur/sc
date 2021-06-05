@@ -52,6 +52,12 @@
               <span class="d-block"><img src="{% static 'images/icons/geo.png' %}" class="w-50" alt=""></span>  
               <span class="d-block text-truncate">{{ article.town }}</span>
             </li>
+            {% if request.path == view_path %}
+              <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">
+                <a href="{% url 'store:favourite' %}?delete_article_id={{ article.id }}" 
+                class="btn text-primary w-100 text-center">Retirer</a>
+              </li>
+            {% endif %}
         {% endif %}
           <!--Views deactivate for now  
             <li class="list-group-item p-0 d-flex justify-content-between text-secondary font-sm-sm">

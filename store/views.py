@@ -199,6 +199,7 @@ def update(request, article_id):
 
 @login_required
 def favourite(request):
+    VIEW_PATH = '/store/mes-favoris/'
     cache_name = f"articles_favourite_{request.user}"
     
     if request.GET.get('article_id'):
@@ -235,6 +236,7 @@ def favourite(request):
     context = {
         'articles': cache.get(cache_name),
         'favourite_page': True,
+        'view_path': VIEW_PATH,
     }
     return render(request, 'store/favourite.html', context)
 
