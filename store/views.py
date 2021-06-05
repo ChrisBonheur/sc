@@ -172,15 +172,22 @@ def update(request, article_id):
                 f'unavailable_articles_{request.user.id}'])
             cache.delete('articles_home')#clear articles list in home
             return redirect('store:my_articles')   
+    
     #deactivate/activate article
     if request.GET.get("availability"):
         availability = request.GET.get("availability")
         if availability == "available": 
             article.available = True
             article.save()
+            #clear cache
+            cache.delete(f"unavailable_articles_{request.user.id}")
         elif availability == "unavailable":
             article.available = False
             article.save()
+            #clear cache
+            cache.delete(f"available_articles_{request.user.id}")
+        
+        return redirect('store:my_articles')
             
     context = {
         'article': article,
@@ -241,7 +248,7 @@ def my_articles_added(request):
     unavailable_cache_name = f'unavailable_articles_{request.user.id}'
     if not cache.get(available_cache_name) or not cache.get(unavailable_cache_name):        
         cache.set(available_cache_name, get_article(True))
-        cache.add(unavailable_cache_name, get_article(False))
+        cache.set(unavailable_cache_name, get_article(False))
     
     context ={
         'articles_available_of_seller': cache.get(available_cache_name),

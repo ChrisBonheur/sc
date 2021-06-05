@@ -30,8 +30,13 @@
               <a href="{% url 'store:update' article_id=article.id %}" class="d-block btn btn-info text-light p-0 flex-fill" >Modifier</a>
             </li>
             <li class="list-group-item p-0 d-flex flew-wrap justify-content-between text-light font-sm-sm">
-              <button type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm" disabled>Activé</button>              
-              <button type="button" class="btn btn-outline-secondary flex-fill p-0 font-sm-sm">Désactivé ?</button>              
+              {% if article.available %}
+                <button type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm" disabled>Activé</button>              
+                <a href="{% url 'store:update' article_id=article.id %}?availability=unavailable" type="button" class="btn btn-outline-secondary flex-fill p-0 font-sm-sm">Désactivé ?</a> 
+              {% else %}
+                <a href="{% url 'store:update' article_id=article.id %}?availability=available" type="button" class="btn btn-outline-secondary flex-fill p-0 font-sm-sm" >Activé ?</a>              
+                <button disabled type="button" class="btn btn-secondary flex-fill p-0 font-sm-sm">Désactivé</button> 
+              {% endif %}
             </li>
         {% else %}
           <ul class="list-group list-group-flush">
