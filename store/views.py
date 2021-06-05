@@ -171,7 +171,17 @@ def update(request, article_id):
             cache.delete_many([f'available_articles_{request.user.id}', \
                 f'unavailable_articles_{request.user.id}'])
             cache.delete('articles_home')#clear articles list in home
-            return redirect('store:my_articles')
+            return redirect('store:my_articles')   
+    #deactivate/activate article
+    if request.GET.get("availability"):
+        availability = request.GET.get("availability")
+        if availability == "available": 
+            article.available = True
+            article.save()
+        elif availability == "unavailable":
+            article.available = False
+            article.save()
+            
     context = {
         'article': article,
         'form': form,
