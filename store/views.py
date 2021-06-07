@@ -86,7 +86,7 @@ def detail(request, article_id):
         pass
     
     #add 1 to seen article
-    article.seen = F("seen") + 1
+    article.seen += 1
     article.save()
     return render(request, 'store/detail-new.html', context)
 
