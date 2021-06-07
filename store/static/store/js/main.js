@@ -102,7 +102,7 @@ const mainStore = () => {
     //create equitable background image for article card
     create_block_proportion($('.article .background-img'), 100);
 
-    if ($.ajaxSettings.url == homePageLink)
+    if ($.ajaxSettings.url == homePageLink || $.ajaxSettings.url == baseLink)
     {
         //show the first jumbotron before the set interval begin in 5000 ms
         $('.jumbotron:first').css({
