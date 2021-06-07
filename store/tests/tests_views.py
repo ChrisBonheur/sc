@@ -250,7 +250,7 @@ class UpdateArticleTestCase(TestCase):
         self.assertEqual(article_updated.name, data['name'], \
             msg="Warning! Data haven't updtated")
         #test redirection
-        self.assertRedirects(response, reverse('dashboard:my_articles'))
+        self.assertRedirects(response, reverse('store:my_articles'))
     
     def test_message_confirmation_showing(self):
         """test message info succes update showing UI"""
