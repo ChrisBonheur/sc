@@ -1,3 +1,50 @@
+/**Create article script ==================================================== */
+/**Add pic file and show it in create article page form*/
+const add_suplementary_pics = () =>{
+    file_nbr++;
+    let inputElt = document.createElement('input');
+    let cancelButton = document.createElement('p');
+    
+    $(inputElt)
+        .attr({
+            'type': "file",
+            'class': "image-files" ,
+            'name': "",
+        })
+        .change((e) => {
+            let url = URL.createObjectURL(event.target.files[0]);
+            let divElt = document.createElement('div');
+
+            $(divElt).attr({
+                'class': 'col-2',
+            }).css({
+                'height': '180px',
+                'background': `gray url("${url}") no-repeat center center`,
+                'background-size': 'contain',
+                'heigh': "78px"
+            });
+            
+            $(divElt).append(cancelButton);
+            $('.upload_pics').append(divElt);
+            
+            //create cancel button to remove picture added
+            $(cancelButton)
+                .addClass('btn-cancel')
+                .text('x')
+                .on('click', () => {
+                    $(divElt).remove();
+                    $(inputElt).remove();
+                    file_nbr--;
+                    console.log(file_nbr);
+                });
+        });
+
+    $(inputElt).hide();//hide input file
+    $(inputElt).click();//execute input Elt
+    $('.pictures-sup').append(inputElt);
+}
+
+
 /*jumbotron diaporama by bnhr*/
 i = 1; //begin by jumbotron at position 2, the first is alredy load before setinterval
 const diaporama = ()=>{
@@ -26,7 +73,6 @@ $(".img-sup-item").on("click", (e) => {
     $("#figure-img-principal").attr("src", e.target.src);
 })
 
-
 /**
  * create a proportional block element by given a height percentage
  * @param {*} element : dom element selected with jquery
@@ -46,17 +92,18 @@ const create_block_proportion = (element, height_percentage) => {
     })
 }
 
-
-
 const mainStore = () => {
+    /**set of link page of store app */
     let baseLink = 'http://127.0.0.1:8000/';
     let homePageLink = baseLink + 'store/';
     let myArticlsPageLink = baseLink + 'store/mes-articles-ajoutés/';
+    let createArticlePageLink = baseLink + 'store/poster-un-article/';
 
     //create equitable background image for article card
     create_block_proportion($('.article .background-img'), 100);
 
-    if ($.ajaxSettings.url == homePageLink){
+    if ($.ajaxSettings.url == homePageLink)
+    {
         //show the first jumbotron before the set interval begin in 5000 ms
         $('.jumbotron:first').css({
             "background": `gray url(${$('.jumbotron img')[0].getAttribute("src")}) no-repeat center center`,
@@ -64,5 +111,39 @@ const mainStore = () => {
         }).fadeIn();
         //lauch diaporama
         setInterval(diaporama, 5000);
+    }
+    //==========================================================================================
+    else if ($.ajaxSettings.url == createArticlePageLink) 
+    {
+        //script for create article page
+        file_nbr = 1;//number of file added
+        //event to add picture 
+        $('.add-pics-btn').on('click', (e) => {
+            e.preventDefault();
+            if (file_nbr <= 4){
+                add_suplementary_pics(file_nbr);
+                $('.pictures-sup .alert').addClass('d-none');
+            }else{
+                $('.pictures-sup .alert').removeClass('d-none');
+            }
+            console.log(file_nbr);
+        });
+
+        //Event on click button save article
+        $('.save-btn').on('click', (e) => {
+            e.preventDefault();
+            
+            //for each input add name attribut with i number
+            $.map($('.image-files'), (el, ind) => {
+                $(el).attr("name", `image_${ind}`);
+            })    
+            
+            //create new button submit to continue action to save
+            let btnElt = document.createElement('button');
+            $(btnElt).attr("type", "submit").hide();
+            $('.form-box-btn').append(btnElt);
+            //execute new button
+            $(btnElt).click();
+        });
     }
 }
