@@ -6,11 +6,15 @@
     <div class="bg-secondary col-12 col-md-8 p-2 mb-2">
       <figure class="figure w-100 text-center bg-light h-100 rounded-2">
         <figcaption class="figure-caption text-center font-md">{{ article.name }}</figcaption>
-        <img src="{% static 'store/img_test/huit.jpg' %}" id="figure-img-principal" class="figure-img img-fluid rounded" alt="{{ article.name }}">
+        <img src="{{ article.image_min.url }}" id="figure-img-principal" class="figure-img img-fluid rounded" alt="{{ article }}">
         <div class="img-sup d-flex justify-content-center rounded-1">
-          <img src="{% static 'store/img_test/pic5.png' %}" class="img-sup-item pointer border-2" alt="">
-          <img src="{% static 'store/img_test/pic5.png' %}" class="img-sup-item pointer" alt="">
-          <img src="{% static 'store/img_test/pic5.png' %}" class="img-sup-item pointer" alt="">
+          {% for picture in article.pictures.all %}
+            {% if picture.photo %}
+              <img src="{{ picture.photo.url }}" class="img-sup-item pointer {% if forloop.first %}border-2{% endif %}" alt="{{ article }}">
+            {% endif %}
+          {% empty %}
+            <p>Aucune image suplémentaire</p>
+          {% endfor %}
         </div>
       </figure>
     </div>

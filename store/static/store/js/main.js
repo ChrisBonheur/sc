@@ -135,7 +135,8 @@ const mainStore = () => {
             
             //for each input add name attribut with i number
             $.map($('.image-files'), (el, ind) => {
-                $(el).attr("name", `image_${ind}`);
+                //add 1 to index, coz name of input begin to image_1 not image_0
+                $(el).attr("name", `image_${ind + 1}`);
             })    
             
             //create new button submit to continue action to save

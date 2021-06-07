@@ -10963,8 +10963,7 @@ header {
 
 .figure img {
   width: 100%;
-  max-width: 500px;
-  max-height: auto;
+  max-width: 400px;
 }
 
 .img-sup {
