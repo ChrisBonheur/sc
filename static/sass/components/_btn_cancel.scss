@@ -1,0 +1,13 @@
+.btn-cancel{
+    display: block;
+    background: red;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
