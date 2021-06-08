@@ -25,33 +25,33 @@
                                 <tr>
                                     <td class="head-td text-center">
                                         <h5>Client</h5>
-                                        <p> {{ invoice.order.user }} </p>
+                                        <p> {{ invoice.user }} </p>
                                     </td>
                                     <td class="head-td text-center">
                                         <h5>Vendeur</h5>
-                                        <p>{{ invoice.order.article.user }} <br> Addresse : {{ invoice.order.article.address }}</p>
+                                        <p>{{ invoice.article.user }} <br> Addresse : {{ invoice.article.address }}</p>
                                     </td>
                                 </tr>
                             </tr>
 
                             <tr>
                                 <th>Désignation</th>
-                                <td class="text-justify"><a href="{{ invoice.order.article.image_min.url }}">{{ invoice.order.article.name }}</a></td>
+                                <td class="text-justify"><a href="{{ invoice.article.image_min.url }}">{{ invoice.article.name }}</a></td>
                             </tr>
 
                             <tr>
                                 <th>Description</th>
-                                <td class="text-justify">{{ invoice.order.description }}</td>
+                                <td class="text-justify">{{ invoice.description }}</td>
                             </tr>
 
                             <tr>
                                 <th>Quantité</th>
-                                <td class="text-justify">{{ invoice.order.quantity }}</td>
+                                <td class="text-justify">{{ invoice.quantity }}</td>
                             </tr>
 
                             <tr>
                                 <th>Livraison</th>
-                                {% if invoice.order.delivery == True %}
+                                {% if invoice.delivery == True %}
                                     <td class="text-justify">OUI</td>
                                 {% else %}
                                     <td class="text-justify">NON</td>
@@ -60,12 +60,12 @@
 
                             <tr>
                                 <th>Etat</th>
-                                <td class="text-justify">{{ invoice.order.status }}</td>
+                                <td class="text-justify">{{ invoice.status }}</td>
                             </tr>
 
                             <tr>
                                 <th>Prix</th>
-                                <td class="text-justify"><strong>{{ invoice.order.price_ttc }} XAF</strong></td>
+                                <td class="text-justify"><strong>{{ invoice.price_ttc }} XAF</strong></td>
                             </tr>
                         </table>
                     </div>
@@ -77,7 +77,7 @@
                         <button>Valider payement article</button>
                     </div>
                     <div class="col-12 btn-2">
-                       <a href="{% url 'dashboard:invoices' %}?annuler-payement={{ invoice.order.article }}?&amp;invoice_id={{ invoice.id }}"><button>Annuler payement article</button></a>
+                       <a href="{% url 'dashboard:invoices' %}?annuler-payement={{ invoice.article }}?&amp;invoice_id={{ invoice.id }}"><button>Annuler payement article</button></a>
                     </div>
                 </div>
             </div>

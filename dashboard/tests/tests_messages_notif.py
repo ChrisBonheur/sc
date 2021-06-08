@@ -30,6 +30,6 @@ class MessageNotifTestCase(TestCase):
         response = self.client.get(reverse("dashboard:invoices"), {"order_id": order.id, \
             "valider-la-commande": order.article})
         #test notif sended to custommer when seller valid an order
-        msg_count_after = Message.objects.filter(recipient_id=self.order.user.id).count()
+        msg_count_after = Message.objects.filter(recipient_id=self.order.customer.id).count()
         err_msg = "Message not send to a customer for order validation by seller"
         self.assertEqual(msg_count_before + 1, msg_count_after, msg=err_msg)

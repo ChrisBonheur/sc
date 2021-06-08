@@ -16,7 +16,7 @@
                         <div class="panneau panneau1" style="display: none;">
                             <div class="up"></div>
                             <div class="bloc">
-                                <p><a href="{% url 'dashboard:my_articles' %}">Mes articles</a></p>
+                                <p><a href="{% url 'store:my_articles' %}">Mes articles</a></p>
                             </div>
                         </div>
                     </li>
@@ -27,7 +27,7 @@
                             <div class="bloc">
                                 <p><a href="{% url 'dashboard:invoices' %}">Factures à payer ({{ user_invoice_number }})</a></p>
                                 <p><a href="{% url 'dashboard:orders' %}/envoyees">Commandes envoyées </a></p>
-                                <p><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></p>
+                                <p><a href="#"}>Achats effectués</a></p>
                             </div>
                         </div>
                     </li>
@@ -37,7 +37,7 @@
                             <div class="up"></div>
                             <div class="bloc">
                                 <p><a href="{% url 'dashboard:orders' %}reçues">Gestion de commandes reçues ({{ user_order_number }})</a></p>
-                                <p><a href="{% url 'dashboard:selled_list' %}">Ventes réalisées</a></p>
+                                <p><a href="">Ventes réalisées</a></p>
                             </div>
                         </div>
                     </li>
@@ -50,7 +50,7 @@
                     <li>
                         ARTICLE
                         <ul>
-                            <li><a href="{% url 'dashboard:my_articles' %}">Mes articles postés</a></li>
+                            <li><a href="{% url 'store:my_articles' %}">Mes articles postés</a></li>
                         </ul>
                     </li>
 
@@ -59,14 +59,14 @@
                         <ul>
                             <li><a href="{% url 'dashboard:invoices' %}">Factures à payer ({{ user_invoice_number }})</a></li>
                             <li><a href="{% url 'dashboard:orders' %}envoyees">Commandes envoyées</a></li>
-                            <li><a href="{% url 'dashboard:bought_list' %}">Achats effectués</a></li>
+                            <li><a href="">Achats effectués</a></li>
                         </ul>
                     </li>
                     <li>
                         VENTE
                         <ul>
                             <li><a href="{% url 'dashboard:orders' %}reçues">Gestion de commande reçues ({{ user_order_number }})</a></li>
-                            <li><a href="{% url 'dashboard:selled_list' %}">Ventes réalisées</a></li>
+                            <li><a href="">Ventes réalisées</a></li>
                         </ul>
                     </li>
                 </ul>

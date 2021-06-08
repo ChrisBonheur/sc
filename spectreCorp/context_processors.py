@@ -15,10 +15,9 @@ def db_request(request):
                  & Q(recipient_id=request.user.id)).count()
         
         return {
-            'user_order_number': Order.objects.filter(Q(article__user=request.user) \
-                & Q(manage=False)).count(),
-            'user_invoice_number': Invoice.objects.filter(order__user=request.user).\
-                count(),
+            'user_order_number': Order.objects.filter(article__user=request.user).count(),
+            # 'user_invoice_number': Invoice.objects.filter(customer=request.user).\
+                # count(),
             'notif_count': notif_count,
             'favourite_articles': favourite_articles,
             'categories': categories,

@@ -12,7 +12,7 @@ class SignalsTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="exo", password="123456")
         self.article = create_article("radio", self.user)
-        self.order = Order.objects.create(user=self.user, article=self.article)
+        self.order = Order.objects.create(customer=self.user, article=self.article)
 
     def test_upload_manage(self):
         """test if order's attribut manage become True
