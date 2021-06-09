@@ -154,5 +154,5 @@ def orders(request):
             cache.set(f'orders_receive_{request.user.id}', Order.objects.filter\
                     (article__user=request.user), cache_time)
         context["orders"] = cache.get(f'orders_receive_{request.user.id}')
-
+        
     return render(request, 'dashboard/order.html', context)
