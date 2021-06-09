@@ -10,7 +10,7 @@
         </a>
         <div class="card-body p-1 pb-0">
           <h5 class="card-title text-secondary font-md mb-0 text-truncate">{{ article.name }} <br></h5>
-          <span class="d-block mt-0 font-sm-esm">il y a 3 min</span>
+          <span class="d-block mt-0 font-sm-esm">{{ article.date_add|naturaltime }}</span>
         </div>
 
         <ul class="list-group list-group-flush">
