@@ -10774,7 +10774,7 @@ textarea.form-control-lg {
 }
 
 .font-md {
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 @media all and (min-width: 0px) and (max-width: 576px) {
@@ -10796,7 +10796,7 @@ header .alerts {
 @media screen and (max-width: 576px) {
   header .alerts .alert {
     padding: 1px;
-    font-size: 1em;
+    font-size: 1.2em;
   }
 }
 
@@ -10833,7 +10833,7 @@ header {
   height: 2.7em;
   border-radius: 3px;
   padding: 6px;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 @media screen and (max-width: 576px) {
   .form_search {
@@ -10976,6 +10976,20 @@ header {
 .img-sup .border-2 {
   border: 2px solid #0b4a97;
   border-radius: 5px;
+}
+
+.box-login {
+  max-width: 350px;
+  font-size: 1.2em;
+}
+.box-login h1, .box-login .h1 {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+.box-login a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.8em;
 }
 
 /*# sourceMappingURL=style_sass.css.map */

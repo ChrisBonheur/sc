@@ -1,22 +1,25 @@
-{% extends 'user/base.html' %}
-{% block content %}
-{% load socialaccount %}
+{% extends 'base.html' %}
+{% load socialaccount static %}
 {% providers_media_js %}
-
-<div class="container auto_login b_h">
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4 social-login" >
-            <div class="text">
-                <h1>Inscription sur SC</h1>
+{% block content %}
+<div class="container body-page-content">
+    <div class="row d-flex justify-content-center p-1 pt-5">
+        <div class="border p-1 p-sm-2 rounded shadow bg-light box-login" >
+            <div class="text-center">
+                <h1 class="text-md">Inscription sur SC</h1>
                 <p>Inscris-toi pour vendre ou acheter tes articles préférés en toute simplicité</p>
             </div>
-            <div class="social gmail">
-                <a href="{% provider_login_url 'google' %}" class="link-gmail"></a>
+            <div class="mt-4">
+                <a href="{% provider_login_url 'google' %}" class="">
+                    <img src="{% static 'user/images/gmail.png' %}" class="w-100 rounded" alt="gmail connexion">
+                </a>
             </div>
-            <div class="social facebook">
-                <a href="{% provider_login_url 'facebook' %}" class="link-facebook"></a>
+            <div class="mt-4">
+                <a href="{% provider_login_url 'facebook' %}" class="">
+                    <img src="{% static 'user/images/fb.png' %}" class="w-100 rounded" alt="facebook connexion">
+                </a>
             </div>
-            <div class="social manual">
+            <div class="mt-4 d-flex justify-content-around">
                 <div><a href="{% url 'user:register' %}">S'inscrire</a></div>
                 <div><a href="{% url 'user:login' %}">Se connecter</a></div>
             </div>
