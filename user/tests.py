@@ -62,7 +62,7 @@ class UpdateViewTestCase(TestCase):
         pass
     
     def test_deactive_user(self):
-        """test user can be deactive his account"""
+        """test user can deactive his account"""
         user = User.objects.create_user(username="bnhr", password="123456")
         self.client.login(username=user, password="123456")
         self.client.get(reverse('user:update'), {"supprimer": user})
