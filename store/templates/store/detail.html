@@ -1,153 +1,70 @@
-{% extends 'store/base.html' %}
+{% extends 'base.html' %}
+{% load static humanize %}
 {% block content %}
-    {% load static store_extras humanize %}
-        <div class="b_h">
-            <div class="container-fluid detail_page">
-                <div class="row article">
-                    <div class="col-lg-8 bloc_img" style="background-color: white; padding: 0px;">
-                        <div class="row">
-                            <div class="col-md-12 img_art">
-                                <img class="img-responsive" src="{{ article.image_min.url }}" alt="Image de l'article">
-                            </div>
-                            <!-- <div class="col-md-6 img_art" style="background: url('/static/store/img_test/huit.jpg') no-repeat center;
-                            background-size: cover;">
-                            </div> -->
-                        </div>
-                        <div class="pics_min">
-                            {% for picture in pictures %}
-                            <div class="img_min"><p id="{{ picture }}" class="btn-img"  style="background: url({{ picture.photo.url }})
-                                no-repeat center; background-size: cover;">  
-                                <!-- This is to get link of pic and to show it in #show_img -->
-                                </p>
-                            </div>
-                            {% empty %}
-                                <p class="text-center d-flex align-items-center">Pas d'image supplémentaire !</p>
-                            {% endfor %} 
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <aside class="buy_bloc">
-                            <p class="price">{{ article.price_ttc|intword }} XAF</p>
-                            <p class="city"><img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article.town|upper }}</p>
-                            <p>Quartier: {{ article.district }}</p>
-
-                            <div id="detail">
-                                <h1>{{ article.name }}</h1>
-                                <p>
-                                    {{ article.description }}
-                                </p>
-                                <p>
-                                    <strong>Etat : {{ article.status }}</strong><br>
-                                    {% if article.delivery %}
-                                        <strong>Livraison accordée</strong>
-                                    {% endif %}
-                                </p>
-                                <p class="text-right">
-                                    Posté il y a {{ article.date_add|calcul_date }}
-                                </p>
-                                <p>Nombre de vue : {{ article.seen }}</p>
-                            </div>
-
-                            {% if article.user != user %}
-                                <div id="action">
-                                    <div>
-                                        <a href="{% url 'communication:new_msg' %}?article_id={{ article.id }}"><button class="send-btn">Enoyez un message</button></a>
-                                    </div>
-                                    <div>
-                                        {% if article_in_order %}
-                                            <p>Cet article est déjà en cours de commande</p>
-                                        {% else %}
-                                            <form action="{% url 'dashboard:orders' %}envoyees" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="article_id" value="{{ article.id }}">
-                                                <input type="hidden" name="price_ht" value="{{ article.price_init }}" >
-                                                <input type="hidden" name="price_ttc" value="{{ article.price_ttc }}" >
-                                                <input type="hidden" name="description" value="{{ article.description }}" >
-                                                <input type="hidden" name="quantity" value="1" >
-                                                <input type="hidden" name="status" value="{{ article.status }}" >
-                                                <input type="hidden" name="quantity" value="1" >
-                                                <input type="hidden" name="selivery" value="{{ article.delivery }}" >
-                                                <button type="submit" class="buy-btn">Passer la commande</button>
-                                            </form>
-                                        {% endif %}
-                                    </div>
-                                    <div>
-                                        {% if request.user.is_authenticated %}
-                                            {% if not request.user|is_favourite:article %}
-                                                <button class="add-btn" id="{{ article.id }}">Ajouter aux favoris</button>
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                        </aside>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 info_seller">
-                        <div> 
-                            <img 
-                            {% if  article.avatar_seller != "" %} 
-                                src="{{ article.user.profil.avatar.url }}" 
-                            {% else %}
-                                src="{% static 'images/icons/stand.png' %}"
-                            {% endif %} alt="avatar"> {{ article.user.username }}
-                        </div>
-                        <div>
-                            Articles({{ articles_for_seller|length }})
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="row user-articles" >
-                            {% for article_seller in articles_for_seller %}
-                                <div class="col-md-4 col-sm-4 col-6" style="padding: 3px;">
-                                    <div class="card">
-                                        <a href="{% url 'store:detail' article_id=article_seller.id %}">
-                                            <div class="card-img-top" style="background: lightgray url({{ article_seller.image_min.url }}) no-repeat center;
-                                            background-size: contain"> </div> 
-                                        </a>
-                                        <div class="info-user">
-                                            <img 
-                                                {% if  article.avatar_seller != "" %} 
-                                                    src="{{ article_seller.user.profil.avatar.url }}" 
-                                                {% else %}
-                                                    src="{% static 'images/icons/stand.png' %}"
-                                                {% endif %} alt="avatar"> 
-                                            <a href="" id="user-name">{{ article.user.username }}</a>
-                                        </div>
-                                        <div class="details">
-                                            <h5>{{ article_seller.name }}</h5>
-                                            <p>
-                                                <span class="prix">{{ article_seller.price_ttc }} </span><span class="xaf">XAF</span> <br>
-                                                <img src="{% static 'store/images/icons/geo.png' %}" alt=""> {{ article_seller.town }} <br>
-                                                Qtier: {{ article_seller.district }} <br>
-                                                <a href="{% url 'store:detail' article_id=article_seller.id %}"><button>Détails</button></a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="row title_limit"><h1>Articles similaires</h1></div> -->
-            {% include 'store/list-article.html' %}
-        </div>        
-        <div id="show_img" style="display: none;">  
-            {% for picture in pictures %}
-                <div class="img_max">
-                    <img src="{{ picture.photo.url }}" alt="">
-                </div>
-            {% endfor %}
-
-            <div class="x-circle"><img src="{% static 'store/images/icons/x-circle.png' %}" alt=""></div>
+<div class="body-page-content container-fluid p-3 bg-secondary">
+  <div class="row bg-secondary">
+    <div class="bg-secondary col-12 col-md-8 p-2 mb-2">
+      <figure class="figure w-100 text-center bg-light h-100 rounded-2">
+        <figcaption class="figure-caption text-center font-md">{{ article.name }}</figcaption>
+        <img src="{{ article.image_min.url }}" id="figure-img-principal" class="figure-img img-fluid rounded" alt="{{ article }}">
+        <div class="img-sup d-flex justify-content-center rounded-1">
+          {% for picture in article.pictures.all %}
+            {% if picture.photo %}
+              <img src="{{ picture.photo.url }}" class="img-sup-item pointer {% if forloop.first %}border-2{% endif %}" alt="{{ article }}">
+            {% endif %}
+          {% empty %}
+            <p>Aucune image suplémentaire</p>
+          {% endfor %}
         </div>
+      </figure>
+    </div>
+    
+    <div class="col-12 bg-secondary p-2 col-md-4 mb-2">
+      <aside class="aside-details">
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span class="d-block text-secondary">Prix</span><span class="d-block font-weight-bold">{{ article.price_ttc|intcomma }} XAF</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+                <span class="d-block">V</span><span class="d-block">{{ article.town }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+                <span class="d-block">Quartier</span> <span class="d-block">{{ article.district }}</span>
+            </li>
+            <li class="list-group-item text-secondary">
+                <h5 class="d-block">Description</h5>  
+                <p class="d-block">{{ article.description }}</p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+                <span class="d-block">Etat</span><span class="d-block">{{ article.status }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+              <span class="d-block">Posté</span><span class="d-block">{{ article.date_add|naturaltime }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+                <span class="d-block">Consulté</span><span class="d-block">{{ article.seen }} fois</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between text-secondary">
+              <span class="d-block">Livraison</span><span class="d-block">{{ article.delivery }}</span>
+            </li>
+            {% if request.user != article.user %}
+            <li class="list-group-item d-flex flex-column">
+              <button type="button" class="btn btn-outline-secondary text-primary">Envoyer un message</button>
+              <button type="button" class="btn btn-primary mt-2 mb-2">Passer la commande</button>
+              <a href="{% url 'store:favourite' %}?article_id={{ article.id }}" type="button" class="btn btn-outline-secondary text-primary">Ajouter aux favoris</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </aside>    
+    </div>
+  </div>
+
+  <div class="row p-2">
+    <h5 class="alert alert-primary text-center">Articles similaires</h5>
+    {% include 'store/list.html' with empty_article_text_alert="Aucun article similaire trouvé" %}
+  </div>
+
+</div>
 {% endblock %}

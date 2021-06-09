@@ -88,7 +88,7 @@ def detail(request, article_id):
     #add 1 to seen article
     article.seen += 1
     article.save()
-    return render(request, 'store/detail-new.html', context)
+    return render(request, 'store/detail.html', context)
 
 def search(request):
     if request.GET:
@@ -153,7 +153,7 @@ def create_article(request):
     context = {
         'form': form
     }
-    return render(request, 'store/sell.html', context)
+    return render(request, 'store/create.html', context)
 
 @login_required
 def update(request, article_id):
