@@ -10992,4 +10992,8 @@ header {
   font-size: 0.8em;
 }
 
+.box-register {
+  max-width: 350px;
+}
+
 /*# sourceMappingURL=style_sass.css.map */

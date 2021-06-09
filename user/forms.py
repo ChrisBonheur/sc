@@ -7,10 +7,14 @@ class RegisterForm(forms.Form):
     password = forms.CharField(label="", widget=forms.PasswordInput)
     confirm_password = forms.CharField(label="", widget=forms.PasswordInput)
     
-    username.widget.attrs.update({'placeholder': 'Nom d\'utilisateur'})
-    email.widget.attrs.update({'placeholder': 'Email'})
-    password.widget.attrs.update({'placeholder': 'Mot de passe', 'class': 'inputForm'})
-    confirm_password.widget.attrs.update({'placeholder': 'Confirmer mot de passe', 'class': 'inputForm'})
+    username.widget.attrs.update({'placeholder': 'Nom d\'utilisateur',
+                                  'class': "w-100 border-bottom border-0"})
+    email.widget.attrs.update({'placeholder': 'Email', 
+                               'class': "w-100 border-bottom border-0"})
+    password.widget.attrs.update({'placeholder': 'Mot de passe', 
+                                'class': 'inputForm w-100 border-bottom border-0'})
+    confirm_password.widget.attrs.update({'placeholder': 'Confirmer mot de passe', 
+                                'class': 'inputForm w-100 border-bottom border-0'})
     
     def clean_confirm_password(self):
         confirm_password = self.cleaned_data['confirm_password']

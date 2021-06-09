@@ -1,14 +1,14 @@
-{% extends 'user/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-    <div class="container manual_connect b_h">
-        <div class="row">
-            <div class="col-md-offset-4 col-md-4">
+    <div class="container body-page-content">
+        <div class="row d-flex justify-content-center">
+            <div class="text-center box-register p-1 pt-5">
                 <h1>Inscription</h1>
                 
                 {% if check_email %}
-                <span class="alert" style="color: red;">Cet email existe déjà</span>
+                <span class="alert text-warning">Cet email existe déjà</span>
                 {% elif check_username %}
-                <span class="alert" style="color: red;">Nom d'utilisateur déjà existant</span>
+                <span class="alert text-warning">Nom d'utilisateur déjà existant</span>
                 {% endif %}
 
                 <form action="{% url 'user:register' %}" method="post">
@@ -16,11 +16,11 @@
                     <div class="bloc-login-input">
                         {{ form.as_p }}
                     </div>
-                    <div>
-                        <button type="submit" class="load-style">S'inscrire</button>
+                    <div class="mt-2">
+                        <button type="submit" class="load-style btn btn-primary w-100">S'inscrire</button>
                     </div>
-                    <div>
-                        <a href="{% url 'user:login' %}">Connexion</a>
+                    <div class="mt-2">
+                        <a href="{% url 'user:login' %}" class="btn btn-outline-primary w-100">Connexion ?</a>
                     </div>
                 </form>
             </div>
