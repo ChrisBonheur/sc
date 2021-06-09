@@ -175,6 +175,8 @@ def update(request, article_id):
     
     #deactivate/activate article
     if request.GET.get("availability"):
+        #clear cache for home page
+        cache.delete("articles_home")
         availability = request.GET.get("availability")
         if availability == "available": 
             article.available = True
