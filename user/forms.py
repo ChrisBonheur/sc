@@ -38,6 +38,8 @@ class LoginForm(forms.Form):
     username = forms.CharField(label="")
     password = forms.CharField(label="", widget=forms.PasswordInput)
     
-    username.widget.attrs.update({'placeholder': 'Nom d\'utilisateur'})
-    password.widget.attrs.update({'placeholder': 'Mot de passe', 'class': 'inputForm'})
+    username.widget.attrs.update({'placeholder': 'Nom d\'utilisateur',
+                                  "class": "w-100 border-bottom border-0"})
+    password.widget.attrs.update({'placeholder': 'Mot de passe', 
+                        'class': 'inputForm w-100 border-bottom border-0'})
              

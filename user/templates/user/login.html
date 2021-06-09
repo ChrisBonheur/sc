@@ -1,24 +1,24 @@
-{% extends 'user/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-    <div class="container body-page-content manual_connect b_h">
-        <div class="row">
-            <div class="col-md-offset-4 col-md-4">
+    <div class="container body-page-content">
+        <div class="d-flex justify-content-center">
+            <div class="p-1 pt-5 text-center bloc-login w-100">
                 <h1>Se connecter</h1>
                 {% if error %}
                     <span class="alert">Mot de passe ou nom d'utilisateur incorect</span>
                 {% endif %}
                 <form action="{% url 'user:login' %}" method="post">
                     {% csrf_token %}
-                    <div class="bloc-login-input">
+                    <div class="">
                         {{ form.as_p }}
                     </div>
                     
-                    <div>
-                        <button type="submit" class="load-style">Se connecter</button>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary w-100">Connexion</button>
                     </div>
-                    <div>
+                    <div class="mt-4">
                         <a href="">Mot de passe oublié ?</a> <br>
-                        <a href="{% url 'user:register' %}">Inscription </a>
+                        <a href="{% url 'user:register' %}">Inscription ?</a>
                     </div>
                 </form>
             </div>
