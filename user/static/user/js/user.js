@@ -1,4 +1,4 @@
-$(function(){
+
     /************PROFIL */
     /**
      * This function set any element from DOM to a square element
@@ -22,26 +22,6 @@ $(function(){
         return true;
     }
 
-    $(window).on('resize', () => {
-        squareWidthHeight('.img-square');
-    });
-
-    squareWidthHeight('.img-square');
-
-    /**Event to change picture */
-    $('.btn-change-img').on('click', (e) => {
-        e.preventDefault();
-        $('#id_avatar').click();
-    });
-    
-    $('#id_avatar').on('change', (e) => {
-        let url = URL.createObjectURL(event.target.files[0]);
-        $('.img_chosen').attr({
-            'src': url,
-        });
-    });
-
-
     //set an active button link style
     const linkUserActiveStyle = () => {
         let currentUrl = $.ajaxSettings.url;
@@ -54,7 +34,7 @@ $(function(){
             }
         });
     }
-    linkUserActiveStyle();
+    
 
     /** change email event*/
     // $('.btn-change-email').on('click', (e) => {
@@ -112,4 +92,38 @@ $(function(){
     //         })
     //     }
     // });
-});
+
+const userMain = () => {
+    //Action on click profil photo
+    $('.show-menu-fixed').on('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        $('.fixed-bloc-links').toggleClass('d-none');
+    });
+    $(window).on('click', () =>{
+        $('.fixed-bloc-links').addClass('d-none');
+    });
+
+    //style on active link
+    linkUserActiveStyle();
+
+    //make photo profil in square form then set rounded with bootstrap in file html
+    $(window).on('resize', () => {
+        squareWidthHeight('.img-square');
+    });
+    squareWidthHeight('.img-square');
+
+    /**Event to change picture profile on profile page*/
+    $('.btn-change-img').on('click', (e) => {
+        e.preventDefault();
+        $('#id_avatar').click();
+    });
+    $('#id_avatar').on('change', (e) => {
+        let url = URL.createObjectURL(event.target.files[0]);
+        $('.img_chosen').attr({
+            'src': url,
+        });
+    });
+}
+
+userMain();

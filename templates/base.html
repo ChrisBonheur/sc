@@ -19,7 +19,7 @@
         </div>
         <div class="col-8 col-md-4 order-md-3 d-flex justify-content-end">
           {% if request.user.is_authenticated %}
-            <div class="d-flex justify-content-end account-info">
+            <div class="d-flex justify-content-end account-info m-0 mt-0 mb-0">
               <div class="account-info__access">
                 <a href="">
                   <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
@@ -33,7 +33,7 @@
               </div>
             
               <div class="account-info__access avatar">
-                <a href="{% url 'user:profil' %}">
+                <a href="{% url 'user:profil' %}" class="dropdown-toggle w-auto show-menu-fixed">
                   {% if request.user.profil.avatar.url != '' %}
                     <img src="{{ request.user.profil.avatar.url }}" alt="avatar" class="img-avatar img-square rounded-circle">
                   {% else %}
@@ -41,6 +41,12 @@
                   {% endif %}
                 </a>
               </div>
+
+              <ul class="list-group fixed-bloc-links d-none">
+                <a href="{% url 'user:profil' %}" class="text-light list-group-item bg-secondary font-sm">Profile</a>
+                <a href="{% url 'user:logout' %}" class="text-light list-group-item bg-secondary font-sm">Déconnexion</a>
+              </ul>
+
             </div>
 
             <a href="{% url 'store:create_article' %}" class="btn text-light text-truncate btn-style d-none d-md-block text-truncate w-100 bg-primary text-decoration-none">
@@ -96,7 +102,7 @@
             <a class="nav-link" href="{% url 'store:home' %}">Acceuil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">A propos</a>
+            <a class="nav-link " href="{% url 'about' %}">A propos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'contact' %}">Contact</a>
@@ -130,6 +136,7 @@
       {% endif %}
     </header>
     <!--=============================END_HEADER-->
+
 
     <!--=============================BEGIN CONTENT PAGE BODY=================================-->
     <div id="central-page" class="">

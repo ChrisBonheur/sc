@@ -10870,6 +10870,12 @@ header .alerts {
   z-index: 2;
 }
 
+.fixed-bloc-links {
+  position: absolute;
+  top: 45%;
+  z-index: 3;
+}
+
 /*=========================================================================================*/
 header {
   position: fixed;
