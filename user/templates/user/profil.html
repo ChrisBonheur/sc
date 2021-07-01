@@ -23,9 +23,9 @@
                     </div>
                     <div class="col-12 col-sm-4 text-center ">
                         {% if request.user.profil.avatar.url != "" %}
-                            <img class='img-square rounded-circle' src="{{ request.user.profil.avatar.url }}">
+                            <img class='img-square img_chosen rounded-circle' src="{{ request.user.profil.avatar.url }}">
                         {% else %}
-                            <img class='img-square rounded-circle' src="../../../static/images/icons/stand.png">
+                            <img class='img-square img_chosen rounded-circle' src="../../../static/images/icons/stand.png">
                         {% endif %}
                     </div>
                     <div class="col-12 col-sm-4 text-sm-right">
@@ -79,8 +79,9 @@
                     <div class="col-12 col-sm-6">
                         <label for="">Contact MTN</label>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
+                    <div class="col-12 col-sm-6 text-sm-right mtn-number">
                         {{ profil_form.contact_mtn }}
+                        <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
                     </div>
                 </div>
                 <br class="separator">
@@ -88,8 +89,9 @@
                     <div class="col-12 col-sm-6">
                         <label for="">Contact Airtel</label>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
+                    <div class="col-12 col-sm-6 text-sm-right airtel-number">
                         {{ profil_form.contact_airtel }}
+                        <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
                     </div>
                 </div>
                 <br class="separator">
@@ -107,8 +109,9 @@
                     <div class="col-12 col-sm-6">
                         <label for="">Numéro Airtel money</label>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
+                    <div class="col-12 col-sm-6 text-sm-right airtel-number">
                         {{ profil_form.airtel_money }}
+                        <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
                     </div>
                 </div>
 
@@ -117,8 +120,9 @@
                     <div class="col-12 col-sm-6">
                         <label for="">Numéro MTN money</label>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
+                    <div class="col-12 col-sm-6 text-sm-right mtn-number">
                         {{ profil_form.mtn_money }}
+                        <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
                     </div>
                 </div>
 
@@ -135,7 +139,7 @@
                 <br class="separator">
                 <div class="d-flex p-4 justify-content-around">
                     <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
-                    <button type="submit" class="btn btn-primary d-block">Enregistrer</button>
+                    <button type="submit" class="btn btn-primary d-block" id="save-update-profil-btn">Enregistrer</button>
                 </div>
             </form>
         </div>

@@ -35,6 +35,33 @@
         });
     }
     
+    /**
+     * This function verify integrity of number operator and return True
+     * if its conform or False if an error is occured
+     * @param {Number} numberValue 
+     * @param {element selected from DOM to show error message} ErrorSelectorEltToShow 
+     * @param {choosen "mtn" or "aitel" operator} operator 
+     */
+    const operatorNumberIsValid = (numberValue, ErrorSelectorEltToShow, operator) => {
+        let regexConform = null;
+        
+        if (operator == "mtn"){
+            regexConform=/^(242)?06[0-9]{7}$/
+        }else if(operator == "airtel"){
+            regexConform=/^(242)?05[0-9]{7}$/
+        }else{
+            console.error("Warning: The choice of operator must be 'airtel' or 'mtn'")
+            return false
+        }
+
+        if (regexConform.test(numberValue) == false && numberValue != ''){
+            ErrorSelectorEltToShow.removeClass('d-none');
+            return false;
+        }else{
+            ErrorSelectorEltToShow.addClass("d-none");
+            return true;
+        }
+    }
 
     /** change email event*/
     // $('.btn-change-email').on('click', (e) => {
@@ -123,6 +150,47 @@ const userMain = () => {
         $('.img_chosen').attr({
             'src': url,
         });
+    });
+
+    //===============================
+    //test for integrity of profil's form
+
+    /**active button submit if numbers are valid or conform */
+    const activeButton = (numberValid) => {
+        if (numberValid){
+            $('#save-update-profil-btn').removeAttr('disabled');
+        }else{
+            $('#save-update-profil-btn').attr('disabled', 'true');
+        }
+    }
+
+    //MTN number test
+    $('.mtn-number input').on('input', () => {
+        let mtnNumbers = $('.mtn-number').get()
+        
+        for (const element of mtnNumbers) {
+            let inputValue = element.children[0].value;
+            let spanErrorElt = element.children[1]
+            let numberValid = operatorNumberIsValid(inputValue, $(spanErrorElt), "mtn");
+            activeButton(numberValid);
+            if (numberValid == false){
+                break;
+            }
+        };
+    });
+    //Airtel number test
+    $('.airtel-number input').on('input', () => {
+        let airtelNumbers = $('.airtel-number').get()
+        
+        for (const element of airtelNumbers) {
+            let inputValue = element.children[0].value;
+            let spanErrorElt = element.children[1];
+            let numberValid = operatorNumberIsValid(inputValue, $(spanErrorElt), "airtel");
+            activeButton(numberValid);
+            if (numberValid == false){
+                break;
+            }
+        };
     });
 }
 
