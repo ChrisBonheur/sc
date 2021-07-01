@@ -34,8 +34,8 @@
             
               <div class="account-info__access avatar">
                 <a href="">
-                  {% if request.user.profil.avatar.path != '' %}
-                    <img src="{{ request.user.profil.avatar.path }}" alt="avatar" class="img-avatar">
+                  {% if request.user.profil.avatar.url != '' %}
+                    <img src="{{ request.user.profil.avatar.url }}" alt="avatar" class="img-avatar">
                   {% else %}
                     <img src="{% static 'images/icons/stand.png' %}" alt="avatar" class="img-avatar">
                   {% endif %}
