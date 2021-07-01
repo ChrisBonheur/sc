@@ -41,14 +41,29 @@ $(function(){
         });
     });
 
-    /** change email event*/
-    $('.btn-change-email').on('click', (e) => {
-        e.preventDefault()
-        let newMail = prompt('Entrez votre email');
 
-        $('.show-mail').text(newMail);
-        $('#email').val(newMail);
-    });
+    //set an active button link style
+    const linkUserActiveStyle = () => {
+        let currentUrl = $.ajaxSettings.url;
+
+        let links = $('.param-link').get()
+        links.forEach(link => {
+
+            if (currentUrl == link.href){
+                $(link).addClass('active-secondary');
+            }
+        });
+    }
+    linkUserActiveStyle();
+
+    /** change email event*/
+    // $('.btn-change-email').on('click', (e) => {
+    //     e.preventDefault()
+    //     let newMail = prompt('Entrez votre email');
+
+    //     $('.show-mail').text(newMail);
+    //     $('#email').val(newMail);
+    // });
 
 
     /*****update password */

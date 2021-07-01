@@ -33,7 +33,7 @@
               </div>
             
               <div class="account-info__access avatar">
-                <a href="">
+                <a href="{% url 'user:profil' %}">
                   {% if request.user.profil.avatar.url != '' %}
                     <img src="{{ request.user.profil.avatar.url }}" alt="avatar" class="img-avatar img-square rounded-circle">
                   {% else %}

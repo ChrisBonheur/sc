@@ -10746,6 +10746,10 @@ textarea.form-control-lg {
   font-weight: bold;
 }
 
+.active-secondary {
+  background: lightgray;
+}
+
 .form-bloc-group {
   border: 3px solid #6c757d;
   margin-bottom: 2em;
