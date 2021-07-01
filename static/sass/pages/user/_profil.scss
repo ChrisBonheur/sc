@@ -1,0 +1,22 @@
+.params-links{
+    @media all and (max-width: 768px) {
+        text-align: center;
+    }
+    & .list-group-item{
+        & a{
+            &:hover{
+                background-color: lightgray;
+            }
+        }
+    }
+}
+.update-profil{
+    & input{
+        width: 100%;
+    }
+    & .btn-change-img{
+        @media all and (max-width: 576px) {
+            width: 100%;
+        }
+    }
+}

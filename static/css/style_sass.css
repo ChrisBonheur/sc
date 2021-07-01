@@ -11044,4 +11044,22 @@ header {
   max-width: 350px;
 }
 
+@media all and (max-width: 768px) {
+  .params-links {
+    text-align: center;
+  }
+}
+.params-links .list-group-item a:hover {
+  background-color: lightgray;
+}
+
+.update-profil input {
+  width: 100%;
+}
+@media all and (max-width: 576px) {
+  .update-profil .btn-change-img {
+    width: 100%;
+  }
+}
+
 /*# sourceMappingURL=style_sass.css.map */

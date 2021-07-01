@@ -2,7 +2,7 @@
 {% block content %}
 <div class="body-page-content container">
     <div class="row">
-        <div class="col-12 col-md-5 text-sm-left ">
+        <div class="col-12 col-md-5 text-sm-left params-links">
             <h1 class="">Mes paramètres</h1>
             <ul class="list-group">
                 <li class="list-group-item p-0 border-0">
@@ -13,7 +13,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-12 col-md-7">
+        <div class="col-12 col-md-7 update-profil">
             <form action="{% url 'user:profil' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <br class="separator"/>
@@ -135,7 +135,7 @@
                 <br class="separator">
                 <div class="d-flex p-4 justify-content-around">
                     <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
-                    <input type="submit" value="Enregistrer" class="btn btn-primary d-block">
+                    <button type="submit" class="btn btn-primary d-block">Enregistrer</button>
                 </div>
             </form>
         </div>
