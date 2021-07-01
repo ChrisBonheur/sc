@@ -25,7 +25,9 @@
               <div class="account-info__access">
                 <a href="">
                   <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
-                  <span class="account-info__access__badge">12</span>
+                  <span class="account-info__access__badge">
+                    {% if message_count > 0 %} {{ message_count }} {% endif %}
+                  </span>
                 </a>
               </div>
             
