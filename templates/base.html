@@ -35,9 +35,9 @@
               <div class="account-info__access avatar">
                 <a href="">
                   {% if request.user.profil.avatar.url != '' %}
-                    <img src="{{ request.user.profil.avatar.url }}" alt="avatar" class="img-avatar">
+                    <img src="{{ request.user.profil.avatar.url }}" alt="avatar" class="img-avatar img-square rounded-circle">
                   {% else %}
-                    <img src="{% static 'images/icons/stand.png' %}" alt="avatar" class="img-avatar">
+                    <img src="{% static 'images/icons/stand.png' %}" alt="avatar" class="img-avatar img-square rounded-circle">
                   {% endif %}
                 </a>
               </div>

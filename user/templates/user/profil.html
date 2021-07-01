@@ -23,9 +23,9 @@
                     </div>
                     <div class="col-12 col-sm-4 text-center ">
                         {% if request.user.profil.avatar.url != "" %}
-                            <img class='img_chosen rounded-circle' src="{{ request.user.profil.avatar.url }}">
+                            <img class='img-square rounded-circle' src="{{ request.user.profil.avatar.url }}">
                         {% else %}
-                            <img class='img_chosen rounded-circle' src="../../../static/images/icons/stand.png">
+                            <img class='img-square rounded-circle' src="../../../static/images/icons/stand.png">
                         {% endif %}
                     </div>
                     <div class="col-12 col-sm-4 text-sm-right">

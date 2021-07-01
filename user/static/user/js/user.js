@@ -23,10 +23,10 @@ $(function(){
     }
 
     $(window).on('resize', () => {
-        squareWidthHeight('.img_chosen');
+        squareWidthHeight('.img-square');
     });
 
-    squareWidthHeight('.img_chosen');
+    squareWidthHeight('.img-square');
 
     /**Event to change picture */
     $('.btn-change-img').on('click', (e) => {
