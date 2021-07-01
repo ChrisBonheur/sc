@@ -28,3 +28,11 @@ class NewMsgTestCase(TestCase):
         self.assertEqual(message_count_before + 1, message_count_after)
         #test messages are showing in template
         self.assertContains(response, msg)
+        
+    def test_number_phone_is_automitical_deleted(self):
+        article = self.article
+        phone_number = "05 582 49 25"
+        msg = f"Hello my number is {phone_number}"
+        response = self.client.post(reverse('communication:chat_message', args=(article.id,)), 
+                                    {"message": msg})
+        self.assertNotContains(response, phone_number)

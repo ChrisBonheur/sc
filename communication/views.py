@@ -25,6 +25,12 @@ def chat_message(request, article_id):
     
     if request.POST.get('message'):
         message = request.POST.get('message')
+        #find and remove number tel if existe in message
+        regex_number_phone ='^.*(([0-9] ?){9}).*$'
+        regex_number_phone = re.match(regex_number_phone, message)
+        
+        if regex_number_phone is not None:
+            message = message.replace(regex_number_phone.group(1), '" "')
 
         new_chat = ChatMessage.objects.create(user=request.user, content=message, talk=talk)
             
