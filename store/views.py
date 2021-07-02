@@ -15,7 +15,7 @@ from django.core.files import File
 
 from .models import Article, Picture, Category, Favourite
 from dashboard.models import Order
-from communication.models import Message
+from communication.models import NotifMessage
 from .utils import *
 from .forms import ArticleForms
  
@@ -45,7 +45,7 @@ def home(request):
     #verify if user is new comer to send welcome message
     try:
         request.user
-        send_welcome_message_to_new_user(request.user, Message, User)
+        send_welcome_message_to_new_user(request.user, NotifMessage, User)
     except:
         pass
     

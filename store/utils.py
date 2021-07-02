@@ -34,7 +34,7 @@ def edit_image_before_save(path_file, width_min):
         #save output image
         img.save(path_file)
         
-def send_welcome_message_to_new_user(user, Message, User):
+def send_welcome_message_to_new_user(user, NotifMessage, User):
     try:
         User.objects.get(pk=user.id)
     except:
@@ -47,13 +47,12 @@ def send_welcome_message_to_new_user(user, Message, User):
                         sur ce message !'
         
         #Verification if user has welcome message or no(if no: creating for welcome msg)            
-        message = Message.objects.filter(recipient_id=user.id, content=content)
+        message = NotifMessage.objects.filter(user=user, content=content)
         #If user has no notif, that's mean user is newcomer 
         if not message:
-            Message.objects.create(
+            NotifMessage.objects.create(
                 content=content,
-                recipient_id=user.id,
-                type_msg='notif',
+                user=user,
                 link='user:profil'
             )
         return True

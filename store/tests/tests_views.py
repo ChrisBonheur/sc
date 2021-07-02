@@ -7,7 +7,7 @@ from pathlib import Path
 from django.conf import settings
 
 from store.models import Article, Category, Picture, Favourite, Status, Town
-from communication.models import Message
+from communication.models import NotifMessage
 from store.utils import *
 
 BASE_DIR = settings.BASE_DIR
@@ -289,16 +289,16 @@ class UtilsTestCase(TestCase):
         self.user = User.objects.get(username=USERNAME)
         
     def test_send_welcome_message_to_new_user(self):
-        messages_before = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
-        send_welcome_message_to_new_user(self.user, Message=Message, User=User)
-        messages_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
+        messages_before = NotifMessage.objects.filter(user=self.user).count()
+        send_welcome_message_to_new_user(self.user, NotifMessage=NotifMessage, User=User)
+        messages_after = NotifMessage.objects.filter(user=self.user).count()
         
         self.assertEqual(messages_before + 1, messages_after, \
             msg=" WARNING: Welcome message doesn't sent to new user")
         
         #verify that welcome message not send two times or more
-        send_welcome_message_to_new_user(user=self.user, Message=Message, User=User)
-        messages_after_after = Message.objects.filter(type_msg='notif', recipient_id=self.user.id).count()
+        send_welcome_message_to_new_user(user=self.user, NotifMessage=NotifMessage, User=User)
+        messages_after_after = NotifMessage.objects.filter(user=self.user).count()
         
         self.assertEqual(messages_after, messages_after_after, \
             msg="WARNING: Welcome message is sent more than one times to same user")
