@@ -103,7 +103,6 @@ class OrderTestCase(TestCase):
     def test_create_ordering_with_view(self):
         """test interaction action while passing ordering
         """
-        notif_count_before = 1 
         article = Article.objects.create(
             name="Radio",
             description="Jamais utilisé",
@@ -117,7 +116,8 @@ class OrderTestCase(TestCase):
         )
         user = self.user
         order_count_before = Order.objects.count()
-        response = self.client.post(reverse('dashboard:orders'), {"article_id": article.id,})
+        response = self.client.get(reverse('dashboard:orders'), {"article_id": article.id,})
+        
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before + 1, order_count_after)
         

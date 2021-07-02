@@ -22,8 +22,19 @@ const main = () => {
         mainStore();
     })
     .fail((jqxhr, settings, exception) =>{
-        console.error(`Can't find ${linkAppStore}`);
+        console.error(`Can't found ${linkAppStore}`);
     });
+
+    //===============================================
+    //script for dashboard
+    const linkAppDashboard = '/static/dashboard/js/dashboard.js';
+    $.getScript(linkAppDashboard)
+        .done((script, textStatus) => {
+            console.log(`${linkAppDashboard} succesfull loaded`);
+        })
+        .fail((jqxhr, settings, exception) => {
+            console.error(`Can't found ${linkAppDashboard}`);
+        })
 }
 
 $(() => {

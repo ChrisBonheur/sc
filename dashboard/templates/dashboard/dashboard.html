@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="body-page-content pt-4 container-fluid">
+        <div class="d-flex d-md-none justify-content-between">
+            <img src="{% static 'node_modules/bootstrap-icons/icons/menu-up.svg' %}" 
+            alt="Bootstrap" width="25" height="25" class="pointer down-menu">
+            <h1 class="font-md text-center">TABLEAU DE BORD</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4 d-none d-md-block dash-menu">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-primary text-light">
+                        Achat
+                    </li>
+                    <a href="{% url 'dashboard:orders' %}envoyees" class="list-group-item d-flex justify-content-between align-items-center">
+                      Commande{{ orders|pluralize }} envoyée{{ orders|pluralize }}
+                      {% if orders.count >= 1 %} 
+                        <span class="badge bg-primary ">{{ orders.count }}</span>
+                      {% endif %}
+                    </a>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Dapibus ac facilisis in
+                      <span class="badge bg-primary badge-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Morbi leo risus
+                      <span class="badge bg-primary badge-pill">1</span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-primary text-light">
+                        Vente
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Morbi leo risus
+                        <span class="badge bg-primary badge-pill">1</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Morbi leo risus
+                        <span class="badge bg-primary badge-pill">1</span>
+                    </li>
+                </ul>
+            </div> 
+            <div class="col-md-8 offset-md-4">
+                {% block orderContent %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

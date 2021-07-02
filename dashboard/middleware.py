@@ -9,8 +9,8 @@ from communication.models import Message
 def clear_orders_cache(order):
         cache.delete(f'orders_receive_{order.article.user.id}')
         cache.delete(f'orders_send_{order.article.user.id}')
-        cache.delete(f'orders_receive_{order.user.id}')
-        cache.delete(f'orders_send_{order.user.id}')
+        cache.delete(f'orders_receive_{order.customer.id}')
+        cache.delete(f'orders_send_{order.customer.id}')
 
 def upload_article_middleware(get_response):
     def middleware(request):
@@ -20,6 +20,7 @@ def upload_article_middleware(get_response):
             if request.GET.get('annuler-la-commande'):
                 article = order.article
                 article.number = F('number') + 1
+                article.available = True
                 article.save()
             elif request.GET.get('decliner-la-commande'):
                 article = order.article
@@ -32,7 +33,7 @@ def upload_article_middleware(get_response):
                 #signal to customer
                 msg = f"Votre commande pour l'article {order.article} a été validée !\n\
                     Veuillez règler votre facture !! en cliquant ici"
-                customer = order.user
+                customer = order.customer
                 Message.objects.create(
                     content=msg,
                     recipient_id=customer.id,

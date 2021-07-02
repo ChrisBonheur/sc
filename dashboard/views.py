@@ -120,23 +120,27 @@ def orders(request):
     path_base = "/gestion/commandes/"
     context = {}
     #if request post contain article_id, create new order
-    if request.POST.get('article_id'):
-        article_id = request.POST.get('article_id')
+    if request.GET.get('article_id'):
+        article_id = request.GET.get('article_id')
         article = get_object_or_404(Article, pk=article_id)
         Order.objects.create(customer=request.user, article=article)
-        return redirect("dashboard:orders")
-        
+        article.number -= 1
+        if article.number <= 0:
+            article.available = False
+
+        article.save()
+        cache.clear()
+        return redirect(f"{path_base}envoyees")
+    
     if request.GET.get('order_id'):
         order_id =  request.GET.get('order_id')
         order = get_object_or_404(Order, pk=order_id)
-        try:
-            #verify if order is received to current user
-            assert order.article.user == request.user or order.customer != request.user
-        except AssertionError as e:
-            print('Error order_user != current_user ', e)
-        else:
-            order.delete()
-            return redirect(f"{path_base}reçues")
+        order.delete()
+        #clear cache
+        cache.clear()
+        
+        return redirect(f"{path_base}reçues")
+    
     cache_time = (30*60)#set cache time            
     
     #conditional part of page to show

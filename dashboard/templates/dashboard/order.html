@@ -1,9 +1,8 @@
-{% extends 'dashboard/base.html' %}
-
-{% block details-from-menu %}
+{% extends 'dashboard/dashboard.html' %}
+{% block orderContent %}
   <div class="row">
       <div class="col-12">
-        <h3 class="page_name">
+        <h3 class="mt-4 border-bottom font-md">
             {% if request.path == "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
                 Commandes envoyées
             {% elif request.path == "/gestion/commandes/reçues" %}
@@ -11,92 +10,67 @@
             {%  endif %}
         </h3>
       </div>
-  </div>
 
-  <div class="row">
-
-    {% for order in orders %}
-      <div class="col-md-6">
-        <div class="row row2">
-          <div class="col-md-12">
-            <table style="width: 100%;">
-                <tr class="head-tr">
-                  <td>
-                    <h4>BC N° 00005</h4>
-                    vendeur: {{ order.article.user }}
-                  </td>
-                  <td>
-                    Client : {{ order.user.username }} <br>
-                    Date : {{ order.date_create }}
-                  </td>                 
-                </tr>
-
-                <tr>
-                  <th>Désignation</th>
-                  <td> <a href="{{ order.article.image_min.url }}">{{ order.article.name }}</a> </td>
-                </tr>
-                
-                <tr>
-                  <th>Quantité</th>
-                  <td>{{ order.quantity }}</td>
-                </tr>
-                <tr>
-                  <th>Description</th>
-                  <td>{{ order.description }}</td>
-                </tr>
-                <tr>
-                  <th>Etat</th>
-                  <td>{{ order.status }}</td>
-                </tr>
-                <tr>
-                  <th>Livraison</th>
-                  <td>
-                    {% if order.delivery %}
-                      OUI
-                    {% else %}
-                      NON 
-                    {% endif %}
-                  </td>
-                </tr>
-                {% if request.user == order.article.user %}
+      <div class="col-12">
+        <div class="row justify-content-start">
+          {% for order in orders %}
+            <div class="col-12 col-md-6 mt-4">
+              <table class="table font-sm">
+                <thead class="bg-dark text-light">
                   <tr>
-                    <th>Prix HT</th>
-                    <td><strong>{{ order.price_ht }} XAF</strong></td>
+                    <th scope="col" colspan="2"># Commande n° {{ order.id }}</th>
                   </tr>
-                {% endif %}
-                <tr>
-                  <th>Prix TTC</th>
-                  <td><strong>{{ order.price_ttc }} XAF</strong></td>
-                </tr>
-            </table>
-          </div>
-        </div>
-        
-        <div class="row3">
-          {% if request.path == "/gestion/commandes/reçues" %}
-              <div class="col-12 text-center">
-                <p style="color: black">Validez la commande si l'article est disponible</p>
-                  <a href="{% url 'dashboard:invoices' %}?valider-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Valider la commande</button></a>
-              </div>
-              <div class="col-12 btn-2 text-center">
-                  <p style="color: black">Déclinez la commande si l'article est indisponible</p>
-                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Décliner la commande</button></a>
-              </div>
-          {% else %}
-            <div class="col-12 btn-2 text-center">
-              <a href="{% url 'dashboard:orders' %}?annuler-la-commande={{ order.article }}?&amp;order_id={{ order.id }}"><button>Annuler la commande</button></a>
+                  <tr>
+                    <th colspan="2">date : {{ order.date_create }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Nom d'article</th>
+                    <td>{{ order.article }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{{ order.article.description }}</td>
+                  </tr>
+                  {% if request.path == "/gestion/commandes/reçues" %}
+                  {# only seller must to see the initial price of his article #}
+                    <tr>
+                      <th scope="row">Prix initial</th>
+                      <td>{{ order.article.price_init }}</td>
+                    </tr>
+                  {% endif %}
+                  <tr>
+                    <th scope="row">Prix TTC</th>
+                    <td>{{ order.article.price_ttc }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Livraison</th>
+                    <td>
+                      {% if order.article.delivery %} 
+                        Possible
+                      {% else %}
+                        Pas de livraison
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Etat de l'article</th>
+                    <td>{{ order.article.status }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% if request.path == "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
+                <a href="{% url 'dashboard:orders' %}?annuler-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger w-100">Annuler commande </a>
+              {% elif request.path == "/gestion/commandes/reçues" %}
+                <div class="d-flex justify-content-between">
+                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger d-block w-50">Décliner la commande</a>
+                  <a href="" class="btn btn-success d-block w-50">Valider la commande</a>
+                </div>
+              {% endif %}
             </div>
-          {% endif %}
+          {% endfor %}
         </div>
       </div>
-    {% empty %}
-      <div class="empty-zone">
-        {% if request.path == "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
-            Liste de commandes envoyées vide !
-        {% elif request.path == "/gestion/commandes/reçues" %}
-            Liste de commande à gerer vide !
-        {%  endif %}
-      </div>
-    {% endfor %}
   </div>
 {% endblock %}

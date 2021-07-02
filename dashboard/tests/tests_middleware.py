@@ -11,7 +11,7 @@ class MiddlewareTestCase(TestCase):
         self.user = User.objects.create_user(username="belvy", password="123456")
         self.client.login(username=self.user, password="123456")
         self.article = create_article("vélo", self.user)
-        self.order = Order.objects.create(user=self.user, article=self.article)
+        self.order = Order.objects.create(customer=self.user, article=self.article)
         
     def test_number_increment(self):
         """test when ordering is cancel by customer, article number

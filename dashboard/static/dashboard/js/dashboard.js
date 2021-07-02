@@ -1,26 +1,12 @@
    /*****DASHBOARD */
-   $(window).click(() => {
-    $('.panneau1').hide();
-    $('.panneau2').hide();
-    $('.panneau3').hide();
-})
-$('.dash-nav .cursor1').on('click', (e) => {
-    e.stopPropagation();
-    $('.panneau1').toggle()
-    $('.panneau2').hide();
-    $('.panneau3').hide();
-});
-
-$('.dash-nav .cursor2').on('click', (e) => {
-    e.stopPropagation();
-    $('.panneau2').toggle()
-    $('.panneau1').hide();
-    $('.panneau3').hide();
-});
-
-$('.dash-nav .cursor3').on('click', (e) => {
-    e.stopPropagation();
-    $('.panneau3').toggle();
-    $('.panneau1').hide();
-    $('.panneau2').hide();
+//action to click menu-down
+$('.down-menu').on('click', () => {
+    $('.dash-menu').toggleClass('d-none');
+    $('.down-menu').attr('src', () => {
+        if ($('.dash-menu').hasClass('d-none')){
+            return '/static/node_modules/bootstrap-icons/icons/menu-up.svg'
+        }else{
+            return '/static/node_modules/bootstrap-icons/icons/menu-down.svg'
+        }
+    });
 });
