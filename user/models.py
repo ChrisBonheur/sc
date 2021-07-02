@@ -27,4 +27,4 @@ class Profil(models.Model):
         except Exception as e:
             print(e)
         else:
-            edit_image_before_save(self.avatar.path, 100)
+            edit_image_before_save(self.avatar.path, 400)
