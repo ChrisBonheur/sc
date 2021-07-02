@@ -14,7 +14,7 @@
                         Achat
                     </li>
                     <li class="list-group-item">
-                        <a href="{% url 'dashboard:orders' %}envoyees" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'dashboard:orders' %}envoyees" class="dash-link list-group-item d-flex justify-content-between align-items-center">
                         Commande{{ orders_sended_count|pluralize }} envoyée{{ orders_sended_count|pluralize }}
                         {% if orders_sended_count >= 1 %} 
                             <span class="badge bg-primary ">{{ orders_sended_count }}</span>
@@ -22,7 +22,7 @@
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="{% url 'dashboard:invoices' %}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'dashboard:invoices' %}" class="dash-link list-group-item d-flex justify-content-between align-items-center">
                             Facture{{ invoices|pluralize }} à payer
                             {% if invoices.count >= 1 %} 
                                 <span class="badge bg-primary ">{{ invoices.count }}</span>
@@ -30,7 +30,7 @@
                         </a>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{% url 'dashboard:waiting-buy' %}" class="list-group-item d-flex justify-content-between align-items-center w-100">
+                        <a href="{% url 'dashboard:waiting-buy' %}" class="dash-link list-group-item d-flex justify-content-between align-items-center w-100">
                             Achat{{ orders|pluralize }} à finaliser
                             {% if waiting_transactions_count >= 1 %} 
                                 <span class="badge bg-primary ">{{ waiting_transactions_count }}</span>
@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{% url 'dashboard:articles-bought' %}" class="list-group-item d-flex justify-content-between align-items-center w-100">
+                        <a href="{% url 'dashboard:articles-bought' %}" class="dash-link list-group-item d-flex justify-content-between align-items-center w-100">
                             Achat{{ final_transactions_count|pluralize }} réalisé{{ final_transactions_count|pluralize }}
                             {% if final_transactions_count >= 1 %} 
                                 <span class="badge bg-primary ">{{ final_transactions_count }}</span>
@@ -50,7 +50,7 @@
                         Vente
                     </li>
                     <li class="list-group-item">
-                        <a href="{% url 'dashboard:orders' %}reçues" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'dashboard:orders' %}reçues" class="dash-link list-group-item d-flex justify-content-between align-items-center">
                             Commande{{ orders|pluralize }} reçue{{ orders|pluralize }}
                             {% if orders_received_count >= 1 %}
                                 <span class="badge bg-primary badge-pill">{{ orders_received_count }}</span>
@@ -58,7 +58,7 @@
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="{% url 'dashboard:waiting-sell' %}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'dashboard:waiting-sell' %}" class="dash-link list-group-item d-flex justify-content-between align-items-center">
                             Vente{{ articles_selled_count|pluralize }} en attente{{ articles_selled_count|pluralize }}
                             {% if articles_selled_count >= 1 %}
                                 <span class="badge bg-primary badge-pill">{{ articles_selled_count }}</span>
@@ -66,7 +66,7 @@
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="{% url 'dashboard:articles-selled' %}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'dashboard:articles-selled' %}" class="dash-link list-group-item d-flex justify-content-between align-items-center">
                             Vente{{ articles_selled_count|pluralize }} réalisée{{ articles_selled_count|pluralize }}
                             {% if articles_selled_count >= 1 %}
                                 <span class="badge bg-primary badge-pill">{{ articles_selled_count }}</span>
@@ -75,7 +75,7 @@
                     </li>
                 </ul>
             </div> 
-            <div class="col-md-8 offset-md-4">
+            <div class="col-md-8">
                 {% block pageContent %}
 
                 {% endblock %}

@@ -10992,12 +10992,6 @@ header {
   border-radius: 5px;
 }
 
-@media all and (min-width: 768px) {
-  .dash-menu {
-    position: fixed;
-  }
-}
-
 .box-login {
   max-width: 350px;
   font-size: 1.2em;

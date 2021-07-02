@@ -45,14 +45,11 @@ const dialogEvent = () => {
 //set an active button style
 const buttonActiveStyle = () => {
     let currentUrl = $.ajaxSettings.url;
-    
+
     let links = $('.nav-link').get()
     links.forEach(link => {
         if (currentUrl == link.href){
-            console.log("i'm in")
             $(link).addClass('active');
         }
     });
-    console.log($.ajaxSettings.url);
-
 }

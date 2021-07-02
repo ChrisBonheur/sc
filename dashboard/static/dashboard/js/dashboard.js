@@ -133,3 +133,13 @@ $('.form-number-input').on('input', () => {
         }
     }
 })
+
+//=============Active style for current link in dashboard====
+let dashLinks = $('.dash-link').get();
+let currentLink = $.ajaxSettings.url;
+
+dashLinks.forEach(link => {
+    if (currentLink == link.href){
+        $(link).addClass('active');
+    }
+});
