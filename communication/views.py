@@ -7,11 +7,27 @@ from django.contrib import messages
 import re
 
 from store.models import Article
-from .models import Message, Talk, MessageText
+from .models import Message, Talk, ChatMessage
 
 
 @login_required
-def new_msg(request):
+def chat_message(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    
+    #get or create talk
+    try:
+        q1 = (Q(user_one=request.user.id) | Q(user_two=request.user.id))
+        q2 = (Q(user_one=article.user.id) | Q(user_two=article.user.id))
+        talk = Talk.objects.get(Q(q1) & Q(q2) & Q(article=article))
+    except Exception as e:
+        talk = Talk.objects.create(article=article, user_one=request.user.id,
+                                    user_two=article.user.id)
+    
+    if request.POST.get('message'):
+        message = request.POST.get('message')
+
+        new_chat = ChatMessage.objects.create(user=request.user, content=message, talk=talk)
+            
     if request.GET.get('talk_id'):
         talk = get_object_or_404(Talk, pk=request.GET.get('talk_id'))
         
@@ -32,10 +48,10 @@ def new_msg(request):
         except:
             #if they are not a talk, creating of a talk
             talk = Talk.objects.create(user1_id=request.user.id, user2_id=article.user.id)
-    else:
-        redirect('communication:box_msg')
+    # else:
+    #     redirect('communication:box_msg')
     
-    if request.POST:
+    if request.POST.get('pour_plus_tard'):
         message = request.POST.get('message')
         #set of regex to filtre message and remove any form number
         regex ='^.*(([0-9] ?){9,}).*'
@@ -66,12 +82,13 @@ def new_msg(request):
     
 
     #make readed all message receive by current user
-    for message in MessageText.objects.filter(recipient=request.user, seen=False):
-        message.seen = True
-        message.save()
+    # for message in MessageText.objects.filter(recipient=request.user, seen=False):
+    #     message.seen = True
+    #     message.save()
     
     context = {
-        'message_list': MessageText.objects.filter(talk=talk),
+        'message_list': ChatMessage.objects.filter(talk=talk),
+        'article': article,
         'talk': talk,
     }
     return render(request, 'communication/new_message.html', context)

@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <form action="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}" method="POST">
+        <form action="{% url 'communication:chat_message' article_id=article.id %}" method="POST">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-offset-2 col-md-8 bloc-msg">
@@ -26,13 +26,13 @@
                                 <div class="col-10 col-offset-2 content-msg">
                                     <p class="message">
                                         {{ message.content }}
-                                        <span class="time" >il y a {{ message.date|calcul_date }}</span>
+                                        <span class="time" >il y a</span>
                                     </p>
                                 </div>
                             </div>
                             
                             {% else %}
-                                {% if user == talk.user1 %}
+                                {% if user == talk.user_one %}
                                     <img src="{{ talk.user2.profil.avatar.url }}" class="avatar" width="15" height="15" alt=""> 
                                 {% else %}
                                     <img src="{{ talk.user1.profil.avatar.url }}" class="avatar" width="15" height="15" alt=""> 
@@ -41,7 +41,7 @@
                                     <div class="col-offset-2 col-10 content-msg">
                                         <p class="message" style="background: gray;">
                                             {{ message.content }} 
-                                            <span class="time" >il ya {{ message.date|calcul_date }}</span>
+                                            <span class="time" >il ya </span>
                                         </p>
                                     </div>
                                 </div>
@@ -60,8 +60,9 @@
                                     <input type="text" name="message" placeholder="Votre message">
                                 </div>
                                 <div class="col2">
-                                    <button disabled="disabled" class="btn1 load-style"></button>
-                                    <button class="btn2 load-style"></button>
+                                    <!-- <button disabled="disabled" class="btn1 load-style"></button>
+                                    <button class="btn2 load-style"></button> -->
+                                    <input type="submit" value="envoie">
                                 </div>
                             </div>
                         </div>
