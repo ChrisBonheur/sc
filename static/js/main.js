@@ -8,10 +8,15 @@ const main = () => {
         
         /**Hide message alert with timeout */
         hideElementWithTimeOut($(".top-alerts"), 4000);
+
+        //====Buttons menu active style
+        buttonActiveStyle();
     })
     .fail((jqxhr, settings, exception) => {
         console.error(`Can't find ${globalUtilsLink}`);
     });
+
+
 
     //action with mrnu mobile showing
     $(".menu-icon img").on('click', () => {
