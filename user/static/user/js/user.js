@@ -1,124 +1,81 @@
 
-    /************PROFIL */
-    /**
-     * This function set any element from DOM to a square element
-     * with four dimensions are same dimension
-     * @param {dom select element} eltSelect 
-     */
-    const squareWidthHeight = (eltSelect) => {
-        let widthElt = $(eltSelect).width();
-        let heightElt = $(eltSelect).height();
+/************PROFIL */
+/**
+ * This function set any element from DOM to a square element
+ * with four dimensions are same dimension
+ * @param {dom select element} eltSelect 
+ */
+const squareWidthHeight = (eltSelect) => {
+    let widthElt = $(eltSelect).width();
+    let heightElt = $(eltSelect).height();
 
-        if (widthElt < heightElt){
-            //if width is less than height set height is equal to width dimension
-            $(eltSelect).height(widthElt)
-            $(eltSelect).width(widthElt)
-        }else{
-            //if heigth is less than width set width is equal to height dimension
-            $(eltSelect).width(heightElt);
-            $(eltSelect).height(heightElt);
-        }
-        
-        return true;
-    }
-
-    //set an active button link style
-    const linkUserActiveStyle = () => {
-        let currentUrl = $.ajaxSettings.url;
-
-        let links = $('.param-link').get()
-        links.forEach(link => {
-
-            if (currentUrl == link.href){
-                $(link).addClass('active-secondary');
-            }
-        });
+    if (widthElt < heightElt){
+        //if width is less than height set height is equal to width dimension
+        $(eltSelect).height(widthElt)
+        $(eltSelect).width(widthElt)
+    }else{
+        //if heigth is less than width set width is equal to height dimension
+        $(eltSelect).width(heightElt);
+        $(eltSelect).height(heightElt);
     }
     
-    /**
-     * This function verify integrity of number operator and return True
-     * if its conform or False if an error is occured
-     * @param {Number} numberValue 
-     * @param {element selected from DOM to show error message} ErrorSelectorEltToShow 
-     * @param {choosen "mtn" or "aitel" operator} operator 
-     */
-    const operatorNumberIsValid = (numberValue, ErrorSelectorEltToShow, operator) => {
+    return true;
+}
+
+//set an active button link style
+const linkUserActiveStyle = () => {
+    let currentUrl = $.ajaxSettings.url;
+
+    let links = $('.param-link').get()
+    links.forEach(link => {
+
+        if (currentUrl == link.href){
+            $(link).addClass('active-secondary');
+        }
+    });
+}
+
+/**
+ * this function verify all operators number selected blocs for same operator
+ * if form is valid or no and return boolean
+ * @param {object} selectedBlocDiv jquery object selected must contain an input and a span for errors
+ * @param {string} operator chosen between : "mtn", "airtel" or "both" default operator
+ */
+const inputNumberTest = (selectedBlocDiv, operator="both") =>{
+    let numbers = selectedBlocDiv.get()
+    
+    for (const element of numbers) {
+        let inputValue = element.children[0].value;
+        let spanErrorElt = element.children[1];
+        let numberValid = null;
         let regexConform = null;
-        
+        //get regex by operator chosen
         if (operator == "mtn"){
             regexConform=/^(242)?06[0-9]{7}$/
         }else if(operator == "airtel"){
             regexConform=/^(242)?05[0-9]{7}$/
+        }else if(operator == "both"){
+            regexConform=/^(242)?(05|06)[0-9]{7}$/
         }else{
             console.error("Warning: The choice of operator must be 'airtel' or 'mtn'")
             return false
         }
-
-        if (regexConform.test(numberValue) == false && numberValue != ''){
-            ErrorSelectorEltToShow.removeClass('d-none');
-            return false;
+        //verify regex integrity
+        if (regexConform.test(inputValue) == false && inputValue != ''){
+            $(spanErrorElt).removeClass('d-none');
+            numberValid = false;
         }else{
-            ErrorSelectorEltToShow.addClass("d-none");
-            return true;
+            $(spanErrorElt).addClass("d-none");
+            numberValid = true;
         }
-    }
+        //response if number is invalid
+        if (numberValid == false){
+            return false
+        }
+    };
 
-    /** change email event*/
-    // $('.btn-change-email').on('click', (e) => {
-    //     e.preventDefault()
-    //     let newMail = prompt('Entrez votre email');
-
-    //     $('.show-mail').text(newMail);
-    //     $('#email').val(newMail);
-    // });
-
-
-    /*****update password */
-    // let btnElt1 = $('.bloc-param .row6 .btn1')
-    // let btnElt2 = $('.bloc-param .row6 .btn2')
-    // btnElt1.css('background', 'gray')
-    
-    // $('.pwd1').on('input', (e) => {
-    //     let inputElt = e.target
-        
-    //     if(inputElt.value.length < 4) {
-    //         $(inputElt).css({
-    //             'border': '2px solid red'
-    //         })
-    //         $('.pwd1-error').show()
-    //         btnElt1.show()
-    //         btnElt2.hide()
-    //     }
-    //     else if ($('.pwd2').val().length >= 1) {
-    //         if (($('.pwd1').val() !== $('.pwd2').val())) {
-    //             $('.pwd2-error').show();
-    //             btnElt1.show()
-    //             btnElt2.hide()   
-    //         } else {
-    //             $('.pwd2-error').hide();
-    //             btnElt1.hide()
-    //             btnElt2.show()               
-    //         }
-    //     }
-    //     else{
-    //         $(inputElt).css({
-    //             'border': '1px solid gray'
-    //         })
-    //         $('.pwd1-error').hide()
-
-    //         $('.pwd2').on('input', (e) => {
-    //             if ( e.target.value !== $('.pwd1').val() ){
-    //                 $('.pwd2-error').show();
-    //                 btnElt1.show()
-    //                 btnElt2.hide()
-    //             }else{
-    //                 $('.pwd2-error').hide();
-    //                 btnElt1.hide()
-    //                 btnElt2.show()
-    //             }
-    //         })
-    //     }
-    // });
+    return true
+}
 
 const userMain = () => {
     //Action on click profil photo
@@ -152,46 +109,37 @@ const userMain = () => {
         });
     });
 
-    //===============================
-    //test for integrity of profil's form
-
-    /**active button submit if numbers are valid or conform */
-    const activeButton = (numberValid) => {
-        if (numberValid){
-            $('#save-update-profil-btn').removeAttr('disabled');
-        }else{
+    //********************************PROFIL FORM TEST VALIDITY*********************/
+    //==============================================================================
+    const testAllNumbers = () => {
+        let mtnIsValid = inputNumberTest($('.airtel-number'), "airtel");
+        let airtelIsValid = inputNumberTest($('.mtn-number'), "mtn");
+        let whatsapIsValid = inputNumberTest($('.whatsap-number'));
+        if (!mtnIsValid || !airtelIsValid || !whatsapIsValid) {
             $('#save-update-profil-btn').attr('disabled', 'true');
+        }else{
+            $('#save-update-profil-btn').removeAttr('disabled');
         }
     }
 
-    //MTN number test
-    $('.mtn-number input').on('input', () => {
-        let mtnNumbers = $('.mtn-number').get()
-        
-        for (const element of mtnNumbers) {
-            let inputValue = element.children[0].value;
-            let spanErrorElt = element.children[1]
-            let numberValid = operatorNumberIsValid(inputValue, $(spanErrorElt), "mtn");
-            activeButton(numberValid);
-            if (numberValid == false){
-                break;
-            }
-        };
-    });
     //Airtel number test
     $('.airtel-number input').on('input', () => {
-        let airtelNumbers = $('.airtel-number').get()
-        
-        for (const element of airtelNumbers) {
-            let inputValue = element.children[0].value;
-            let spanErrorElt = element.children[1];
-            let numberValid = operatorNumberIsValid(inputValue, $(spanErrorElt), "airtel");
-            activeButton(numberValid);
-            if (numberValid == false){
-                break;
-            }
-        };
+        testAllNumbers();
     });
+
+    //MTN number test
+    $('.mtn-number input').on('input', () => {
+        testAllNumbers();
+    });
+
+    //whatsap conform number test
+    $('.whatsap-number input').on('input', () => {
+        testAllNumbers();
+    });
+
+    //test all numbers on load page before input event test
+    testAllNumbers();
+
 }
 
 userMain();
