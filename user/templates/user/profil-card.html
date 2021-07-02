@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+<div class="body-page-content container-fluid pt-5 pb-5 p-sm-5 d-flex justify-content-center bg-secondary">
+  <div class="card p-3" style="max-width: 640px;background: lightgrey;">
+      <div class="row no-gutters">
+        <div class="col-sm-4">
+          <div class="row">
+              <div class="col-6 col-sm-12">
+                  <img src="{{ profil.avatar.url }}" style="max-width: 200px" class="card-img" alt="photo de profile">
+              </div>
+              <div class="col-6 col-sm-12">
+                  <p class="card-text"><small class="text-muted">membre depuis le {{ profil.user.date_joined }}</small></p>
+                  <p class="card-text"><small class="text-muted">Article déjà vendu : {{ articles_selled_count_profil }}</small></p>
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-8 p-0">
+          <div class="card-body">
+            <h5 class="card-title">{{ profil.user.username }}</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Nom complet : <br> <span class="text-primary"> {{ profil.user.first_name }} {{ profil.user.last_name }} </span></li>
+              <li class="list-group-item">email : <a href="mailto:{{ profil.user.email }}" class="">{{ profil.user.email }}</a></li>
+              <li class="list-group-item">whatsap : <a href="" class="">{{ profil.whatsap_number }}</a></li>
+              <li class="list-group-item">Contact : <br> 
+                <span class="d-block d-flex justify-content-around"> 
+                  <a href="tel:{{ profil.contact_mtn }}" class="d-block">{{ profil.contact_mtn }}</a>  <a href="tel:{{ contact_airtel }}" class="d-block">{{ contact_airtel }}</a> 
+                </span>
+              </li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

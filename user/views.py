@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth import logout, authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from .forms import LoginForm, RegisterForm, ProfilForm, UserForm
 from store.views import home
 from .models import Profil, Gender
 from communication.models import Message
+from dashboard.models import Transaction
 
 def login_user(request):
     """Login user"""
@@ -92,6 +93,17 @@ def profil(request):
         profil_form = ProfilForm(request.POST, request.FILES, instance=profil_instance)
         profil = profil_form.save(commit=False)
         profil.save()
+    elif request.GET.get('profil_id'):
+        print("request found",request.GET.get('profil_id'))
+        profil_id = request.GET.get('profil_id')
+        profil = get_object_or_404(Profil, pk=profil_id)
+        context =  {
+            "profil": profil,
+            "articles_selled_count_profil": Transaction.objects.filter(is_final=True, 
+                                    invoice__seller_id=profil.user.id).count(),     
+        }
+        
+        return render(request, 'user/profil-card.html', context)
             
     context = {
         'gender_list': ['Homme', 'Femme', 'Autre'],
