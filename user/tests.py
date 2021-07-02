@@ -1,6 +1,12 @@
 from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
+from django.core.files import File
+from django.conf import settings
+
+from .models import Profil, Gender
+
+BASE_DIR = settings.BASE_DIR
 
 class LoginViewTestCase(TestCase):
     @classmethod
@@ -50,16 +56,34 @@ class RegisterViewTestCase(LoginViewTestCase):
         self.assertEqual(response.status_code, 200)
 
 class UpdateViewTestCase(TestCase):
-    def test_access_update_view(self):
+    def setUp(self):
+        self.user = User.objects.create_user(username="name_test", password="123")
+        self.client.login(username="name_test", password="123")
+        
+    def test_access_update_profil_view(self):
         """test if access update page return 200"""
-        pass
+        user = self.user
+        response = self.client.get(reverse('user:profil'))
+        self.assertEqual(response.status_code, 200)
+    
     def test_user_is_update(self):
         """test user update"""
-        pass
-
-    def test_redirect_after_update(self):
-        """Test the redirection after update"""
-        pass
+        user =self.user
+        data = {
+            'username': "chris",
+            'mtn_money': "068314433",
+            'avatar': File(open(f'{BASE_DIR}/user/static/user/img_test/v3.jpeg', 'rb')),
+            'gender': Gender.objects.create(sexe='Masculin').id,
+            'contact_mtn': "068314433",
+            'contact_airtel': "068314433",
+            "whatsap_number": " 068314433",
+            "airtel_money": "068314433",
+        }
+        response = self.client.post(reverse('user:profil'), data)
+        user = User.objects.get(pk=user.id)
+        self.assertNotEqual(user.username, "name_test")
+        profil = Profil.objects.get(user=user)
+        self.assertEqual(profil.mtn_money, '068314433')
     
     def test_deactive_user(self):
         """test user can deactive his account"""
@@ -69,7 +93,3 @@ class UpdateViewTestCase(TestCase):
         user_login = self.client.login(username=user, password="123456")
         self.assertFalse(user_login)
 
-class ProfilTestCase(TestCase):
-    def test_access_profil_page(self):
-        """test acces profil page return 200"""
-        pass

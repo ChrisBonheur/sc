@@ -1,198 +1,144 @@
-{% extends 'user/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-{% load static %}
-    <div class="container profil b_h">
-            <div class="row">
-                <div class="col-md-4 param-list">
-                    <h1>Mes paramètres</h1>
-                    <nav>
-                        <ul>
-                            <li><a href="{% url 'user:profil' %}">Mon profil</a></li>
-                            <!-- <li><a href="">Notifications</a></li> -->
-                            <li><a href="{% url 'user:profil' %}?password_update_page=True">Sécurité</a></li>
-                            <!-- <li><a href="">Paramètre de confidentialité</a></li> -->
-                        </ul>
-                    </nav>
+<div class="body-page-content container">
+    <div class="row">
+        <div class="col-12 col-md-5 text-sm-left ">
+            <h1 class="">Mes paramètres</h1>
+            <ul class="list-group">
+                <li class="list-group-item p-0 border-0">
+                    <a href="" class="d-block w-100 h-100 p-2 text-decoration-none text-secondary">Mon profile</a>
+                </li>
+                <li class="list-group-item p-0 border-0">
+                    <a href="" class="d-block w-100 h-100 p-2 text-decoration-none text-secondary">Sécurité</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-12 col-md-7">
+            <form action="{% url 'user:profil' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <br class="separator"/>
+                <div class="row d-flex align-items-center">
+                    <div class="col-12 col-sm-4 text-sm-left">
+                        <label for="">Photo de profil</label>
+                    </div>
+                    <div class="col-12 col-sm-4 text-center ">
+                        {% if request.user.profil.avatar.url != "" %}
+                            <img class='img_chosen rounded-circle' src="{{ request.user.profil.avatar.url }}">
+                        {% else %}
+                            <img class='img_chosen rounded-circle' src="../../../static/images/icons/stand.png">
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4 text-sm-right">
+                        <button class="btn-change-img btn btn-primary">Changer la photo</button>
+                        <div hidden>
+                            {{ profil_form.avatar }}
+                        </div>
+                    </div>
+                </div>
+                
+                <br class="separator">
+                
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Nom d'utiisateur</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ user_form.username }}
+                    </div>
+                </div>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Nom</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ user_form.last_name }}
+                    </div>
+                </div>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Prénom</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ user_form.first_name }}
+                    </div>
                 </div>
 
-                    <div class="col-md-8 bloc-param">
-                        <form action="{% url 'user:update' %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {% if not password_update_page %}
-                                <div class="row row1">
-                                    <div class="col-sm-4">
-                                        <label for="">Photo de profil</label>
-                                    </div>
-                                    <div class="col-sm-4 col-5 text-center" >
-                                        {% if user.profil.avatar.url != "" %}
-                                            <img class='img_chosen' src="{{ user.profil.avatar.url }}" alt="">
-                                        {% else %}
-                                            <img class='img_chosen' src="{% static 'images/icons/stand.png' %}">
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-sm-4 col-7 text-right">
-                                        <button class="btn-change-img">Changer la photo</button>
-                                        <input type="file" id="avatar_img" name="avatar" hidden>
-                                    </div>
-                                </div>
-
-                                <div class="row row2">
-                                    <div class="col-sm-6 text-left show-mail">{{ user.email }}</div>
-                                    <div class="col-sm-6 text-right"><button class="btn-change-email">Changer</button></div>
-                                    <input type="email" value="{{ user.email }}" hidden="hidden" name="email" id="email">
-                                </div>
-
-                                <div class="row row3">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <label for="">Nom d'utilisateur</label>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                {% if user.username != "" %}
-                                                    <input type="text" name="username" value="{{ user.username }}">
-                                                {% else %}
-                                                    <input type="text" name="username" placeholder="Ajouter un nom d'utlisateur">
-                                                {% endif %}
-                                                
-                                            </div>  
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <label for="">Prénom</label>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                <input type="text" name="first_name"
-                                                {% if user.first_name != "" %}
-                                                    value="{{ user.first_name }}"
-                                                {% else %}
-                                                    placeholder="Ajouter un prénom"
-                                                {% endif %}
-                                                >
-                                            </div>  
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <label for="">Nom </label>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                <input type="text" name="last_name"
-                                                {% if user.last_name != "" %}
-                                                    value="{{ user.last_name }}"
-                                                {% else %}
-                                                    placeholder="Ajouter un nom"
-                                                {% endif %}
-                                                >
-                                            </div>  
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <label for="">Contact</label>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                <input type="number" name="contact"
-                                                {% if user.profil.contact != "" %}
-                                                    value="{{ user.profil.contact }}"
-                                                {% else %}
-                                                    placeholder="Ajouter un numéro de contact"
-                                                {% endif %}
-                                                >
-                                            </div>  
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <label for="">N° mobile money</label>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                <input type="number" name="mobile_money"
-                                                {% if user.profil.mobile_money != "" %}
-                                                    value="{{ user.profil.mobile_money }}"
-                                                {% else %}
-                                                    placeholder="Ajouter un numéro de transaction mobile money"
-                                                {% endif %}
-                                                >
-                                            </div>  
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-6 text-left">
-                                                <label for="">Vous êtes : </label>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <select name="gender" id="">
-                                                    {% for gender in gender_list %}
-                                                        <option value="{{ gender }}" 
-                                                            {% if user.profil.gender == gender %}
-                                                                selected
-                                                            {% endif %} >{{ gender }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row row5">
-                                    <div>
-                                        <a href="">Supprimer mon compte</a>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h1>Modification Mot de Passe</h1>
-                                    </div>
-                                </div>
-                                <div class="row row4">
-                                    <div class="col-6">
-                                        <label for="">Mot de passe actuel</label>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <input type="password" name="current_password" class="inputForm">
-                                    </div>
-                                </div>
-
-                                <span class="pwd1-error alert" style="display: none;">Mot de passe trop court</span>
-                                <div class="row row4">
-                                    <div class="col-sm-6">
-                                        <label for="">Nouveau mot de passe</label>
-                                    </div>
-                                    <div class="col-sm-6 text-right">
-                                        <input type="password" name="new_password" class="inputForm pwd1" value="">
-                                    </div>
-                                </div>
-                                
-                                <span class="pwd2-error alert" style="display: none;">Les mots de passe diffèrent</span>
-                                <div class="row row4">
-                                    <div class="col-sm-6">
-                                        <label for="">Confirmer mot de passe</label>
-                                    </div>
-                                    <div class="col-sm-6 text-right">
-                                        <input type="password" name="confirm_pwd" class="inputForm pwd2" value="">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 icons-hide-show text-left" ></div>
-                                </div>
-
-                            {% endif %}
-
-                            <div class="row row6">
-                                    <input type="number" name="user_id" value="{{ user.id }}" hidden="hidden">
-                                    {% if password_update_page %}
-                                        <button type="submit" class="btn1" disabled>Modifier1</button>
-                                        <button type="submit" class="btn2" style="display: none;">Modifier</button>
-                                    {% else %}
-                                        <button type="submit">Mettre à jour</button>
-                                    {% endif %}
-                            </div>
-                        </form>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Email</label>
                     </div>
-            </div>
-        
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ user_form.email }}
+                    </div>
+                </div>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Contact MTN</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.contact_mtn }}
+                    </div>
+                </div>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Contact Airtel</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.contact_airtel }}
+                    </div>
+                </div>
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Whatsap</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.whatsap_number }}
+                    </div>
+                </div>
+
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Numéro Airtel money</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.airtel_money }}
+                    </div>
+                </div>
+
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Numéro MTN money</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.mtn_money }}
+                    </div>
+                </div>
+
+                <br class="separator">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <label for="">Sexe</label>
+                    </div>
+                    <div class="col-12 col-sm-6 text-sm-right">
+                        {{ profil_form.gender }}
+                    </div>
+                </div>
+
+                <br class="separator">
+                <div class="d-flex p-4 justify-content-around">
+                    <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
+                    <input type="submit" value="Enregistrer" class="btn btn-primary d-block">
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -12,13 +12,13 @@ class Gender(models.Model):
 
 class Profil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    avatar = models.ImageField(upload_to='avatars/', null=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     gender = models.ForeignKey(Gender, on_delete=models.SET_NULL, null=True)
-    contact_mtn = models.CharField(null=True, max_length=20)
-    contact_airtel = models.CharField(null=True, max_length=20)
-    whatsap_number = models.CharField(null=True, max_length=20)
-    airtel_money = models.CharField(null=True, max_length=20)
-    mtn_money = models.CharField(null=True, max_length=20)
+    contact_mtn = models.CharField(null=True, max_length=20, default="", blank=True)
+    contact_airtel = models.CharField(null=True, max_length=20, default="", blank=True)
+    whatsap_number = models.CharField(null=True, max_length=20, default="", blank=True)
+    airtel_money = models.CharField(null=True, max_length=20, default="", blank=True)
+    mtn_money = models.CharField(null=True, max_length=20, default="", blank=True)
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from .models import Profil
+
 class RegisterForm(forms.Form):
     username = forms.CharField(label="", max_length=100)
     email = forms.EmailField(label="")
@@ -43,3 +45,14 @@ class LoginForm(forms.Form):
     password.widget.attrs.update({'placeholder': 'Mot de passe', 
                         'class': 'inputForm w-100 border-bottom border-0'})
              
+class ProfilForm(forms.ModelForm):
+    class Meta:
+        fields = ('avatar', 'contact_mtn', 'contact_airtel', 'whatsap_number', 
+                  'airtel_money', 'mtn_money', 'gender')
+        model = Profil
+        
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        fields = ('username', 'first_name', 'last_name', 'email')
+        model = User

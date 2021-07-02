@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView
 from django.contrib import messages
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ProfilForm, UserForm
 from store.views import home
-from .models import Profil
+from .models import Profil, Gender
 from communication.models import Message
 
 def login_user(request):
@@ -78,12 +78,26 @@ def auto_login(request):
 @login_required
 def profil(request):
     password_update_page = False
-    if request.GET.get('password_update_page'):
-        password_update_page = True
-        
+    user_instance = User.objects.get(pk=request.user.id)
+    profil_instance, created = Profil.objects.get_or_create(user=request.user)
+    
+    user_form = UserForm(instance=user_instance)
+    profil_form = ProfilForm(instance=profil_instance)
+    
+    if request.POST:
+        user_form = UserForm(request.POST, instance=user_instance)
+        if user_form.is_valid():
+            user_form.save()
+
+        profil_form = ProfilForm(request.POST, request.FILES, instance=profil_instance)
+        profil = profil_form.save(commit=False)
+        profil.save()
+            
     context = {
         'gender_list': ['Homme', 'Femme', 'Autre'],
-        'password_update_page': password_update_page
+        'password_update_page': password_update_page,
+        'user_form': user_form,
+        'profil_form': profil_form,
     }
     
     return render(request, 'user/profil.html', context)

@@ -10798,6 +10798,30 @@ textarea.form-control-lg {
 }
 
 @media all and (min-width: 768px) {
+  .text-md-right {
+    text-align: right;
+  }
+}
+
+@media all and (min-width: 576px) {
+  .text-sm-right {
+    text-align: right;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .text-md-left {
+    text-align: left;
+  }
+}
+
+@media all and (min-width: 576px) {
+  .text-sm-left {
+    text-align: left;
+  }
+}
+
+@media all and (min-width: 768px) {
   .pmd-5 {
     padding: 5em;
   }

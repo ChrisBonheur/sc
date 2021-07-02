@@ -29,7 +29,27 @@
 .text-right{
     text-align: right;
 }
+.text-md-right{
+    @media all and (min-width: 768px){
+        text-align: right;
+    }
+}
+.text-sm-right{
+    @media all and (min-width: 576px){
+        text-align: right;
+    }
+}
 
+.text-md-left{
+    @media all and (min-width: 768px){
+        text-align: left;
+    }
+}
+.text-sm-left{
+    @media all and (min-width: 576px){
+        text-align: left;
+    }
+}
 // .font-sm-md
 
 // .font-sm-lg

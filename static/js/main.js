@@ -50,6 +50,17 @@ const main = () => {
         .fail((jqxhr, settings, exception) => {
             console.error(`Can't found ${linkAppDashboard}`);
         })
+
+    //================================================
+    //script for user app
+    const linkAppUser = '/static/user/js/user.js';
+    $.getScript(linkAppUser)
+    .done((script, textStatus) => {
+        console.log(`${linkAppUser} succesfull loaded`);
+    })
+    .fail((jqxhr, settings, exception) => {
+        console.error(`Can't found ${linkAppUser}`);
+    })
 }
 
 $(() => {
