@@ -1,48 +1,41 @@
 {% extends 'base.html' %}
-
 {% block content %}
 {% load static %}
-    <div class="container contact_page b_h">
-        <div class="row">
-            <div class="col-md-6 bloc1">
-                <h1>Contactez Nous</h1>
-                <p>Notre équipe est là! prêt à vous répondre </p>
-                <p>
-                    <img src="{% static 'images/icons/mail.png' %}" alt="mail-icon"><br>
-                    <strong>Envoyez-nous un mail</strong><br>
-                    spectecorp@gmail.com
-                </p>
-                <a href="tel:06-586-95-05" class="text-white">
-                    <p>
-                        <img src="{% static 'images/icons/tel.png' %}" alt="tel-icon" width="50"><br>
-                        <strong>Appelez-nous</strong><br>
-                        +242 06 586 95 05
-                    
-                    </p>
-                </a>
-            </div>
+<div id="contact-page" class="row bg-dark p-2 pt-5 body-page-content container-fluid w-100">
+    <div class="col-12 col-md-6 text-light text-right">
+        <h1 class="text-right text-info">Contactez-nous</h1>
+        <p class="text-right">Notre équipe est là ! prête à vous répondre</p>
+                
+        <p class="mt-4">
+            <img src="{% static 'node_modules/bootstrap-icons/icons/mailbox.svg' %}" width="55" height="55"  alt="mail-icon" class="mt-2"> <br>
+            Envoyez-nous un mail <br>
+            <a href="mailto:spectrecorp@gmail.com" class="text-light">spectrecorp@gmail.com</a>
+        </p>
 
-            <div class="col-md-6 bloc2">
-                <div class="row">
-                    <form action="{% url 'communication:box_msg' %}" method="POST">
-                        <div class="col-12">
-                            <input type="text" placeholder="Entrez votre nom" name="name">
-                        </div>
-                        <div class="col-12">
-                            <input type="email" placeholder="Entrez votre email" name="email">
-                        </div>
-                        <div class="col-12">
-                            <textarea name="content" id="" cols="30" rows="5" placeholder="Entrez votre message"></textarea>
-                        </div>
-                        <div class="col-12">
-                            <input type="submit" value="Soumettre">
-                        </div>
-                        <div class="col-12 last-div">
-                            <div></div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <p class="mt-4">
+            <img src="{% static 'node_modules/bootstrap-icons/icons/telephone.svg' %}" width="55" height="55" alt="Contactez-nous"> <br>
+            <a href="tel:06-586-95-05" class="text-light text-bolder">Appelez-nous au 06-586-95-05</a>
+        </p>
     </div>
+    <div class="col-12 col-md-6">
+        <form>
+            <div class="form-group ">
+              <input type="text" class="form-control bg-dark rounded-0" placeholder="Entrez votre nom" required>
+            </div>
+            <div class="form-group mt-3">
+              <input type="text" class="form-control bg-dark rounded-0" placeholder="Entrez votre email" required>
+            </div>
+            <div class="form-group mt-3">
+                <textarea name="message" id="" rows="5"  class="form-control bg-dark rounded-0 text-light" required>Message
+                
+                </textarea>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" class="form-control text-light bg-dark rounded-0" value="Soumettre">
+            </div>
+            <div class="form-group mt-3 p-3 border bg-info">
+            </div>
+          </form>
+    </div>
+</div>
 {% endblock %}

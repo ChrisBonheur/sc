@@ -10793,6 +10793,10 @@ textarea.form-control-lg {
   cursor: pointer;
 }
 
+.text-right {
+  text-align: right;
+}
+
 header .alerts {
   position: absolute;
   right: 0%;
