@@ -64,7 +64,9 @@
                 <a href="{% url 'dashboard:orders' %}?annuler-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger w-100">Annuler commande </a>
               {% elif request.path == "/gestion/commandes/reçues" %}
                 <div class="d-flex justify-content-between">
-                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger d-block w-50">Décliner la commande</a>
+                  <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger d-block w-50 dialog_confirm_before">
+                    Décliner la commande <span class="d-none">En déclinant la commande, l'article "{{ order.article }}" sera automatiquement desactivé</span>
+                  </a>
                   <a href="" class="btn btn-success d-block w-50">Valider la commande</a>
                 </div>
               {% endif %}
