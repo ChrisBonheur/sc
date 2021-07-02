@@ -48,7 +48,9 @@ const buttonActiveStyle = () => {
 
     let links = $('.nav-link').get()
     links.forEach(link => {
-        if (currentUrl == link.href){
+        regex = /^http:\/\/127.0.0.1:8000\/gestion\/commandes\/.*$/
+
+        if (currentUrl == link.href || regex.test(link.href) == true){
             $(link).addClass('active');
         }
     });
