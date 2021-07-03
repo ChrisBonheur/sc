@@ -20,7 +20,8 @@ const hideElementWithTimeOut = (element, timeOut=3000) => {
 
 /**
  * Show dialog block confirmation on click a link need a confirmation action 
- * before to continue, just add class ".dialog_confirm_before" with span html inside*/
+ * before to continue, just add class ".dialog_confirm_before" with hidden span html inside
+ * that will contain the warning message*/
 const dialogEvent = () => {
     $('.dialog_confirm_before').on("click", (e) => {
         e.preventDefault();
