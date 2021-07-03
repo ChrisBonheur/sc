@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="body-page-content pt-4 container">
+
+        <div class="row">
+            <h1 class="text-center text-primary font-sm-md">
+                Confirmez un ou deux numéros mobile money pour la reception de votre argent électronique
+             </h1>
+        </div>
+
+        <form action="{% url 'dashboard:invoices' %}" method="GET" class="p-2 form-account-momo text-primary">
+            <div class="row border p-4 form-account-momo-mtn">
+                <h3>Si MTN </h3>
+                <div class="col-sm-6">
+                  <label for="inputTel">Numéro</label>
+                  {{ form.mtn_account_number }}
+                </div>
+                <div class="col-sm-6">
+                  <label for="inputTel">Confirmez numéro</label>
+                  {{ form.confirm_number_mtn }}
+                </div>
+            </div>
+
+            <div class="row border p-4 mt-3 form-account-momo-airtel">
+                <h3>Si Airtel </h3>
+                <div class="col-sm-6">
+                  <label for="inputTel">Numéro</label>
+                  {{ form.airtel_account_number }}
+                </div>
+                <div class="col-sm-6">
+                  <label for="inputTel">Confirmez numéro</label>
+                  {{ form.confirm_number_mtn }}
+                </div>
+            </div>
+            <input type="text" hidden name="order_id" value="{{ order.id }}">
+            <div class="text-center mt-2">
+                <button class="btn btn-primary m-0" type="submit">Validez vos coordonnées</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

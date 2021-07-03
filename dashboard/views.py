@@ -8,7 +8,7 @@ from django.contrib import messages
 from store.models import Article, Category
 from .models import Order, Invoice
 from communication.models import Message
-from .forms import OrderForms
+from .forms import OrderForms, MomoNumber
 from store.forms import ArticleForms
 from store.utils import add_percentage
 
@@ -82,18 +82,32 @@ def invoices(request):
         # verify if order.article.user is for current user
         if order.article.user != request.user:
             raise Http404
-        Invoice.objects.create(
-            article_name=order.article.name,
-            description=order.article.description,
-            quantity=order.article.number,
-            delivery=order.article.delivery,
-            price_init=order.article.price_init,
-            price_ttc=order.article.price_ttc,
-            customer=request.user,
-            seller_id=order.article.user.id,
-            airtel_account_number=request.GET.get("airtel_account_number"),
-            mtn_account_number=request.GET.get("mtn_account_number"),
-        )
+        
+        mtn_number = request.GET.get("mtn_account_number")
+        airtel_number = request.GET.get("airtel_account_number")
+        
+        try:
+            invoice = Invoice(
+                article_name=order.article.name,
+                description=order.article.description,
+                delivery=order.article.delivery,
+                price_init=order.article.price_init,
+                price_ttc=order.article.price_ttc,
+                customer=request.user,
+                seller_id=order.article.user.id,
+            )
+            if airtel_number != "":
+                invoice.airtel_account_number=int(airtel_number)
+            if mtn_number != "":
+                invoice.mtn_account_number=int(mtn_number)
+            
+            invoice.save()
+            
+            order.delete()
+            cache.clear()
+        except Exception as e:
+            print(f"Error => {e}")
+        
         return redirect("/gestion/commandes/reçues")
     #delete or cacncel invoice if argument == invoice__id
     if request.GET.get('invoice_id'):
@@ -135,6 +149,14 @@ def orders(request):
     if request.GET.get('order_id'):
         order_id =  request.GET.get('order_id')
         order = get_object_or_404(Order, pk=order_id)
+        
+        if request.GET.get('valider-la-commande'):
+            
+            context = {
+                "order": order,
+                "form": MomoNumber(),
+            }
+            return render(request, 'dashboard/form-number-account.html', context)
         order.delete()
         #clear cache
         cache.clear()

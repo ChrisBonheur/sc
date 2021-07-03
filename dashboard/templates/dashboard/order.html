@@ -67,7 +67,8 @@
                   <a href="{% url 'dashboard:orders' %}?decliner-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-danger d-block w-50 dialog_confirm_before">
                     Décliner la commande <span class="d-none">En déclinant la commande, l'article "{{ order.article }}" sera automatiquement desactivé</span>
                   </a>
-                  <a href="" class="btn btn-success d-block w-50">Valider la commande</a>
+                  <a href="{% url 'dashboard:orders' %}?valider-la-commande={{ order.article }}?&amp;order_id={{order.id}}" class="btn btn-success d-block w-50 dialog_confirm_before">
+                    Valider la commande <span class="d-none">En validant la commande, vous reconnaissez avoir en votre disposition l'article "{{ order.article }}"</span> </a>
                 </div>
               {% endif %}
             </div>
