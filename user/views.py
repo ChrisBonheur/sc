@@ -106,8 +106,6 @@ def profil(request):
         return render(request, 'user/profil-card.html', context)
             
     context = {
-        'gender_list': ['Homme', 'Femme', 'Autre'],
-        'password_update_page': password_update_page,
         'user_form': user_form,
         'profil_form': profil_form,
     }
@@ -120,7 +118,9 @@ def logout_user(request):
     return render(request, 'user/auto_login.html', {})
 
 @login_required
-def update(request):
+def security(request):
+    context = {}
+    
     if request.GET.get('supprimer'):
         user = request.user
         user.is_active = False
@@ -140,74 +140,6 @@ def update(request):
             login(request, auth)
             return redirect('store:home')
         else:
-            content = 'ATTENTION ! Mot de passe invalide'
-            messages.add_message(request, messages.ERROR, content)
-            context = {
-                'password_update_page': True,
-            }
-            return render(request, 'user/profil.html', context)   
-          
-    if request.POST.get('username'): 
-        email = request.POST.get('email')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        new_password = request.POST.get('new_password')
-        user_id = request.POST.get('user_id')
-        gender = request.POST.get('gender')
-        username = request.POST.get('username')
-        mobile_money = request.POST.get('mobile_money')
-        contact = request.POST.get('contact')
-        
-        user = User.objects.get(pk=user_id)
-        print
-        # user.first_name = first_name
-        
-        if email != user.email:
-            try:
-                User.objects.get(email=email)
-            except:
-                user.email = email
-            else:
-                error_email = True
-        
-        if username != user.username:
-            try:
-                User.objects.get(username=username)
-            except:
-                user.username = username
-            else:
-                error_username = True
-            
-        if first_name != user.first_name:
-            user.first_name = first_name
-
-        if last_name != user.last_name:
-            user.last_name = last_name
-        
-        user.save()
-        
-        profil = Profil.objects.get_or_create(user=user)
-        profil = Profil.objects.get(user=user)
-        
-        try:
-            avatar_file = request.FILES['avatar']
-        except:
-            pass
-        else:
-            profil.avatar = avatar_file
-            
-        profil.gender = gender
-        
-        if contact != '':
-            profil.contact = contact
-        
-        if mobile_money != '':
-            profil.mobile_money = mobile_money
-        
-        profil.save()
-        
-        messages.add_message(request, messages.SUCCESS, 'Votre profil a été mis à jour!')
-           
-        return home(request)
-
-    return redirect('user:profil')
+            context['password_error'] = True
+             
+    return render(request, 'user/profil.html', context)  

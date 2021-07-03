@@ -1,148 +1,199 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="body-page-content container">
+<div class="body-page-content container pt-4">
     <div class="row">
-        <div class="col-12 col-md-5 text-sm-left params-links">
+        <div class="col-12 col-md-5 text-sm-left mb-4 params-links">
             <h1 class="">Mes paramètres</h1>
             <ul class="list-group">
                 <li class="list-group-item p-0 border-0">
                     <a href="{% url 'user:profil' %}" class="param-link d-block w-100 h-100 p-2 text-decoration-none text-secondary">Mon profile</a>
                 </li>
                 <li class="list-group-item p-0 border-0">
-                    <a href="" class="param-link d-block w-100 h-100 p-2 text-decoration-none text-secondary">Sécurité</a>
+                    <a href="{% url 'user:security' %}" class="param-link d-block w-100 h-100 p-2 text-decoration-none text-secondary">Sécurité</a>
                 </li>
             </ul>
         </div>
+        
         <div class="col-12 col-md-7 update-profil">
-            <form action="{% url 'user:profil' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <br class="separator"/>
-                <div class="row d-flex align-items-center">
-                    <div class="col-12 col-sm-4 text-sm-left">
-                        <label for="">Photo de profil</label>
-                    </div>
-                    <div class="col-12 col-sm-4 text-center ">
-                        {% if request.user.profil.avatar.url != "" %}
-                            <img class='img-square img_chosen rounded-circle' src="{{ request.user.profil.avatar.url }}">
-                        {% else %}
-                            <img class='img-square img_chosen rounded-circle' src="../../../static/images/icons/stand.png">
-                        {% endif %}
-                    </div>
-                    <div class="col-12 col-sm-4 text-sm-right">
-                        <button class="btn-change-img btn btn-primary">Changer la photo</button>
-                        <div hidden>
-                            {{ profil_form.avatar }}
+            {% if request.path == '/user/profil/' %}
+                <form action="{% url 'user:profil' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <br class="separator"/>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12 col-sm-4 text-sm-left">
+                            <label for="">Photo de profil</label>
+                        </div>
+                        <div class="col-12 col-sm-4 text-center ">
+                            {% if request.user.profil.avatar.url != "" %}
+                                <img class='img-square img_chosen rounded-circle' src="{{ request.user.profil.avatar.url }}">
+                            {% else %}
+                                <img class='img-square img_chosen rounded-circle' src="../../../static/images/icons/stand.png">
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-sm-4 text-sm-right">
+                            <button class="btn-change-img btn btn-primary">Changer la photo</button>
+                            <div hidden>
+                                {{ profil_form.avatar }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <br class="separator">
-                
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Nom d'utiisateur</label>
+                    
+                    <br class="separator">
+                    
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Nom d'utiisateur</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {{ user_form.username }}
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
-                        {{ user_form.username }}
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Nom</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {{ user_form.last_name }}
+                        </div>
                     </div>
-                </div>
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Nom</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Prénom</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {{ user_form.first_name }}
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
-                        {{ user_form.last_name }}
-                    </div>
-                </div>
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Prénom</label>
-                    </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
-                        {{ user_form.first_name }}
-                    </div>
-                </div>
 
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Email</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Email</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {{ user_form.email }}
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
-                        {{ user_form.email }}
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Contact MTN</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right mtn-number">
+                            {{ profil_form.contact_mtn }}
+                            <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
+                        </div>
                     </div>
-                </div>
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Contact MTN</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Contact Airtel</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right airtel-number">
+                            {{ profil_form.contact_airtel }}
+                            <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right mtn-number">
-                        {{ profil_form.contact_mtn }}
-                        <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Whatsap</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right whatsap-number">
+                            {{ profil_form.whatsap_number }}
+                            <span class="text-danger d-none">Ceci n'est pas un numéro valide</span>
+                        </div>
                     </div>
-                </div>
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Contact Airtel</label>
-                    </div>
-                    <div class="col-12 col-sm-6 text-sm-right airtel-number">
-                        {{ profil_form.contact_airtel }}
-                        <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
-                    </div>
-                </div>
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Whatsap</label>
-                    </div>
-                    <div class="col-12 col-sm-6 text-sm-right whatsap-number">
-                        {{ profil_form.whatsap_number }}
-                        <span class="text-danger d-none">Ceci n'est pas un numéro valide</span>
-                    </div>
-                </div>
 
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Numéro Airtel money</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Numéro Airtel money</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right airtel-number">
+                            {{ profil_form.airtel_money }}
+                            <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right airtel-number">
-                        {{ profil_form.airtel_money }}
-                        <span class="text-danger d-none">Ceci n'est pas un numéro Airtel valide</span>
-                    </div>
-                </div>
 
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Numéro MTN money</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Numéro MTN money</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right mtn-number">
+                            {{ profil_form.mtn_money }}
+                            <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right mtn-number">
-                        {{ profil_form.mtn_money }}
-                        <span class="text-danger d-none">Ceci n'est pas un numéro MTN valide</span>
-                    </div>
-                </div>
 
-                <br class="separator">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <label for="">Sexe</label>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Sexe</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {{ profil_form.gender }}
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-6 text-sm-right">
-                        {{ profil_form.gender }}
-                    </div>
-                </div>
 
-                <br class="separator">
-                <div class="d-flex p-4 justify-content-around">
-                    <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
-                    <button type="submit" class="btn btn-primary d-block" id="save-update-profil-btn">Enregistrer</button>
-                </div>
-            </form>
+                    <br class="separator">
+                    <div class="d-flex p-4 justify-content-around">
+                        <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
+                        <button type="submit" class="btn btn-primary d-block" id="save-update-profil-btn">Enregistrer</button>
+                    </div>
+                </form>
+            {% elif request.path == '/user/security/' %}
+                <h3 class="text-muted text-center mb-4">Modification mot de passe</h3>
+                <form action="{% url 'user:security' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Mot de passe actuel</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            {% if password_error %}
+                                <span class="alert alert-warning d-block text-center" role="alert">Mot de passe invalide</span>
+                            {% endif %}
+                            <input type="password" name="current_password" value="">
+                        </div>
+                    </div>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Nouveau mot de passe</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            <input type="password" name="new_password" value="">
+                            <span class="text-danger error-new-pswd"></span>
+                        </div>
+                    </div>
+                    <br class="separator">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <label for="">Confirmer mot de passe</label>
+                        </div>
+                        <div class="col-12 col-sm-6 text-sm-right">
+                            <input type="password" name="confirm_new_password" value="">
+                            <span class="text-danger error-confirm-pswd"></span>
+                        </div>
+                    </div>
+                    <br class="separator">
+                    <div class="d-flex p-4 justify-content-around">
+                        <a href="{% url 'store:home' %}" class="btn btn-danger d-block">Annuler </a>
+                        <button type="submit" class="btn btn-primary d-block disabled"  id="save-pswd-btn">Enregistrer</button>
+                    </div>
+                </form>
+                <a href="{% url 'user:security' %}?supprimer={{ request.user }}" type="button" class="mt-5 btn btn-danger btn-lg btn-block w-100 dialog_confirm_before">
+                    Supprimer mon compte utilisateur
+                    <span hidden>
+                        Votre compte utilisateur sera supprimé de la plateforme ! <br>
+                         vous ne pourrez plus vendre ou acheter avec ce compte.
+                    </span>
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>

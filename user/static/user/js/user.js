@@ -140,6 +140,56 @@ const userMain = () => {
     //test all numbers on load page before input event test
     testAllNumbers();
 
+    
+    //======================SECURITY================================================================
+    //verify new_password and confirm_newpassword input
+        //set current password value empty
+    $('[name=current_password]').val('');
+    let newPassword = $('[name=new_password]')
+    let confirmNewPassword = $('[name=confirm_new_password]')
+    pswdError = true;
+    confirmPswdError = true;
+    
+    const verifyIfPswdsAreSame = () => {
+        let errorPswdText = $('.error-confirm-pswd');
+        if (confirmNewPassword.val() != newPassword.val() && confirmNewPassword.val() != ""){
+            errorPswdText.text('Les mots de passe diffèrent');
+            confirmPswdError = true;
+        }else if (confirmNewPassword.val() != newPassword.val() && confirmNewPassword.val() == ""){
+            errorPswdText.text('')
+            confirmPswdError = true;
+        }else{
+            errorPswdText.text('')
+            confirmPswdError = false;
+        }
+    }
+
+    //disable button submit for password form
+    const makeDisabledBtn = () => {
+        if (pswdError || confirmPswdError){
+            $('#save-pswd-btn').addClass('disabled');
+        }else{
+            $('#save-pswd-btn').removeClass('disabled');
+        }
+    }
+
+    newPassword.on('input', () => {
+        let errorPswdText = $('.error-new-pswd');
+        if(newPassword.val().length <= 5){
+            errorPswdText.text('Mot de passe trop court !');
+            pswdError = true;
+        }else{
+            errorPswdText.text('');
+            pswdError = false;
+        }
+        verifyIfPswdsAreSame();
+        makeDisabledBtn();
+    });
+
+    confirmNewPassword.on('input', () => {
+        verifyIfPswdsAreSame();
+        makeDisabledBtn();
+    });
 }
 
 userMain();

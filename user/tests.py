@@ -85,11 +85,25 @@ class UpdateViewTestCase(TestCase):
         profil = Profil.objects.get(user=user)
         self.assertEqual(profil.mtn_money, '068314433')
     
+
+class SecurityTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="bnhr", password="123456")
+        self.client.login(username=self.user, password="123456")
+    
+    def test_update_password(self):
+        user = self.user
+        data = {
+            'current_password': '123456',
+            'new_password': '123456789',
+        }
+        self.client.post(reverse('user:security'), data)
+        user_login = self.client.login(username="bnhr", password=data['new_password'])
+        self.assertTrue(user_login)
+    
     def test_deactive_user(self):
         """test user can deactive his account"""
-        user = User.objects.create_user(username="bnhr", password="123456")
-        self.client.login(username=user, password="123456")
-        self.client.get(reverse('user:update'), {"supprimer": user})
+        user = self.user
+        self.client.get(reverse('user:security'), {"supprimer": user})
         user_login = self.client.login(username=user, password="123456")
         self.assertFalse(user_login)
-
