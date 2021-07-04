@@ -14,7 +14,7 @@
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="{% url 'store:home' %}" role="tab" aria-controls="v-pills-home" aria-selected="true">Acceuil</a>
         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'store:my_articles' %}" role="tab" aria-controls="v-pills-settings" aria-selected="false">Mes articles</a>
-        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'dashboard:orders' %}envoyees" role="tab" aria-controls="v-pills-settings" aria-selected="false">Tableau de bord</a>
+        <a class="nav-link dashboard-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'dashboard:orders' %}envoyees" role="tab" aria-controls="v-pills-settings" aria-selected="false">Tableau de bord</a>
         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'store:favourite' %}" role="tab" aria-controls="v-pills-settings" aria-selected="false">Favoris</a>
         <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="{% url 'about' %}" role="tab" aria-controls="v-pills-profile" aria-selected="false">A propos de nous</a>
         <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="{% url 'contact' %}" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contact</a>
