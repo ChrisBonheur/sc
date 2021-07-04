@@ -86,6 +86,9 @@ def invoices(request):
         mtn_number = request.GET.get("mtn_account_number")
         airtel_number = request.GET.get("airtel_account_number")
         
+        if not MomoNumber(request.GET).is_valid():
+            import pdb;pdb.set_trace()
+        
         try:
             invoice = Invoice(
                 article_name=order.article.name,

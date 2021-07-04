@@ -14,10 +14,12 @@
                 <div class="col-sm-6">
                   <label for="inputTel">Numéro</label>
                   {{ form.mtn_account_number }}
+                  <span class="error-mtn-number text-danger d-none">Ceci n'est pas un numéro MTN conforme</span>
                 </div>
                 <div class="col-sm-6">
                   <label for="inputTel">Confirmez numéro</label>
                   {{ form.confirm_number_mtn }}
+                  <span class="error-equal-mtn text-danger d-none">Les numéros diffèrent</span>
                 </div>
             </div>
 
@@ -26,15 +28,17 @@
                 <div class="col-sm-6">
                   <label for="inputTel">Numéro</label>
                   {{ form.airtel_account_number }}
+                  <span class="error-airtel-number text-danger d-none">Ceci n'est pas un numéro airtel conforme</span>
                 </div>
                 <div class="col-sm-6">
                   <label for="inputTel">Confirmez numéro</label>
-                  {{ form.confirm_number_mtn }}
+                  {{ form.confirm_number_airtel }}
+                  <span class="error-equal-airtel text-danger d-none">Les numéros diffèrent</span>
                 </div>
             </div>
             <input type="text" hidden name="order_id" value="{{ order.id }}">
             <div class="text-center mt-2">
-                <button class="btn btn-primary m-0" type="submit">Validez vos coordonnées</button>
+                <button class="btn btn-primary m-0 valid-number-btn" type="submit" disabled="true">Validez vos coordonnées</button>
             </div>
         </form>
     </div>

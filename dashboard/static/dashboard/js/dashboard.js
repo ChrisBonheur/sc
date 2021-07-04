@@ -10,3 +10,86 @@ $('.down-menu').on('click', () => {
         }
     });
 });
+
+//==============================================================================================
+//Form account mobile money script
+//MTN
+ValidForm = true;
+
+const verifyNumberIntegrity = (numberValue, ErrorSelectorEltToShow, regexConform=/^(242)?06[0-9]{7}$/) => {
+    let regex = regexConform;
+    ErrorSelectorEltToShow.addClass("d-none");
+    ValidForm = true;
+
+    if (regex.test(numberValue) == false){
+        ErrorSelectorEltToShow.removeClass('d-none');
+        ValidForm = false;
+    }
+}
+
+const verifyNumbersSimilar = (numberValue1, numberValue2, ErrorSelectorEltToShow) => {
+    ErrorSelectorEltToShow.addClass('d-none');
+    ValidForm = true;
+
+    if (numberValue1 != numberValue2){
+        ErrorSelectorEltToShow.removeClass('d-none');
+        ValidForm = false;
+    }
+    
+    if (numberValue1 == "" && numberValue2 == ""){
+        ValidForm = true;
+    }
+}
+
+const disabledVerification = () => {
+    //verify that one of number is given
+    let mtnNumber = $('[name=mtn_account_number]').val();
+    let mtnConfirm = $('[name=confirm_number_mtn]').val();
+
+    let airtelNumber = $('[name=airtel_account_number]').val();
+    let airtelConfirm = $('[name=confirm_number_airtel]').val();
+    if ((mtnNumber == "" && mtnConfirm == "") && (airtelNumber == "" && airtelConfirm == "")){
+        ValidForm = false
+    }
+
+    if (ValidForm){
+        $('.valid-number-btn').removeAttr('disabled');
+    }else{
+        $('.valid-number-btn').attr('disabled', 'true');
+    }
+}
+
+$('[name=mtn_account_number]').on("input", (e) => {
+    verifyNumberIntegrity(e.target.value, $('.error-mtn-number'));
+
+    let valueNumber1 = $('[name=confirm_number_mtn]').val();
+    verifyNumbersSimilar(valueNumber1, e.target.value, $('.error-equal-mtn'));
+    disabledVerification();
+});
+
+$('[name=confirm_number_mtn]').on('input', (e) => {
+    let valueNumber1 = $('[name=mtn_account_number]').val();
+    verifyNumbersSimilar(valueNumber1, e.target.value, $('.error-equal-mtn'));
+
+    disabledVerification();
+});
+
+//AIRTEL
+$('[name=airtel_account_number]').on("input", (e) => {
+    verifyNumberIntegrity(e.target.value, $('.error-airtel-number'), /^(242)?(05|04)[0-9]{7}$/);
+
+    let valueNumber1 = $('[name=confirm_number_airtel]').val();
+    verifyNumbersSimilar(valueNumber1, e.target.value, $('.error-equal-airtel'));
+
+    disabledVerification();
+
+});
+
+$('[name=confirm_number_airtel]').on('input', (e) => {
+    let valueNumber1 = $('[name=airtel_account_number]').val();
+    verifyNumbersSimilar(valueNumber1, e.target.value, $('.error-equal-airtel'));
+
+    disabledVerification();
+
+});
+
