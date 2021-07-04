@@ -24,6 +24,8 @@ def db_request(request):
             'total_message_count': message_count,
             'list_msg': range(message_count),
             'list_notif': range(notif_count),
+            'orders_received_count': Order.objects.filter(article__user=request.user).count(),
+            'orders_sended_count': Order.objects.filter(customer=request.user).count(),
         }
     else:
         return {
