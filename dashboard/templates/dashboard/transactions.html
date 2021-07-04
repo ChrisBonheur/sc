@@ -88,15 +88,17 @@
         </div>
         {% empty %}
         <div class="row p-5">
-            {% if request.path == "/gestion/achats-en-attentes/" %}
-                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez aucun achat à finaliser</p>
-            {% elif request.path == "/gestion/ventes-en-attentes/" %}
-                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez aucune vente en attente de finalisation</p>
-            {% elif request.path == "/gestion/achats-effectués/" %}
-            <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez réalisé aucun achat jusqu'à ce jour</p>
-            {% elif request.path == "/gestion/ventes-réalisées/" %}
-                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez réalisé aucune vente jusqu'à ce jour</p>
-            {% endif %}
+            <p class="m-auto p-5 text-center font-weight-bold bg-info">
+                {% if request.path == "/gestion/achats-en-attentes/" %}
+                    Vous n'avez aucun achat à finaliser
+                {% elif request.path == "/gestion/ventes-en-attentes/" %}
+                   Vous n'avez aucune vente en attente de finalisation
+                {% elif request.path == "/gestion/achats-effectués/" %}
+                   Vous n'avez réalisé aucun achat jusqu'à ce jour
+                {% elif request.path == "/gestion/ventes-réalisées/" %}
+                   Vous n'avez réalisé aucune vente jusqu'à ce jour
+                {% endif %}
+            </p>
         </div>
         {% endfor %}
     </div>
