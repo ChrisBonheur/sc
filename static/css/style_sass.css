@@ -10797,6 +10797,12 @@ textarea.form-control-lg {
   text-align: right;
 }
 
+@media all and (min-width: 768px) {
+  .pmd-5 {
+    padding: 5em;
+  }
+}
+
 header .alerts {
   position: absolute;
   right: 0%;

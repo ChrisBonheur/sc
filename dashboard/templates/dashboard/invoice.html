@@ -71,9 +71,11 @@
                 </div>
             </div>
         {% empty %}
-            <div class="empty-zone">
-                {{ alert }}
-            </div>
+          <div class="col-12 pmd-5 pt-5 pb-5">
+            <p class="m-auto pmd-5 text-center font-weight-bold bg-info">
+              Aucune facture à payer
+            </p>
+          </div>
         {% endfor %}
     </div>
 </div>

@@ -73,8 +73,8 @@
               {% endif %}
             </div>
           {% empty %}
-            <div class="row p-5">
-              <p class="m-auto p-5 text-center font-weight-bold bg-info">
+            <div class="col-12 pmd-5 pt-5 pb-5">
+              <p class="m-auto pmd-5 text-center font-weight-bold bg-info">
               {% if request.path ==  "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
                 Votre liste de commandes envoyées est vide
               {% elif request.path == "/gestion/commandes/reçues" %}

@@ -87,8 +87,8 @@
               </table>
         </div>
         {% empty %}
-        <div class="row p-5">
-            <p class="m-auto p-5 text-center font-weight-bold bg-info">
+        <div class="col-12 pmd-5 pt-5 pb-5">
+            <p class="m-auto pmd-5 text-center font-weight-bold bg-info">
                 {% if request.path == "/gestion/achats-en-attentes/" %}
                     Vous n'avez aucun achat à finaliser
                 {% elif request.path == "/gestion/ventes-en-attentes/" %}
