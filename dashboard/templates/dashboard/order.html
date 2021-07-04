@@ -72,6 +72,16 @@
                 </div>
               {% endif %}
             </div>
+          {% empty %}
+            <div class="row p-5">
+              <p class="m-auto p-5 text-center font-weight-bold bg-info">
+              {% if request.path ==  "/gestion/commandes/envoyees" or request.path == "/gestion/commandes/" %}
+                Votre liste de commandes envoyées est vide
+              {% elif request.path == "/gestion/commandes/reçues" %}
+                Votre liste de commandes reçues est vide
+              {% endif %}
+              </p>
+            </div>
           {% endfor %}
         </div>
       </div>
