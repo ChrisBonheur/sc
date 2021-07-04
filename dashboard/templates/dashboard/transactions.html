@@ -2,7 +2,7 @@
 {% block pageContent %}
     {% if request.path == "/gestion/achats-en-attentes/" %}
         <div class="row">
-            <h1 class="font-md">Achats(Transactions) en attente de finalisation</h1>
+            <h1 class="font-md text-uppercase border-bottom">Achats (Transactions) en attente de finalisation</h1>
             <p class="text-danger">
                 Attention: Ne finalisez une transaction (achat) que si vous avez l'article en votre possession.
                 Pour ce faire, consulter le profil du vendeur en cliquant sur <span class="text-primary">Profile vendeur</span>
@@ -11,7 +11,7 @@
         </div>
     {% elif request.path == "/gestion/ventes-en-attentes/" %}
         <div class="row">
-            <h1 class="font-md">Ventes (Transactions) en attente de finalisation par le client</h1>
+            <h1 class="font-md text-uppercase border-bottom">Ventes (Transactions) en attente de finalisation par le client</h1>
             <p class="text-danger">
                 Vous pouvez contacter votre client (cliquer sur <span class="text-primary">profile client</span> ) et livrer l'article ou pour une prise de rendez-vous.
                 Votre client devra finaliser l'achat après réception de l'article pour 
@@ -20,11 +20,11 @@
         </div>
     {% elif request.path == "/gestion/achats-effectués/" %}
         <div class="row">
-            <h1 class="font-md">Achats effectués</h1>
+            <h1 class="font-md text-uppercase border-bottom">Achats réalisés</h1>
         </div>
     {% elif request.path == "/gestion/ventes-réalisées/" %}
         <div class="row">
-            <h1 class="font-md">Ventes réalisées</h1>
+            <h1 class="font-md text-uppercase border-bottom">Ventes réalisées</h1>
         </div>
     {% endif %}
     <div class="row">
