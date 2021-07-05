@@ -124,7 +124,7 @@ def invoices(request):
     cache_time = (30*60)
     if not cache.get(f"invoices_{request.user.id}"):
         cache.set(f"invoices_{request.user.id}", Invoice.objects.filter\
-                (customer=request.user), cache_time)
+                (Q(customer=request.user) & Q(payed=False)), cache_time)
         
     context = {
         "invoices": cache.get(f"invoices_{request.user.id}")
