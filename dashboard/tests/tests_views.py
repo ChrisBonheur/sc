@@ -129,3 +129,37 @@ class OrderTestCase(TestCase):
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before - 1, order_count_after)
 
+class PayementTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="christ", password="123")
+        self.client.login(username=self.user, password="123")
+        
+    def test_payement_view(self):
+        user = self.user
+        article = Article.objects.create(
+            name="Radio ",
+            description="Jamais utilisé",
+            price_init=5250,
+            district="Mpita",
+            status=Status.objects.create(name="Nouveau"),
+            town=Town.objects.create(name="Pointe-Noire"),
+            category=Category.objects.create(name="Electro"),
+            user=self.user,
+            image_min=File(open(f"{settings.BASE_DIR}/dashboard/static/dashboard/img_tests/pic6.jpg", "rb")),
+        )
+        order = Order.objects.create(customer=self.user, article=article)
+        invoice = Invoice.objects.create(
+            article_name=order.article,
+            description=order.article.description,
+            quantity=order.article.number,
+            price_init=order.article.price_init,
+            price_ttc=order.article.price_ttc,
+            seller_id=order.article.user.id,
+            customer=self.user,
+            airtel_account_number=55824925,
+            mtn_account_number=68314433,
+        )
+        response = self.client.get(reverse('dashboard:payement'), {"invoice_id": invoice.id})
+        self.assertEqual(response.status_code, 200)
+        
+    

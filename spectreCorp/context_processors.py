@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.core.cache import cache
 
 from dashboard.models import Order, Invoice
 from communication.models import Message, MessageText
@@ -14,6 +15,11 @@ def db_request(request):
         notif_count = Message.objects.filter(Q(readed=False) & Q(type_msg="notif")\
                  & Q(recipient_id=request.user.id)).count()
         
+        if cache.get(f"invoices_{request.user.id}"):
+            invoices = cache.get(f"invoices_{request.user.id}")
+        else:
+            invoices =  Invoice.objects.filter(customer=request.user, payed=False)
+        
         return {
             'user_order_number': Order.objects.filter(article__user=request.user).count(),
             # 'user_invoice_number': Invoice.objects.filter(customer=request.user).\
@@ -26,6 +32,7 @@ def db_request(request):
             'list_notif': range(notif_count),
             'orders_received_count': Order.objects.filter(article__user=request.user).count(),
             'orders_sended_count': Order.objects.filter(customer=request.user).count(),
+            'invoices': invoices,
         }
     else:
         return {

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="body-page-content pt-4 container-fluid">
+        <h1>Processus achat</h1>
+        <form action="{% url 'dashboard:payement' %}?invoice_id={{ invoice.id }}" method="post">
+            {% csrf_token %}
+            <div class="card border-primary mb-3 select-momo m-auto" style="max-width: 18rem;">
+                <div class="card-header text-center">Selection opérateur</div>
+                <div class="card-body text-primary">
+                    <div class="form-check form-check">
+                        <input class="form-check-input" type="radio" name="operator" id="inlineRadio1" checked value="mtn">
+                        <label class="form-check-label" for="inlineRadio1">MTN Money</label>
+                    </div>
+                    <div class="form-check form-check mt-4">
+                        <input class="form-check-input" type="radio" name="operator" id="inlineRadio2" value="airtel">
+                        <label class="form-check-label" for="inlineRadio2">Airtel Money</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-primary mb-3 select-momo m-auto" style="max-width: 18rem;">
+                <div class="card-header text-center">Entrez le numéro du compte à débiter</div>
+                <div class="card-body text-primary">
+                    <div class="form-group">
+                        <label for="account-number" class="text-center label-number">Numéro mobile money</label>
+                        <input type="number" class="form-control form-number-input" id="account-number" name="account-number"><br>
+                        <span class="text-danger error-operator-number"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center d-flex justify-content-center">
+                <a href="{% url 'dashboard:invoices' %} " class="btn btn-danger m-2">Annuler</a>
+                <button type="submit" class="btn btn-success m-2" id="btn-valid-number" disabled="true">Valider</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

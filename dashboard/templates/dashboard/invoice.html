@@ -1,8 +1,6 @@
 {% extends 'dashboard/dashboard.html' %}
-
-{% block details-from-menu %}
-{% load static %}
-<div class="invoice_zone">
+{% block pageContent %}
+<div class="">
     <div class="row">
         <div class="col-12">
             <h3 class="page_name">MES FACTURES A PAYER</h3>
@@ -11,73 +9,64 @@
 
     <div class="row">
         {% for invoice in invoices %}
-            <div class="col-md-6">
-                <div class="row row2">
-                    <div class="col-12">
-                        <table>
-                            <tr>
-                                <tr class="head-tr">
-                                    <td colspan="2"><h4>FACTURE N° {{ invoice.id }}</h4></td>                 
-                                </tr>
-                                <tr class="head-tr">
-                                    <td colspan="2"><p>Date {{ invoice.date_create }}</p></td>
-                                </tr>
-                                <tr>
-                                    <td class="head-td text-center">
-                                        <h5>Client</h5>
-                                        <p> {{ invoice.user }} </p>
-                                    </td>
-                                    <td class="head-td text-center">
-                                        <h5>Vendeur</h5>
-                                        <p>{{ invoice.article.user }} <br> Addresse : {{ invoice.article.address }}</p>
-                                    </td>
-                                </tr>
-                            </tr>
-
-                            <tr>
-                                <th>Désignation</th>
-                                <td class="text-justify"><a href="{{ invoice.article.image_min.url }}">{{ invoice.article.name }}</a></td>
-                            </tr>
-
-                            <tr>
-                                <th>Description</th>
-                                <td class="text-justify">{{ invoice.description }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Quantité</th>
-                                <td class="text-justify">{{ invoice.quantity }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Livraison</th>
-                                {% if invoice.delivery == True %}
-                                    <td class="text-justify">OUI</td>
-                                {% else %}
-                                    <td class="text-justify">NON</td>
-                                {% endif %}
-                            </tr>
-
-                            <tr>
-                                <th>Etat</th>
-                                <td class="text-justify">{{ invoice.status }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Prix</th>
-                                <td class="text-justify"><strong>{{ invoice.price_ttc }} XAF</strong></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
+            <div class="col-12 col-md-6 mt-4">
+                <table class="table font-sm">
+                    <thead class="bg-dark text-light">
+                      <tr>
+                        <th scope="col" colspan="2"># Facture n° {{ invoice.id }}</th>
+                      </tr>
+                      <tr>
+                        <th colspan="2">date : {{ invoice.date_create }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Nom d'article</th>
+                        <td>{{ invoice.article_name }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ invoice.description }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Prix TTC</th>
+                        <td>{{ invoice.price_ttc }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Livraison</th>
+                        <td>
+                          {% if invoice.delivery %} 
+                            Possible
+                          {% else %}
+                            Pas de livraison
+                          {% endif %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Etat de l'article</th>
+                        <td>{{ invoice.status }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 <div class="row3">
-                    
                     <div class="col-12">
-                        <button>Valider payement article</button>
+                        <a href="{% url 'dashboard:payement' %}?invoice_id={{ invoice.id }}" class="btn btn-success w-100 dialog_confirm_before">
+                            Valider payement article
+                            <span class="d-none">
+                                En validant le payement, l'argent sera transmis dans un premier temps sur le compte électronique
+                                de spectrecorp, par la suite vous ne finalisez le payement que si vous avez pu contacter le vendeur
+                                via les coordonnées que spectrecorp vous enverra et  que vous avez l'article en votre possession ! <br>
+                                le cas échéant vous pouvez toujours annuler le payement et recupérer votre argent électronique !!! <br>
+                                
+                            </span>
+                        </a>
                     </div>
-                    <div class="col-12 btn-2">
-                       <a href="{% url 'dashboard:invoices' %}?annuler-payement={{ invoice.article }}?&amp;invoice_id={{ invoice.id }}"><button>Annuler payement article</button></a>
+                    <div class="col-12 mt-1">
+                        <a href="{% url 'dashboard:invoices' %}?annuler-payement={{ invoice.article }}?&amp;invoice_id={{ invoice.id }}"
+                        class="btn btn-danger w-100 dialog_confirm_before">
+                           Annuler payement article
+                           <span class="d-none">Vous annulez le payement de l'article {{ invoice.article_name }}</span>
+                        </a>
                     </div>
                 </div>
             </div>

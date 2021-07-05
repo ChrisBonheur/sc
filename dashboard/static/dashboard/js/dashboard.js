@@ -93,3 +93,43 @@ $('[name=confirm_number_airtel]').on('input', (e) => {
 
 });
 
+
+//=========================================================================================
+//Bought Processing script
+//change text of label number on event "change"
+operatorSelect = "mtn";
+$('[name=operator]').on('change', (e) => {
+    let radioValue = e.target.value;
+    operatorSelect = radioValue;
+    if (radioValue == "mtn"){
+        $('.label-number').text('Numéro mtn mobile money')
+    }else if(radioValue == "airtel"){
+        $('.label-number').text('Numéro airtel money')
+    }
+});
+
+//verification of number integrity
+let btnValidNumber = $('#btn-valid-number');
+let regex = null;
+
+$('.form-number-input').on('input', () => { 
+    if (operatorSelect == "mtn"){
+        regex = /^(242)?06[0-9]{7}$/;    
+        if (regex.test($('.form-number-input').val())){
+            $('.error-operator-number').text('');
+            btnValidNumber.removeAttr('disabled')
+        }else{
+            $('.error-operator-number').text('Numéro MTN non conforme');
+            btnValidNumber.attr('disabled', "true");
+        }
+    }else{
+        regex = /^(242)?05[0-9]{7}$/;    
+        if (regex.test($('.form-number-input').val())){
+            $('.error-operator-number').text('');
+            btnValidNumber.removeAttr('disabled')
+        }else{
+            $('.error-operator-number').text('Numéro Airtel non conforme');
+            btnValidNumber.attr('disabled', "true");
+        }
+    }
+})

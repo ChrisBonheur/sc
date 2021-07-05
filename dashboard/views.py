@@ -96,7 +96,7 @@ def invoices(request):
                 delivery=order.article.delivery,
                 price_init=order.article.price_init,
                 price_ttc=order.article.price_ttc,
-                customer=request.user,
+                customer=order.customer,
                 seller_id=order.article.user.id,
             )
             if airtel_number != "":
@@ -185,3 +185,19 @@ def orders(request):
         context["orders"] = cache.get(f'orders_receive_{request.user.id}')
         
     return render(request, 'dashboard/order.html', context)
+
+@login_required
+def payement(request):
+    invoice_id = request.GET.get('invoice_id')    
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    
+    if request.POST:
+        operator = request.POST.get('operator')
+        account_number = request.POST.get('account-number')
+        
+        # import pdb;pdb.set_trace();
+        
+    context = {
+        "invoice": invoice
+    }
+    return render(request, 'dashboard/payement-processus.html', context)
