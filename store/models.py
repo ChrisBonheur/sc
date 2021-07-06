@@ -55,7 +55,7 @@ class Article(models.Model):
     date_add = models.DateTimeField(auto_now_add=True, verbose_name='Ajouté')
     date_edit = models.DateTimeField(auto_now_add=False, verbose_name='Modifié', null=True)
     image_min = models.ImageField(upload_to=pictures_rename, null=True)
-    img_background = models.CharField(max_length=100, null=True)
+    back_color = models.CharField(max_length=100, null=True)
     delivery = models.BooleanField(default=False, null=True)
     slug = models.SlugField(max_length=100, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Etat', null=True)
