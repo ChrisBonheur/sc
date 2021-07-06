@@ -191,11 +191,29 @@ def orders(request):
 def transactions(request):
     context = {}
     
-    if request.path ==  "/gestion/transactions/en-attentes/":
+    if request.path ==  "/gestion/achats-en-attentes/":
         if not cache.get(f"transactions_waiting_{request.user.id}"):
             cache.set(f"transactions_waiting_{request.user.id}", Transaction.objects.\
                 filter(Q(invoice__customer=request.user) & Q(is_final=False)), 60 * 15)
         context["transactions"] = cache.get(f"transactions_waiting_{request.user.id}")
+    
+    elif request.path == "/gestion/achats-effectués/":
+        if not cache.get(f"articles_bought_{request.user.id}"):
+            cache.set(f"articles_bought_{request.user.id}", Transaction.objects.\
+                filter(Q(invoice__customer=request.user) & Q(is_final=True)), 60 * 15)
+        context["transactions"] = cache.get(f"articles_bought_{request.user.id}")
+    
+    elif request.path == "/gestion/ventes-réalisées/":
+        if not cache.get(f"articles_selled_{request.user.id}"):
+            cache.set(f"articles_selled_{request.user.id}", Transaction.objects.\
+                filter(Q(invoice__seller_id=request.user.id) & Q(is_final=True)), 60 * 15)
+        context["transactions"] = cache.get(f"articles_selled_{request.user.id}")
+  
+    elif request.path == "/gestion/ventes-en-attentes/":
+        if not cache.get(f"articles_selled_{request.user.id}"):
+            cache.set(f"articles_selled_{request.user.id}", Transaction.objects.\
+                filter(Q(invoice__seller_id=request.user.id) & Q(is_final=False)), 60 * 15)
+        context["transactions"] = cache.get(f"articles_selled_{request.user.id}")
         
     return render(request, "dashboard/transactions.html", context)
 

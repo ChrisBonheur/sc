@@ -1,17 +1,37 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block pageContent %}
-    <div class="row">
-        <h1 class="font-md">Achats(Transactions) en attente de finalisation</h1>
-        <p class="text-danger">
-            Attention: Ne finalisez une transaction (achat) que si vous avez l'article en votre possession.
-            <br>Pour ce faire, consulter le profil du vendeur en cliquant sur <span class="text-primary">Profil vendeur</span>
-            <br>et contacter ce dernier. <a href="">en savoir plus !</a>
-        </p>
-    </div>
+    {% if request.path == "/gestion/achats-en-attentes/" %}
+        <div class="row">
+            <h1 class="font-md">Achats(Transactions) en attente de finalisation</h1>
+            <p class="text-danger">
+                Attention: Ne finalisez une transaction (achat) que si vous avez l'article en votre possession.
+                Pour ce faire, consulter le profil du vendeur en cliquant sur <span class="text-primary">Profile vendeur</span>
+                et contacter ce dernier. <a href="">en savoir plus !</a>
+            </p>
+        </div>
+    {% elif request.path == "/gestion/ventes-en-attentes/" %}
+        <div class="row">
+            <h1 class="font-md">Ventes (Transactions) en attente de finalisation par le client</h1>
+            <p class="text-danger">
+                Vous pouvez contacter votre client (cliquer sur <span class="text-primary">profile client</span> ) et livrer l'article ou pour une prise de rendez-vous.
+                Votre client devra finaliser l'achat après réception de l'article pour 
+                reçevoir votre argent sur votre compte électronique mobile <a href="">en savoir plus</a>
+            </p>
+        </div>
+    {% elif request.path == "/gestion/achats-effectués/" %}
+        <div class="row">
+            <h1 class="font-md">Achats effectués</h1>
+        </div>
+    {% elif request.path == "/gestion/ventes-réalisées/" %}
+        <div class="row">
+            <h1 class="font-md">Ventes réalisées</h1>
+        </div>
+    {% endif %}
     <div class="row">
         {% for transaction in transactions %}
         <div class="col-12 col-md-6 mt-4">
-            <table class="table table-dark">
+            <table class="table {% if request.path ==  '/gestion/achats-en-attentes/' %}
+            table-dark {% else %} table-success {% endif %}">
                 <tr>
                     <th scope="col">#{{ transaction.id }}</th>
                     <th scope="col">{{ transaction.date_create }}</th>
@@ -24,19 +44,49 @@
                     <th scope="row">Facture</th>
                     <td><a href="">Voir facture</a></td>
                 </tr>
-                <tr>
-                    <th scope="row">Prix TTC XAF</th>
-                    <td>{{ transaction.invoice.price_ttc }} XAF</td>
-                </tr>
-                <tr>
-                    <th scope="row">Vendeur</th>
-                    <td><a href="">Profil vendeur</a></td>
-                </tr>
-                <tr>
-                    <td><a href="" class="btn btn-danger">Annuler Achat</a></td>
-                    <td><a href="" class="btn btn-primary">Finaliser Achat</a></td>
-                </tr>
+                {% if request.path == "/gestion/ventes-réalisées/"  %}
+                    <tr>
+                        <th scope="row">Prix initial XAF</th>
+                        <td>{{ transaction.invoice.price_init }} XAF</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th scope="row">Prix TTC XAF</th>
+                        <td>{{ transaction.invoice.price_ttc }} XAF</td>
+                    </tr>
+                {% endif %}
+
+                {% if request.path == "/gestion/achats-en-attentes/" %}
+                    <tr>
+                        <th scope="row">Vendeur</th>
+                        <td><a href="">Profile vendeur</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th scope="row">Client</th>
+                        <td><a href="">Profile client</a></td>
+                    </tr>
+                {% endif %}
+
+                {% if request.path == "/gestion/achats-en-attentes/" %}
+                    <tr>
+                        <td><a href="" class="btn btn-danger">Annuler Achat</a></td>
+                        <td><a href="" class="btn btn-primary">Finaliser Achat</a></td>
+                    </tr>
+                {% endif %}
               </table>
+        </div>
+        {% empty %}
+        <div class="row p-5">
+            {% if request.path == "/gestion/achats-en-attentes/" %}
+                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez aucun achat à finaliser</p>
+            {% elif request.path == "/gestion/ventes-en-attentes/" %}
+                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez aucune vente en attente de finalisation</p>
+            {% elif request.path == "/gestion/achats-effectués/" %}
+            <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez réalisé aucun achat jusqu'à ce jour</p>
+            {% elif request.path == "/gestion/ventes-réalisées/" %}
+                <p class="m-auto p-5 text-center font-weight-bold bg-info">Vous n'avez réalisé aucune vente jusqu'à ce jour</p>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

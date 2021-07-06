@@ -35,6 +35,8 @@ def db_request(request):
                 & Q(is_final=False)).count(),
             'final_transactions_count': Transaction.objects.filter(Q(invoice__customer=request.user)\
                 & Q(is_final=True)).count(),
+            'articles_selled_count': Transaction.objects.filter(Q(invoice__seller_id=request.user.id)\
+                & Q(is_final=True)).count(),
         }
     else:
         return {
