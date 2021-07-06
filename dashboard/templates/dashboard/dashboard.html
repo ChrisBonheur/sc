@@ -30,10 +30,10 @@
                         </a>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{% url 'dashboard:orders' %}envoyees" class="list-group-item d-flex justify-content-between align-items-center w-100">
+                        <a href="{% url 'dashboard:waiting-transactions' %}" class="list-group-item d-flex justify-content-between align-items-center w-100">
                             Achat{{ orders|pluralize }} à finaliser
-                            {% if orders_sended_count >= 1 %} 
-                                <span class="badge bg-primary ">{{ orders_sended_count }}</span>
+                            {% if waiting_transactions_count >= 1 %} 
+                                <span class="badge bg-primary ">{{ waiting_transactions_count }}</span>
                             {% endif %}
                         </a>
                     </li>
@@ -49,9 +49,13 @@
                             {% endif %}
                         </a>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Morbi leo risus
-                        <span class="badge bg-primary badge-pill">1</span>
+                    <li class="list-group-item">
+                        <a href="{% url 'dashboard:orders' %}reçues" class="list-group-item d-flex justify-content-between align-items-center">
+                            Vente{{ orders|pluralize }} en attente{{ orders|pluralize }}
+                            {% if orders_received_count >= 1 %}
+                                <span class="badge bg-primary badge-pill">{{ orders_received_count }}</span>
+                            {% endif %}
+                        </a>
                     </li>
                 </ul>
             </div> 

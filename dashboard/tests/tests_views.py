@@ -132,11 +132,7 @@ class OrderTestCase(TestCase):
 class PayementTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="christ", password="123")
-        self.client.login(username=self.user, password="123")
-        
-    def test_payement_view(self):
-        user = self.user
-        article = Article.objects.create(
+        self.article = Article.objects.create(
             name="Radio ",
             description="Jamais utilisé",
             price_init=5250,
@@ -147,19 +143,32 @@ class PayementTestCase(TestCase):
             user=self.user,
             image_min=File(open(f"{settings.BASE_DIR}/dashboard/static/dashboard/img_tests/pic6.jpg", "rb")),
         )
-        order = Order.objects.create(customer=self.user, article=article)
-        invoice = Invoice.objects.create(
-            article_name=order.article,
-            description=order.article.description,
-            quantity=order.article.number,
-            price_init=order.article.price_init,
-            price_ttc=order.article.price_ttc,
-            seller_id=order.article.user.id,
+        self.order = Order.objects.create(customer=self.user, article=self.article)
+        self.invoice = Invoice.objects.create(
+            article_name=self.order.article,
+            description=self.order.article.description,
+            quantity=self.order.article.number,
+            price_init=self.order.article.price_init,
+            price_ttc=self.order.article.price_ttc,
+            seller_id=self.order.article.user.id,
             customer=self.user,
             airtel_account_number=55824925,
             mtn_account_number=68314433,
         )
+        self.client.login(username=self.user, password="123")
+        
+    def test_payement_view(self):
+        user = self.user
+        invoice = self.invoice
         response = self.client.get(reverse('dashboard:payement'), {"invoice_id": invoice.id})
         self.assertEqual(response.status_code, 200)
         
-    
+class TransactionTestCase(PayementTestCase):
+    def setUp(self):
+        PayementTestCase.setUp(self)
+        
+    def test_access_transaction_waiting_page(self):
+        user = self.user
+        response = self.client.get(reverse("dashboard:waiting-transactions"))
+        self.assertEqual(response.status_code, 200)
+        

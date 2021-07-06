@@ -6,7 +6,7 @@ from django.core.cache import cache
 from django.contrib import messages
 
 from store.models import Article, Category
-from .models import Order, Invoice
+from .models import Order, Invoice, Transaction
 from communication.models import Message
 from .forms import OrderForms, MomoNumber
 from store.forms import ArticleForms
@@ -185,6 +185,19 @@ def orders(request):
         context["orders"] = cache.get(f'orders_receive_{request.user.id}')
         
     return render(request, 'dashboard/order.html', context)
+
+
+@login_required
+def transactions(request):
+    context = {}
+    
+    if request.path ==  "/gestion/transactions/en-attentes/":
+        if not cache.get(f"transactions_waiting_{request.user.id}"):
+            cache.set(f"transactions_waiting_{request.user.id}", Transaction.objects.\
+                filter(Q(invoice__customer=request.user) & Q(is_final=False)), 60 * 15)
+        context["transactions"] = cache.get(f"transactions_waiting_{request.user.id}")
+        
+    return render(request, "dashboard/transactions.html", context)
 
 @login_required
 def payement(request):

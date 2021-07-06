@@ -11,6 +11,8 @@ urlpatterns = [
     re_path(r'^factures/[a-z.ç]*', views.invoices, name="invoices"),
     re_path(r'^commandes/[a-zç]*$', views.orders, name="orders"),
     re_path(r'^payement/', views.payement, name="payement"),
+    re_path(r'^transactions/en-attentes/$', views.transactions, name="waiting-transactions"),
+    re_path(r'^transactions/finalisées/$', views.transactions, name="final-transactions"),
 ]
 
 app_name = 'dashboard'
