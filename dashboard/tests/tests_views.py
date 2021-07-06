@@ -5,7 +5,7 @@ from django.core.files import File
 from django.conf import settings
 
 from store.models import Article, Category, Status, Town
-from dashboard.models import Invoice, Order
+from dashboard.models import Invoice, Order, Transaction
 from store.tests.tests_views import create_article, IMAGE
         
 class InvoiceTestCase(TestCase):
@@ -167,8 +167,34 @@ class TransactionTestCase(PayementTestCase):
     def setUp(self):
         PayementTestCase.setUp(self)
         
-    def test_access_transaction_waiting_page(self):
+    def test_access_waiting_selled_article_page(self):
         user = self.user
-        response = self.client.get(reverse("dashboard:waiting-transactions"))
+        response = self.client.get(reverse("dashboard:waiting-sell"))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_access_article_bought_page(self):
+        user = self.user
+        response = self.client.get(reverse("dashboard:articles-bought"))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_access_waiting_articles_to_buy_page(self):
+        user = self.user
+        response = self.client.get(reverse("dashboard:waiting-buy"))
         self.assertEqual(response.status_code, 200)
         
+    def test_access_selled_articles_page(self):
+        user = self.user
+        response = self.client.get(reverse("dashboard:articles-selled"))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_cancel_transaction(self):
+        transaction = Transaction.objects.create(
+            invoice=self.invoice,
+            details="details de la transaction",
+        )
+        transaction_count_before = Transaction.objects.count()
+        self.client.get(reverse('dashboard:cancel-transaction'), 
+                        {"transaction_id": transaction.id})
+        
+        transaction_count_after = Transaction.objects.count()
+        self.assertEqual(transaction_count_before - 1, transaction_count_after)

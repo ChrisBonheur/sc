@@ -191,6 +191,12 @@ def orders(request):
 def transactions(request):
     context = {}
     
+    if request.GET.get("transaction_id") and request.path == "/gestion/annuler-achat/":
+        transaction_id = request.GET.get("transaction_id")
+        transaction = get_object_or_404(Transaction, pk=transaction_id)
+       
+        transaction.delete()
+    
     if request.path ==  "/gestion/achats-en-attentes/":
         if not cache.get(f"transactions_waiting_{request.user.id}"):
             cache.set(f"transactions_waiting_{request.user.id}", Transaction.objects.\

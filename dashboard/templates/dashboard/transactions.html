@@ -70,8 +70,18 @@
 
                 {% if request.path == "/gestion/achats-en-attentes/" %}
                     <tr>
-                        <td><a href="" class="btn btn-danger">Annuler Achat</a></td>
-                        <td><a href="" class="btn btn-primary">Finaliser Achat</a></td>
+                        <td><a href="{% url 'dashboard:cancel-transaction' %}?transaction_id={{ transaction.id }}" class="btn btn-danger dialog_confirm_before">
+                            Annuler Achat
+                            <span class="d-none">Vous annulez l'achat de l'article {{ transaction.invoice.article_name }}</span>
+                            </a></td>
+                        <td><a href="" class="btn btn-primary dialog_confirm_before">
+                            Finaliser Achat 
+                            <span class="d-none">
+                                En finalisant l'achat vous reconnaisez avoir en votre possession l'article concerné, 
+                                l'argent sera définitivement transféré sur le compte électronique mobile du vendeur! <br>
+                                A ce stade, aucun remboursement ne sera possible sur la plateforme spectrecorp
+                            </span>
+                        </a></td>
                     </tr>
                 {% endif %}
               </table>
