@@ -51,7 +51,7 @@ const diaporama = ()=>{
     let elt = $('.jumbotron')[i];
     $('.jumbotron').fadeOut(0);
     $(elt).css({
-    "background": ` gray url(${$('.jumbotron img')[i].getAttribute("src")}) no-repeat center center`,
+    "background": ` gray url(${$('.jumbotron img')[i].getAttribute("src")}) no-repeat right center`,
     "background-size": "contain",
     }).fadeIn(2000);
 
