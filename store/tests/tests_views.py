@@ -262,7 +262,7 @@ class UpdateArticleTestCase(TestCase):
         data_article["status"] = article.status.id
         data_article["category"] = article.category.id
         self.client.post(reverse('store:update', args=(article.id,)), data_article)
-        response = self.client.get(reverse('dashboard:my_articles'))
+        response = self.client.get(reverse('store:my_articles'))
         self.assertContains(response, article_update_success(data_article["name"]))
         
     def test_deactivate_article(self):
