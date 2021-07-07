@@ -10826,6 +10826,12 @@ header .alerts {
   cursor: pointer;
 }
 
+#mobile-menu {
+  position: absolute;
+  top: 0%;
+  z-index: 2;
+}
+
 /*=========================================================================================*/
 header {
   position: fixed;

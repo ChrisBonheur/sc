@@ -13,6 +13,16 @@ const main = () => {
         console.error(`Can't find ${globalUtilsLink}`);
     });
 
+    //action with mrnu mobile showing
+    $(".menu-icon img").on('click', () => {
+        $("#central-page").addClass("d-none");
+        $("#mobile-menu").removeClass('d-none');
+    });
+    $(".cancel-menu-btn").on('click', () => {
+        $("#central-page").removeClass("d-none");
+        $("#mobile-menu").addClass('d-none');
+    })
+
     //==============================================
     //script for app store
     const linkAppStore = '/static/store/js/main.js';

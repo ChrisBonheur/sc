@@ -61,7 +61,7 @@
         
         <div class="col-2 p-0 d-md-none">
           <div class="menu-icon d-flex justify-content-end">
-            <img class="h-100" src="{% static 'images/icons/menu-up.png' %}" alt="menu">
+            <img class="h-100 pointer" src="{% static 'images/icons/menu-up.png' %}" alt="menu">
           </div>
         </div>      
   
@@ -133,10 +133,16 @@
     <!--=============================END_HEADER-->
 
     <!--=============================BEGIN CONTENT PAGE BODY=================================-->
-    {% block content %} {% endblock %}
-     <!--=============================END CONTENT PAGE BODY=================================-->
-    {% include 'confirmation_dialog.html' %}
+    <div id="central-page" class="">
+      {% block content %} {% endblock %}
+      <!--=============================END CONTENT PAGE BODY=================================-->
+      {% include 'confirmation_dialog.html' %}
     </div>
+
+    <div id="mobile-menu" class="row bg-light h-100 m-0 p-0 w-100 d-none">
+      {% include 'mobile-nav.html' %}
+    </div>
+  </div>
   <script type="text/javascript" src="{% static 'js/jquery-3.5.1.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </body>
