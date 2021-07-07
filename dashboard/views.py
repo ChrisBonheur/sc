@@ -142,8 +142,6 @@ def orders(request):
         article = get_object_or_404(Article, pk=article_id)
         Order.objects.create(customer=request.user, article=article)
         article.number -= 1
-        if article.number <= 0:
-            article.available = False
 
         article.save()
         cache.clear()
