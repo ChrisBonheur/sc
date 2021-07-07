@@ -19,6 +19,6 @@ class ArticleForms(forms.ModelForm):
             'status': forms.Select(attrs=ATTRS_DATA),
             'image_min': forms.FileInput(attrs=ATTRS_DATA),
             'category': forms.Select(attrs=ATTRS_DATA),
-            'delivery': forms.CheckboxInput(attrs=ATTRS_DATA),
+            'delivery': forms.CheckboxInput(attrs={"class": "w-50 h-50"}),
         }
 
