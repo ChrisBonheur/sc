@@ -141,7 +141,6 @@ def orders(request):
         article_id = request.GET.get('article_id')
         article = get_object_or_404(Article, pk=article_id)
         Order.objects.create(customer=request.user, article=article)
-        article.number -= 1
 
         article.save()
         cache.clear()
@@ -152,16 +151,18 @@ def orders(request):
         order = get_object_or_404(Order, pk=order_id)
         
         if request.GET.get('valider-la-commande'):
-            
             context = {
                 "order": order,
                 "form": MomoNumber(),
             }
             return render(request, 'dashboard/form-number-account.html', context)
+        
         order.delete()
         #clear cache
         cache.clear()
-        
+        if request.GET.get('annuler-la-commande'):
+            return redirect("/gestion/commandes/envoyees")
+
         return redirect(f"{path_base}reçues")
     
     cache_time = (30*60)#set cache time            
