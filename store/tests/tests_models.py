@@ -23,12 +23,4 @@ class SignalsTestCase(TestCase):
         find_file = system(f'find {article.image_min.path} 2> /dev/null')
         self.assertNotEqual(find_file, 0, msg="File not remove")
     
-    def test_article_unavailable(self):
-        """Test article become unvailable while article.number < 1"""
-        article = self.article
-        article.number = article.number - article.number#to get 0 article
-        article.save()
-        #assert article.available = False
-        error_msg = "Article number equal to zero but still available"
-        self.assertFalse(article.available, msg=error_msg)
         
