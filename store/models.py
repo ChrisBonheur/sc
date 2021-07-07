@@ -74,8 +74,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         self.price_ttc = add_percentage(self.price_init)
         self.date_edit = timezone.now()
-        if self.number == 0:
-            self.available = False
+        
         super().save(*args, **kwargs)
         edit_image_before_save(self.image_min.path, 255)
         
