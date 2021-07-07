@@ -51,9 +51,14 @@
             {% if request.user != article.user %}
             <li class="list-group-item d-flex flex-column">
               <button type="button" class="btn btn-outline-secondary text-primary">Envoyer un message</button>
-              <a href="{% url 'dashboard:orders' %}?article_id={{ article.id }}" type="button" class="btn btn-primary mt-2 mb-2 dialog_confirm_before">
-                Passer la commande <span class="d-none">Envoie d'une commande pour l'article {{ article }}</span>
-              </a>
+              {# if article number is equal to 0, we can not pass an order #}
+              {% if article.number > 0 %}
+                <a href="{% url 'dashboard:orders' %}?article_id={{ article.id }}" type="button" class="btn btn-primary mt-2 mb-2 dialog_confirm_before">
+                  Passer la commande <span class="d-none">Envoie d'une commande pour l'article {{ article }}</span>
+                </a>
+              {% else %}
+                <button class="btn btn-outline-dark" disabled>Cet article est déjà en cours de commande</button>
+              {% endif %}
               <a href="{% url 'store:favourite' %}?article_id={{ article.id }}" type="button" class="btn btn-outline-secondary text-primary">Ajouter aux favoris</a>
             </li>
             {% endif %}
