@@ -55,6 +55,4 @@ def post_save_order(sender, instance, **kwargs):
     #decremente article number after ordering
     article = instance.article
     article.number -= 1
-    if article.number == 0:
-        article.available = False
     article.save()
