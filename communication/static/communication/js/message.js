@@ -9,13 +9,15 @@ $(function(){
             $('.msg-zone .btn2').show();
         }
     });
+    //we dissmiss screen height with height header and 20 to get stable page
+    let screen_height = $(window).height() - $('header').height() - 20;
+    console.log(screen_height)
+    console.log($('header').height())
+    $('.new-msg-page').height(screen_height);
+    let heightMessages = (70 * screen_height) / 100; //we get 80% of window to place blank zone 
+    $('.bloc-messages').height(heightMessages);
 
-    let screen_height = $(window).height() - 105;//we dissmiss screen height with padding given in css
-    $('.new-msg').height(screen_height);
-    let heightBlankZone = (65 * screen_height) / 100; //we get 80% of window to place blank zone 
-    $('.new-msg .blank-zone').height(heightBlankZone);
-
-    let element = document.getElementById('content-msg');
-
+    let element = document.getElementsByClassName('bloc-messages')[0];
+    console.log(element)
     element.scrollTop = element.scrollHeight;
 });

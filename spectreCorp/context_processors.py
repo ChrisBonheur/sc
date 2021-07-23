@@ -2,15 +2,18 @@ from django.db.models import Q
 from django.core.cache import cache
 
 from dashboard.models import Order, Invoice, Transaction
-# from communication.models import Message, MessageText
+from communication.models import ChatMessage, NotifMessage
 from store.models import Article, Category
 
 def db_request(request):
     categories = Category.objects.all()
     if request.user.is_authenticated:
         
-        # message_count = MessageText.objects.filter(recipient=request.user, \
-        #         seen=False).count()
+        user = request.user
+        #get all message while current user is in talk and isn't the owner of message
+        message_count = ChatMessage.objects.filter((Q(talk__user_one=user.id) | 
+                Q(talk__user_two=user.id)) & Q(delivred=False)).exclude(user=user).count()
+        
         # notif_count = Message.objects.filter(Q(readed=False) & Q(type_msg="notif")\
         #          & Q(recipient_id=request.user.id)).count()
         
@@ -25,7 +28,7 @@ def db_request(request):
                 # count(),
             # 'notif_count': notif_count,
             'categories': categories,
-            # 'total_message_count': message_count,
+            'message_count': message_count,
             # 'list_msg': range(message_count),
             # 'list_notif': range(notif_count),
             'orders_received_count': Order.objects.filter(article__user=request.user).count(),

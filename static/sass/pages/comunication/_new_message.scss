@@ -1,0 +1,26 @@
+.bloc-messages{
+    max-width: 800px;
+    height: max-content;
+    & .message{
+        max-width: 34em;
+        width: max-content; 
+    }
+}
+
+.msg-zone{
+    max-width: 800px;
+    & button{
+        height: 38px;
+        width: 100px;
+    }
+    & .btn1{
+        background: white url('../node_modules/bootstrap-icons/icons/cursor.svg') no-repeat center;
+        background-size: 30%;
+    }
+    & .btn2{
+        background: white url('../node_modules/bootstrap-icons/icons/cursor-fill.svg') no-repeat center;
+        background-size: 30%;
+        display: none;
+    }
+}
+

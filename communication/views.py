@@ -33,64 +33,11 @@ def chat_message(request, article_id):
             message = message.replace(regex_number_phone.group(1), '" "')
 
         new_chat = ChatMessage.objects.create(user=request.user, content=message, talk=talk)
-            
-    if request.GET.get('talk_id'):
-        talk = get_object_or_404(Talk, pk=request.GET.get('talk_id'))
-        
-        if talk.user1_id == request.user.id:
-            user2_id = talk.user2_id
-        else:
-            user2_id = talk.user1_id
-            
-    elif request.GET.get('article_id'):
-        article = get_object_or_404(Article, pk=request.GET.get('article_id'))
-        user2_id = article.user.id 
-        try:
-            #select query
-            #verification if curent user and seller user are often a talk
-            q1 = (Q(user1_id=request.user.id) | Q(user2_id=request.user.id))
-            q2 = (Q(user1_id=article.user.id) | Q(user2_id=article.user.id))
-            talk = Talk.objects.get(Q(q1) & Q(q2))
-        except:
-            #if they are not a talk, creating of a talk
-            talk = Talk.objects.create(user1_id=request.user.id, user2_id=article.user.id)
-    # else:
-    #     redirect('communication:box_msg')
-    
-    if request.POST.get('pour_plus_tard'):
-        message = request.POST.get('message')
-        #set of regex to filtre message and remove any form number
-        regex ='^.*(([0-9] ?){9,}).*'
-        regex = re.match(regex, message)
-        try:
-            regex.group(1)
-        except:
-            pass
-        else:
-            message = message.replace(regex.group(1), '" "')
-        
-        #creating for new message
-        try:
-            new_message = MessageText.objects.create(
-                content=message,
-                recipient_id=user2_id,
-                sender_id=request.user.id,
-                talk=talk
-            )
-            messages.add_message(request, messages.SUCCESS, 'Message envoyé !')
-            talk.last_message_date = timezone.now()
-            talk.save()
-            
-        except Exception as e:
-            print(e)
-        else:
-            print('message create')
-    
 
-    #make readed all message receive by current user
-    # for message in MessageText.objects.filter(recipient=request.user, seen=False):
-    #     message.seen = True
-    #     message.save()
+    #make delivred to True for all messages receive by current user
+    for message in ChatMessage.objects.filter(talk=talk).exclude(user=request.user):
+        message.delivred = True
+        message.save()
     
     context = {
         'message_list': ChatMessage.objects.filter(talk=talk),

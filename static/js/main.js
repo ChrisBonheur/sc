@@ -61,6 +61,18 @@ const main = () => {
     .fail((jqxhr, settings, exception) => {
         console.error(`Can't found ${linkAppUser}`);
     })
+
+
+    //================================================
+    //script for communication app
+    const linkAppCommunication = '/static/communication/js/message.js';
+    $.getScript(linkAppCommunication)
+    .done((script, textStatus) => {
+        console.log(`${linkAppCommunication} succesfull loaded`);
+    })
+    .fail((jqxhr, settings, exception) => {
+        console.error(`Can't found ${linkAppCommunication}`);
+    })
 }
 
 $(() => {
