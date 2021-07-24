@@ -42,6 +42,11 @@ class NotifMessageTestCase(TestCase):
         self.user = User.objects.create_user(username="bnhr",
                                              password="123")
         self.client.login(username="bnhr", password="123")
+        self.notif = NotifMessage.objects.create(
+            user=self.user,
+            content="hello world",
+            link=reverse('store:favourite'),
+        )
         
     def test_access_notif_page(self):
         user = self.user
@@ -50,14 +55,15 @@ class NotifMessageTestCase(TestCase):
     
     def test_notif_link_redirection(self):
         """test to get one notification link redirection"""
-        notif = NotifMessage.objects.create(
-            user=self.user,
-            content="hello world",
-            link=reverse('store:favourite'),
-        )
+        notif = self.notif
         response  = self.client.get(reverse('communication:notifications'), 
                                     {"notif_id": notif.id})
         self.assertRedirects(response, notif.link)
         #test notif become delivred notif
         notif = NotifMessage.objects.get(pk=notif.id)
         self.assertTrue(notif.delivred)
+        
+    def test_notifs_showing_in_template(self):
+        notif = self.notif
+        response = self.client.get(reverse('communication:notifications'))
+        self.assertContains(response, notif.content)
