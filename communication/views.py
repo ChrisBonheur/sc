@@ -7,7 +7,7 @@ from django.contrib import messages
 import re
 
 from store.models import Article
-from .models import Message, Talk, ChatMessage
+from .models import Talk, ChatMessage, NotifMessage
 
 
 @login_required
@@ -59,8 +59,16 @@ def box_msg(request):
 
 @login_required
 def notifications(request):
+    
+    if request.GET.get('notif_id'):
+        notif_id = request.GET.get('notif_id')
+        notif = get_object_or_404(NotifMessage, pk=notif_id)
+        notif.delivred = True
+        notif.save()
+        return redirect(notif.link)
+        
     context = {
-        'notifs': Message.objects.filter(Q(type_msg='notif') & Q(recipient_id=request.user.id))
+        'notifs': NotifMessage.objects.filter(user=request.user).order_by('date_create')
     }
     return render(request, 'communication/notifications.html', context)
 

@@ -15,14 +15,14 @@
                         <div class="col-12 col-md-offset-2 col-md-8 content-notif1">
                             <a href="{% url 'communication:notif_redirect' %}?notif_id={{ notif.id }}">
                                 <p> {{ notif.content }} </p>
-                                <p class="text-right day" style="font-size: 0.6em;">Il y a {{ notif.date_send|calcul_date }}</p>
+                                <p class="text-right day" style="font-size: 0.6em;">Il y a </p>
                             </a>
                         </div>
                     {% else %}
                         <div class="col-12 col-md-offset-2 col-md-8 content-notif2">
                             <a href="{% url 'communication:notif_redirect' %}?notif_id={{ notif.id }}">
                                 <p> {{ notif.content }} </p>
-                                <p class="text-right day" style="font-size: 0.6em;">Il y a {{ notif.date_send|calcul_date }}</p>
+                                <p class="text-right day" style="font-size: 0.6em;">Il y a </p>
                             </a>
                         </div>
                     {% endif %}

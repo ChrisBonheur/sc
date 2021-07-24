@@ -36,3 +36,28 @@ class NewMsgTestCase(TestCase):
         response = self.client.post(reverse('communication:chat_message', args=(article.id,)), 
                                     {"message": msg})
         self.assertNotContains(response, phone_number)
+
+class NotifMessageTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="bnhr",
+                                             password="123")
+        self.client.login(username="bnhr", password="123")
+        
+    def test_access_notif_page(self):
+        user = self.user
+        response = self.client.get(reverse('communication:notifications'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_notif_link_redirection(self):
+        """test to get one notification link redirection"""
+        notif = NotifMessage.objects.create(
+            user=self.user,
+            content="hello world",
+            link=reverse('store:favourite'),
+        )
+        response  = self.client.get(reverse('communication:notifications'), 
+                                    {"notif_id": notif.id})
+        self.assertRedirects(response, notif.link)
+        #test notif become delivred notif
+        notif = NotifMessage.objects.get(pk=notif.id)
+        self.assertTrue(notif.delivred)
