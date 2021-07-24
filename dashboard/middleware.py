@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.db.models import F
 
 from .models import Order
-from communication.models import Message
+from communication.models import NotifMessage
 
 def clear_orders_cache(order):
         cache.delete(f'orders_receive_{order.article.user.id}')
@@ -31,12 +31,12 @@ def upload_article_middleware(get_response):
             elif request.GET.get('valider-la-commande'):
                 messages.success(request, 'Commande validée avec succès')
                 #signal to customer
-                msg = f"Votre commande pour l'article {order.article} a été validée !\n\
-                    Veuillez règler votre facture !! en cliquant ici"
-                customer = order.customer
-                Message.objects.create(
+                msg = f"Salut {order.customer}, Votre commande pour l'article \"{order.article}\" a \
+                bien été validé par le vendeur vous pouvez règler ou  consulter votre facture en \
+                    cliquant sur ce message."
+                NotifMessage.objects.create(
                     content=msg,
-                    recipient_id=customer.id,
+                    user=order.customer,
                     link=reverse('dashboard:invoices')
                 )
                 #clear oders_send cache set in orders views

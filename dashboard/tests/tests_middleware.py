@@ -5,6 +5,7 @@ from django.shortcuts import reverse
 from store.tests.tests_views import create_article
 from store.models import Article
 from dashboard.models import Order
+from communication.models import NotifMessage
 
 class MiddlewareTestCase(TestCase):
     def setUp(self):
@@ -38,3 +39,12 @@ class MiddlewareTestCase(TestCase):
         #assert(order.article.available, False)
         err_msg = "Article has been decline but available attribut not upload to False"
         self.assertEqual(article.available, False, msg=err_msg)
+    
+    def test_notif_send_to_customer(self):
+        """notif is sent to customer if ordering is validated by seller"""
+        order = self.order
+        notifs_count_before = NotifMessage.objects.count()
+        self.client.get(f"{reverse('dashboard:orders')}", {"order_id": order.id, 
+                                        "valider-la-commande": order.article})
+        notifs_count_after = NotifMessage.objects.count()
+        self.assertEqual(notifs_count_after, notifs_count_before + 1)
