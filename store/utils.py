@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.shortcuts import reverse
 from PIL import Image
 import logging as lg
 
@@ -53,7 +54,7 @@ def send_welcome_message_to_new_user(user, NotifMessage, User):
             NotifMessage.objects.create(
                 content=content,
                 user=user,
-                link='user:profil'
+                link=reverse('user:profil')
             )
         return True
 
