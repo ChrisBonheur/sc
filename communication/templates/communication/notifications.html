@@ -1,32 +1,24 @@
-{% extends 'communication/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-{% load store_extras %}
-    <div class="container notifs b_h" style="padding-top: 100px;">
+{% load humanize %}
+    <div class="body-page-content container">
         <div class="row">
-            <div class="col-md-offset-2 col-md-8">
-                <h1>NOTIFICATIONS</h1>
-            </div>
+            <h1 class="offset-md-1 col-md-10"> NOTIFICATIONS</h1>
         </div>
 
         <div class="container">
             <div class="row">
-                {% for notif in notifs %}
-                    {% if notif.readed == False %}
-                        <div class="col-12 col-md-offset-2 col-md-8 content-notif1">
-                            <a href="{% url 'communication:notif_redirect' %}?notif_id={{ notif.id }}">
-                                <p> {{ notif.content }} </p>
-                                <p class="text-right day" style="font-size: 0.6em;">Il y a </p>
-                            </a>
+                <div class="list-group offset-md-1 col-md-10">
+                    {% for notif in notifs %}
+                        <a href="{% url 'communication:notifications' %}?notif_id={{ notif.id }}" class="list-group-item list-group-item-action 
+                        {% if not notif.delivred %} active {% endif %}">
+                        <div class="d-flex w-100 justify-content-end">
+                            <small class="font-esm">{{ notif.date_create|naturaltime }}</small>
                         </div>
-                    {% else %}
-                        <div class="col-12 col-md-offset-2 col-md-8 content-notif2">
-                            <a href="{% url 'communication:notif_redirect' %}?notif_id={{ notif.id }}">
-                                <p> {{ notif.content }} </p>
-                                <p class="text-right day" style="font-size: 0.6em;">Il y a </p>
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                        <p class="mb-1">{{ notif.content }}</p>                     
+                        </a>              
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
