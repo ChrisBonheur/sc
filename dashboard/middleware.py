@@ -28,6 +28,15 @@ def upload_article_middleware(get_response):
                 article.save()
                 #clear orders_recv cache set in orders views
                 clear_orders_cache(order)
+                msg = f"Votre commande pour l'article \"{article}\" a été décliner par le vendeur\
+                    , il est possible que l'article a déjà été vendu hors plateforme, nous \
+                    avons désactivé ce dernier. Continuez à scroller notre page d'acceuille et \
+                    trouvez d'autres articles diponibles "
+                NotifMessage.objects.create(
+                    content=msg,
+                    user=order.customer,
+                    link=reverse('store:home')
+                )
             elif request.GET.get('valider-la-commande'):
                 messages.success(request, 'Commande validée avec succès')
                 #signal to customer

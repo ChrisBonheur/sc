@@ -48,3 +48,12 @@ class MiddlewareTestCase(TestCase):
                                         "valider-la-commande": order.article})
         notifs_count_after = NotifMessage.objects.count()
         self.assertEqual(notifs_count_after, notifs_count_before + 1)
+    
+    def test_notif_send_to_customer(self):
+        """notif is sent to customer if ordering is decline by seller"""
+        order = self.order
+        notifs_count_before = NotifMessage.objects.count()
+        self.client.get(f"{reverse('dashboard:orders')}", {"order_id": order.id, 
+                                        "decliner-la-commande": order.article})
+        notifs_count_after = NotifMessage.objects.count()
+        self.assertEqual(notifs_count_after, notifs_count_before + 1)
