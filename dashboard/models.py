@@ -65,5 +65,5 @@ def post_save_order(sender, instance, **kwargs):
     NotifMessage.objects.create(
         user=article.user,
         content=msg,
-        link=f"{reverse('dashboard:orders')}envoyees",
+        link=f"{reverse('dashboard:orders')}reçues",
     )
