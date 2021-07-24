@@ -4,8 +4,10 @@ from django.db.models import F
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.core.cache import cache
+from django.shortcuts import reverse
 
 from store.models import Article
+from communication.models import NotifMessage
 
 class Order(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
@@ -56,3 +58,12 @@ def post_save_order(sender, instance, **kwargs):
     article = instance.article
     article.number -= 1
     article.save()
+    
+    #send notif to seller's article
+    msg = f"Salut {article.user}, vous avez une commande de l'article \"{article}\" que vous avez posté !\
+        \n Veuillez valider ou décliner la commande de votre client en cliquant sur ce message"
+    NotifMessage.objects.create(
+        user=article.user,
+        content=msg,
+        link=f"{reverse('dashboard:orders')}envoyees",
+    )
