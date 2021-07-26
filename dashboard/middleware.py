@@ -22,6 +22,13 @@ def upload_article_middleware(get_response):
                 article.number = F('number') + 1
                 article.available = True
                 article.save()
+                #get notif alert sent to seller when ordering was passed or created and delete it
+                try:
+                    notif = NotifMessage.objects.get(user=article.user, \
+                        content__icontains=f"identifiant: {article.id}")
+                    notif.delete()
+                except Exception:
+                    pass
             elif request.GET.get('decliner-la-commande'):
                 article = order.article
                 article.available = False
@@ -29,7 +36,7 @@ def upload_article_middleware(get_response):
                 #clear orders_recv cache set in orders views
                 clear_orders_cache(order)
                 msg = f"Votre commande pour l'article \"{article}\" a été décliner par le vendeur\
-                    , il est possible que l'article a déjà été vendu hors plateforme, nous \
+                    , il est possible que l'article ai été vendu hors plateforme, nous \
                     avons désactivé ce dernier. Continuez à scroller notre page d'acceuille et \
                     trouvez d'autres articles diponibles "
                 NotifMessage.objects.create(
