@@ -27,8 +27,8 @@ class Invoice(models.Model):
     seller_id = models.PositiveIntegerField()
     customer = models.ForeignKey(User, on_delete=models.CASCADE, 
                                  related_name="invoices")
-    airtel_account_number = models.PositiveIntegerField(blank=True, null=True)
-    mtn_account_number = models.PositiveIntegerField(blank=True, null=True)
+    airtel_account_number = models.CharField(max_length=20, blank=True, null=True)
+    mtn_account_number = models.CharField(max_length=20, blank=True, null=True)
     
     def seller(self):
         return User.objects.get(pk=self.seller_id)
