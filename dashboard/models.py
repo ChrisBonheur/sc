@@ -60,8 +60,9 @@ def post_save_order(sender, instance, **kwargs):
     article.save()
     
     #send notif to seller's article
-    msg = f"Salut {article.user}, vous avez une commande de l'article \"{article}\" que vous avez posté !\
-        \n Veuillez valider ou décliner la commande de votre client en cliquant sur ce message"
+    msg = f"Salut {article.user}, vous avez une commande de l'article \"{article} \
+        identifiant: {article.id}\" que vous avez posté ! Veuillez valider ou\
+             décliner la commande de votre client en cliquant sur ce message"
     NotifMessage.objects.create(
         user=article.user,
         content=msg,
