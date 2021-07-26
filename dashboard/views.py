@@ -140,7 +140,12 @@ def orders(request):
     if request.GET.get('article_id'):
         article_id = request.GET.get('article_id')
         article = get_object_or_404(Article, pk=article_id)
-        Order.objects.create(customer=request.user, article=article)
+        if article.number > 0:
+            Order.objects.create(customer=request.user, article=article)
+        else:
+            messages.info(request, "Désolé l'article {article} a déjà été \
+                commandé !")
+            return redirect('store:detail', article.id) 
 
         article.save()
         cache.clear()

@@ -128,6 +128,16 @@ class OrderTestCase(TestCase):
         response = self.client.get(f"{reverse('dashboard:orders')}supprimer", {"order_id": order.id})
         order_count_after = Order.objects.count()
         self.assertEqual(order_count_before - 1, order_count_after)
+    
+    def test_order_cannot_create(self):
+        """Order can't be created if article.numbers is equal to 0"""
+        article = self.article
+        article.number = 0
+        article.save()
+        order_count_before = Order.objects.count()
+        self.client.get(reverse('dashboard:orders'), {"article_id": article.id})
+        order_count_after = Order.objects.count() 
+        self.assertEqual(order_count_before, order_count_after)
 
 class PayementTestCase(TestCase):
     def setUp(self):
