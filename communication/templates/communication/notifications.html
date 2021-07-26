@@ -11,7 +11,7 @@
                 <div class="list-group offset-md-1 col-md-10">
                     {% for notif in notifs %}
                         <a href="{% url 'communication:notifications' %}?notif_id={{ notif.id }}" class="list-group-item list-group-item-action 
-                        {% if not notif.delivred %} active {% endif %}">
+                        {% if not notif.delivred %} active {% else %} border-dark {% endif %} mt-1">
                         <div class="d-flex w-100 justify-content-end">
                             <small class="font-esm">{{ notif.date_create|naturaltime }}</small>
                         </div>
