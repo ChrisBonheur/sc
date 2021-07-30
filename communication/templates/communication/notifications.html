@@ -8,7 +8,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="list-group offset-md-1 col-md-10">
+                <div class="list-group offset-md-1 col-md-10 mb-4">
                     {% for notif in notifs %}
                         <a href="{% url 'communication:notifications' %}?notif_id={{ notif.id }}" class="list-group-item list-group-item-action 
                         {% if not notif.delivred %} active {% else %} border-dark {% endif %} mt-1">
