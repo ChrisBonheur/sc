@@ -14,8 +14,7 @@ def db_request(request):
         message_count = ChatMessage.objects.filter((Q(talk__user_one=user.id) | 
                 Q(talk__user_two=user.id)) & Q(delivred=False)).exclude(user=user).count()
         
-        # notif_count = Message.objects.filter(Q(readed=False) & Q(type_msg="notif")\
-        #          & Q(recipient_id=request.user.id)).count()
+        notif_count = NotifMessage.objects.filter(user=user, delivred=False).count()
         
         if cache.get(f"invoices_{request.user.id}"):
             invoices = cache.get(f"invoices_{request.user.id}")
@@ -26,7 +25,7 @@ def db_request(request):
             'user_order_number': Order.objects.filter(article__user=request.user).count(),
             # 'user_invoice_number': Invoice.objects.filter(customer=request.user).\
                 # count(),
-            # 'notif_count': notif_count,
+            'notif_count': notif_count,
             'categories': categories,
             'message_count': message_count,
             # 'list_msg': range(message_count),

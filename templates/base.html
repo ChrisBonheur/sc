@@ -22,7 +22,7 @@
         <div class="col-8 col-md-4 order-md-3 d-flex justify-content-end">
           {% if request.user.is_authenticated %}
             <div class="d-flex justify-content-end account-info m-0 mt-0 mb-0">
-              <div class="account-info__access">
+              <div class="account-info__access p-1 pt-0 pb-0">
                 <a href="">
                   <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
                   <span class="account-info__access__badge">
@@ -31,9 +31,13 @@
                 </a>
               </div>
             
-              <div class="account-info__access">
-                <img class="" src="{% static 'images/icons/notif.png' %}" alt="notif">
-                <span class="account-info__access__badge">12</span>
+              <div class="account-info__access p-1 pt-0 pb-0">
+                <a href="{% url 'communication:notifications' %}">
+                  <img class="" src="{% static 'images/icons/notif.png' %}" alt="notif">
+                  <span class="account-info__access__badge">
+                    {% if notif_count > 0 %} {{ notif_count }} {% endif %}
+                  </span>
+                </a>
               </div>
             
               <div class="account-info__access avatar">
@@ -120,6 +124,10 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'store:favourite' %}">Favoris</a>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="nav-link" href="{% url 'communication:notifications' %}">Notifications 
+              {% if notif_count > 0 %}<span class="badge bg-primary">{{ notif_count }}</span></a>{% endif %}
           </li>
           {% endif %}
         </ul>
