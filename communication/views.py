@@ -33,6 +33,9 @@ def chat_message(request, article_id):
             message = message.replace(regex_number_phone.group(1), '" "')
 
         new_chat = ChatMessage.objects.create(user=request.user, content=message, talk=talk)
+        #edit date for talk
+        talk.date_last_message_added = new_chat.date_create
+        talk.save()
 
     #make delivred to True for all messages receive by current user
     for message in ChatMessage.objects.filter(talk=talk).exclude(user=request.user):
@@ -53,7 +56,8 @@ def box_msg(request):
         pass
     
     context = {
-        'talks': Talk.objects.filter(Q(user_one=request.user.id) | Q(user_two=request.user.id)),
+        'talks': Talk.objects.filter(Q(user_one=request.user.id) | 
+                    Q(user_two=request.user.id)).order_by('-date_last_message_added'),
     }
     return render(request, 'communication/box_message.html', context)
 
