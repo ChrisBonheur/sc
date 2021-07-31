@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.shortcuts import reverse
 from PIL import Image
 import logging as lg
+import numpy as np
 
 def add_percentage(price_init):
     PERCENTAGE_15 = 15
@@ -87,7 +88,6 @@ def get_or_create_cache(cache_name, model, Q_object=None):
     
     return cache.get(cache_name, "not exist")
 
-
 def resize_proportion_image(image_path, image_size=(263, 350)):
     """Redefine proportion of an image by percentage with base
     percentage 75/100 
@@ -120,4 +120,36 @@ def resize_proportion_image(image_path, image_size=(263, 350)):
         px_remove_from_initial_height = initial_height_px - new_height_px
         image.crop((0, px_remove_from_initial_height / 2, initial_width_px, new_height_px))\
             .resize(image_size).save(image_path)
+
+def get_dominate_color(image_path):
+    """return a rgb tuple color that dominate in image
+    @image_path (file): the complete path of image"""
+    try:
+        image_open = Image.open(image_path, "r")
+        image_np = np.array([image_open.getdata()])
+    except FileNotFoundError as e:
+        print(f"Can't find the file {image_path} => {e}")
         
+    def get_max_color_percentage_repetition(color):
+        """Return the maximum of number repetition between 0-255
+        in a column of color given
+        @color (str): one of 3 colors (red as R, green as G and blue as B)"""
+        colors = {"R": 0, "G": 1, "B": 2}
+        if color not in colors.keys():
+            raise ValueError("color must be 'R' or 'G' or 'B'")
+        
+        color_working_column = image_np[:,:,colors[color]]
+        color_repetition_table = np.unique(color_working_column, return_counts=True)
+        #get position of maximum red repetion
+        pos_max_color_percentage_repetition = color_repetition_table[1].argmax()
+        max_color_percentage_repetition = color_repetition_table[0][pos_max_color_percentage_repetition]
+        return max_color_percentage_repetition
+    
+    #get max color red repetition
+    max_red_percentage_repetion = get_max_color_percentage_repetition("R")
+    #get max color green repetition
+    max_green_percentage_repetion = get_max_color_percentage_repetition("G")
+    #get max color blue repetition
+    max_blue_percentage_repetion = get_max_color_percentage_repetition("B")
+    
+    return (max_red_percentage_repetion, max_green_percentage_repetion, max_blue_percentage_repetion)

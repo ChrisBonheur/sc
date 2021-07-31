@@ -132,6 +132,7 @@ def create_article(request):
         if form.is_valid():
             article = form.save(commit=False)
             article.user = request.user
+            article.back_color = get_dominate_color(article.image_min)
             try:
                 article.save()
                 messages.add_message(request, messages.SUCCESS, article_save_success(article))

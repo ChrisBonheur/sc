@@ -3,7 +3,7 @@
     {% for article in articles %}
     <div class="article p-1 col">
       <div class="card p-0">
-        <a href="{% url 'store:detail' article_id=article.id %}">
+      <a href="{% url 'store:detail' article_id=article.id %}" style="background: rgb{{ article.back_color }}">
           <div class="background-img w-100" style="background: url({{ article.image_min.url }}) no-repeat center center;
           background-size: contain">
           </div>
