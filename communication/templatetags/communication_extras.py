@@ -9,7 +9,7 @@ register = template.Library()
 def message_talk_count(current_user, talk):
     """return count message of a current user in a talk"""
     return ChatMessage.objects.filter(talk=talk, delivred=False)\
-        .exclude(talk__chats__user=current_user).count()
+        .exclude(user=current_user).count()
 
 @register.filter
 def other_user(curent_user, talk):
