@@ -23,7 +23,7 @@
           {% if request.user.is_authenticated %}
             <div class="d-flex justify-content-end account-info m-0 mt-0 mb-0">
               <div class="account-info__access p-1 pt-0 pb-0">
-                <a href="">
+                <a href="{% url 'communication:box_msg' %}">
                   <img class="" src="{% static 'images/icons/chat.png' %}" alt="chat">
                   <span class="account-info__access__badge">
                     {% if message_count > 0 %} {{ message_count }} {% endif %}

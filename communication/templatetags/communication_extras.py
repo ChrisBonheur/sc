@@ -1,16 +1,15 @@
 from django import template
 from django.contrib.auth.models import User
 
-# from communication.models import MessageText
+from communication.models import ChatMessage
 
 register = template.Library()
 
 @register.filter
-def message_count(current_user, talk):
+def message_talk_count(current_user, talk):
     """return count message of a current user in a talk"""
-    # return MessageText.objects.filter(talk=talk, recipient=current_user, seen=False).count()
-    pass
-
+    return ChatMessage.objects.filter(talk=talk, delivred=False)\
+        .exclude(talk__chats__user=current_user).count()
 
 @register.filter
 def other_user(curent_user, talk):

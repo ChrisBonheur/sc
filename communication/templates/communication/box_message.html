@@ -1,53 +1,25 @@
-{% extends 'communication/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 {% load communication_extras %}
-    <div class="container box_msg b_h">
-        <div class="row">
-            <div class="col-12">
-                <h1>Messages reçus</h1>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-offset-2 col-md-8 bloc-talks">
-                <div class="row">
-                    <div class="col-12">
-                        {% for talk in talks %}
-                            <div class="row">
-                                {% if user == talk.user1 %}
-                                    <div class="col-sm-2 photo"><div style="
-                                    background: url({{ talk.user2.profil.avatar.url }}) no-repeat center;
-                                    background-size: cover;"></div></div>
-                                {% else %}
-                                    <div class="col-sm-2 photo"><div style="
-                                        background: url({{ talk.user1.profil.avatar.url }}) no-repeat center;
-                                        background-size: cover;"></div></div>
-                                {% endif %}
-                                {% if user|message_count:talk > 0 %}
-                                    <div class="col-sm-10">
-                                        <a href="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}">
-                                            <div class="talk"> 
-                                                vous avez <span class="nbr-msg"> {{ user|message_count:talk }}</span> 
-                                                messages non lue de {{ user|other_user:talk }}
-                                            </div>
-                                        </a>
-                                    </div>
-                                {% else %}
-                                    <div class="col-sm-10">
-                                        <a href="{% url 'communication:new_msg' %}?talk_id={{ talk.id }}"><div class="talk seen">Aucun nouveau message de {{ user|other_user:talk }}</div></a>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% empty %}
-                            <div class="row">
-                                <div class="col-md-12"> 
-                                    <h4>Vous n'avez aucune conversation </h4>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+    <div class="body-page-content d-flex flex-column align-items-center">
+        <h1>Conversations sur des articles</h1>
+        <div class="list-group bloc-box-msg w-100">
+            {% for talk in talks %}
+                {% if request.user|message_talk_count:talk > 0 %}
+                    <a href="{% url 'communication:chat_message' article_id=talk.article.id %}" class="list-group-item list-group-item-action active p-1 font-sm-sm d-flex mb-2 border rounded">
+                    <img src="{{ talk.article.image_min.url }}" width="32" height="32" alt="" 
+                    class="float-lef rounded-circle d-block"> <span class="d-block m-1 mt-0 mb-0 d-flex align-items-center">
+                        Vous avez {{ request.user|message_talk_count:talk }} 
+                        message{{ request.user|message_talk_count:talk|pluralize }} concernant l'article {{ talk.article }}</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'communication:chat_message' article_id=talk.article.id %}" class="list-group-item list-group-item-action p-1 font-sm-sm d-flex mb-2 border rounded">
+                        <img src="{{ talk.article.image_min.url }}" width="32" height="32" alt="" 
+                        class="float-lef rounded-circle d-block"> <span class="d-block m-1 mt-0 mb-0 d-flex align-items-center">
+                            Aucun nouveau message sur l'article "{{ talk.article }}"</span>
+                    </a>
+                {%endif%}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

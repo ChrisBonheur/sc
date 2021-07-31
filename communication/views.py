@@ -53,7 +53,7 @@ def box_msg(request):
         pass
     
     context = {
-        'talks': Talk.objects.filter(Q(user1_id=request.user.id) | Q(user2_id=request.user.id)),
+        'talks': Talk.objects.filter(Q(user_one=request.user.id) | Q(user_two=request.user.id)),
     }
     return render(request, 'communication/box_message.html', context)
 

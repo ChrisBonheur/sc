@@ -11098,4 +11098,8 @@ header {
   display: none;
 }
 
+.bloc-box-msg {
+  max-width: 700px;
+}
+
 /*# sourceMappingURL=style_sass.css.map */
