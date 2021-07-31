@@ -13,7 +13,7 @@
                         message{{ request.user|message_talk_count:talk|pluralize }} concernant l'article {{ talk.article }}</span>
                     </a>
                 {% else %}
-                    <a href="{% url 'communication:chat_message' article_id=talk.article.id %}" class="list-group-item list-group-item-action p-1 font-sm-sm d-flex mb-2 border rounded">
+                    <a href="{% url 'communication:chat_message' article_id=talk.article.id %}" class="list-group-item list-group-item-action p-1 font-sm-sm d-flex mb-2 border border-dark rounded">
                         <img src="{{ talk.article.image_min.url }}" width="32" height="32" alt="" 
                         class="float-lef rounded-circle d-block"> <span class="d-block m-1 mt-0 mb-0 d-flex align-items-center">
                             Aucun nouveau message sur l'article "{{ talk.article }}"</span>
