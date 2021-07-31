@@ -72,7 +72,7 @@ def notifications(request):
         return redirect(notif.link)
         
     context = {
-        'notifs': NotifMessage.objects.filter(user=request.user).order_by('date_create')
+        'notifs': NotifMessage.objects.filter(user=request.user).order_by('-date_create')
     }
     return render(request, 'communication/notifications.html', context)
 
